@@ -398,3 +398,33 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Ignore temporary and build files
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+Logs/
+UserSettings/
+MemoryCaptures/
+Packages/com.unity.*
+
+# Ignore system-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore compiled files
+*.apk
+*.aab
+*.exe
+*.app
+*.ipa
+*.so
+*.dll
+*.dylib
+*.pdb
+*.idb
+*.suo
+*.svd
+*.meta
