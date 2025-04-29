@@ -15,6 +15,10 @@ public class BallMovement : MonoBehaviour
     private int hitCounter;
     private Rigidbody2D rb;
 
+    // Wind Management Variables
+    private Vector2 windForce = Vector2.zero;
+    private float windStrength = 0f;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -111,10 +115,7 @@ public class BallMovement : MonoBehaviour
 
 
 
-    //Wind Management
-    private Vector2 windForce = Vector2.zero;
-    private float windStrength = 0f;
-
+    // Wind injection from WindManager
     public void ApplyWind(Vector2 direction, float strength)
     {
         windForce = direction;
