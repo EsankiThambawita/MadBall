@@ -6,12 +6,11 @@ public class WindManager : MonoBehaviour
     public ParticleSystem leafParticles; // Assign the LeafParticles in Inspector
     public BallMovement ball; // Reference to BallMovement script
 
-    public float minWindInterval = 5f; // Minimum time between winds
-    public float maxWindInterval = 15f; // Maximum time between winds
-    public float minWindDuration = 3f; // Minimum wind duration
-    public float maxWindDuration = 8f; // Maximum wind duration
+    [SerializeField] private float minWindInterval = 3f;
+    [SerializeField] private float maxWindInterval = 8f;
+    [SerializeField] private float minWindDuration = 5f;
+    [SerializeField] private float maxWindDuration = 7f;
 
-    private bool isWindActive = false;
     private Vector2 currentWindDirection;
     private float currentWindStrength;
 
@@ -41,10 +40,8 @@ public class WindManager : MonoBehaviour
 
     void GenerateWind()
     {
-        isWindActive = true;
-        
         // Random wind strength (mild to strong)
-        currentWindStrength = Random.Range(0.5f, 2.5f);
+        currentWindStrength = Random.Range(1.5f, 5f);
 
         // Random wind direction (left/right/up/down)
         float angle = Random.Range(0f, 360f);
@@ -62,7 +59,6 @@ public class WindManager : MonoBehaviour
 
     void StopWind()
     {
-        isWindActive = false;
         leafParticles.Stop();
         ball.ApplyWind(Vector2.zero, 0); // Remove wind effect
     }
