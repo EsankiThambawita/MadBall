@@ -247,7 +247,12 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      DottedLine_0: 1012802245081741917
+      DottedLine_1: -2504305353894189799
+      DottedLine_2: -3304425833025860126
+      DottedLine_3: -8233832621003436549
+      DottedLine_4: -3594974399841552358
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
