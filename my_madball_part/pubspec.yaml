@@ -1,0 +1,42 @@
+name: my_madball_part
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.6.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/images/profile.jpg
+    - assets/images/cloud.png
+    - assets/images/background.png
+    - assets/images/mapbackground.jpg
+    - assets/images/grass.png
+    - assets/images/dessert.png
+    - assets/images/space.jpg
+    - assets/images/snowi.jpg
+    - assets/images/easy.png
+    - assets/images/medium.png
+    - assets/images/hard.png
+    
+    
+
+  fonts:
+    - family: Jaini
+      fonts:
+        - asset: assets/fonts/Jaini-Regular.ttf
