@@ -1,6 +1,6 @@
 {
-    "name": "flutter_app",
-    "short_name": "flutter_app",
+    "name": "my_madball_part",
+    "short_name": "my_madball_part",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
