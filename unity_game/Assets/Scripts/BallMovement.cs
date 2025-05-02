@@ -9,6 +9,7 @@ public class BallMovement : MonoBehaviour
     [SerializeField] private float speedIncrease = 0.75f;
     [SerializeField] private float wallBounceSpeedIncrease = 0.75f;
     [SerializeField] private float maxSpeed = 30f;
+    [SerializeField] private float speedIncreaseInterval = 5f; // 🔧 ADDED
     [SerializeField] private Text playerScore;
     [SerializeField] private Text AIScore;
 
@@ -22,25 +23,24 @@ public class BallMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        Invoke("StartBall", 2f); // Start ball after 2 seconds
+        Invoke("StartBall", 2f); 
+        InvokeRepeating("IncreaseSpeed", speedIncreaseInterval, speedIncreaseInterval);     
     }
 
     private void FixedUpdate()
     {
-        // Keep ball speed under control
-        rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity, Mathf.Min(initialSpeed + speedIncrease * hitCounter, maxSpeed));
-
-        //Wind Physics
+        // Control current max speed
         float currentSpeed = Mathf.Min(initialSpeed + speedIncrease * hitCounter, maxSpeed);
+        rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity, currentSpeed);
 
-        // Apply wind force when active
+        // Wind physics
         if (windStrength > 0)
         {
             Vector2 windEffect = windForce * windStrength;
-            rb.linearVelocity += windEffect * Time.fixedDeltaTime; // Apply wind gradually
+            rb.linearVelocity += windEffect * Time.fixedDeltaTime;
         }
 
-        // Keep ball speed controlled
+        // Reapply speed control after wind
         rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity, currentSpeed); 
     }
 
@@ -48,7 +48,6 @@ public class BallMovement : MonoBehaviour
     {
         hitCounter = 0;
 
-        // Random direction (top-left or top-right)
         float randomX = Random.Range(0, 2) == 0 ? -1 : 1;
         float randomY = Random.Range(0, 2) == 0 ? -1 : 1;
 
@@ -57,9 +56,9 @@ public class BallMovement : MonoBehaviour
 
     private void ResetBall()
     {
-        rb.linearVelocity = Vector2.zero;  // Stop ball movement
-        transform.position = Vector2.zero; // Reset to center
-        Invoke("StartBall", 2f); // Restart after 2 seconds
+        rb.linearVelocity = Vector2.zero;
+        transform.position = Vector2.zero;
+        Invoke("StartBall",1.5f);
     }
 
     private void PlayerBounce(Transform paddle)
@@ -70,29 +69,21 @@ public class BallMovement : MonoBehaviour
         Vector2 paddlePos = paddle.position;
         float paddleHeight = paddle.GetComponent<Collider2D>().bounds.size.y;
 
-        // Get bounce direction based on hit position
         float yDirection = (ballPos.y - paddlePos.y) / (paddleHeight / 2);
-        
-        // Ensure the ball has enough horizontal speed
-        float minXSpeed = 3f;  // Ensures it doesn't move purely vertically
-        float xDirection = rb.linearVelocity.x > 0 ? 1 : -1; // Keep moving in the same X direction
+        float minXSpeed = 3f;
+        float xDirection = rb.linearVelocity.x > 0 ? 1 : -1;
 
-        // Apply new velocity
         rb.linearVelocity = new Vector2(xDirection * minXSpeed, yDirection * initialSpeed).normalized * (initialSpeed + speedIncrease * hitCounter);
     }
 
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Player or AI paddle collision
         if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("AI"))
         {
             PlayerBounce(collision.transform);
         }
-        // Side walls bounce
         else if (collision.gameObject.CompareTag("Wall"))
         {
-            // Reflect ball's direction when hitting side walls
             Vector2 normal = collision.contacts[0].normal;
             rb.linearVelocity = Vector2.Reflect(rb.linearVelocity, normal) * (1 + wallBounceSpeedIncrease);
         }
@@ -103,25 +94,28 @@ public class BallMovement : MonoBehaviour
         if (collision.CompareTag("AIGoal")) 
         {
             ResetBall();
-            AIScore.text = (int.Parse(AIScore.text) + 1).ToString(); // AI scores
+            AIScore.text = (int.Parse(AIScore.text) + 1).ToString();
         }
         else if (collision.CompareTag("PlayerGoal")) 
         {
             ResetBall();
-            playerScore.text = (int.Parse(playerScore.text) + 1).ToString(); // Player scores
+            playerScore.text = (int.Parse(playerScore.text) + 1).ToString();
         }
     }
 
-
-
-
-    // Wind injection from WindManager
     public void ApplyWind(Vector2 direction, float strength)
     {
         windForce = direction;
         windStrength = strength;
     }
 
-
-
+    // 🔄 Gradual speed increase over time
+    private void IncreaseSpeed()
+    {
+        float currentSpeed = rb.linearVelocity.magnitude;
+        if (currentSpeed < maxSpeed)
+        {
+            rb.linearVelocity = rb.linearVelocity.normalized * Mathf.Min(currentSpeed + speedIncrease, maxSpeed);
+        }
+    }
 }
