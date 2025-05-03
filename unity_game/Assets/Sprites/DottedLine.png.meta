@@ -1,10 +1,22 @@
 fileFormatVersion: 2
-guid: bec737b99b58034469b1fadf34d389d5
+guid: 8f5fd992c1f678448ae6c78928237dae
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3039691071883001115
-    second: grassland_0
+      213: 1012802245081741917
+    second: DottedLine_0
+  - first:
+      213: -2504305353894189799
+    second: DottedLine_1
+  - first:
+      213: -3304425833025860126
+    second: DottedLine_2
+  - first:
+      213: -8233832621003436549
+    second: DottedLine_3
+  - first:
+      213: -3594974399841552358
+    second: DottedLine_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +125,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: grassland_0
+      name: DottedLine_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 412
-        height: 917
+        x: 25
+        y: 185
+        width: 66
+        height: 20
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +140,96 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b1d3386cce62f2a20800000000000000
-      internalID: 3039691071883001115
+      spriteID: d5ab0dd96423e0e00800000000000000
+      internalID: 1012802245081741917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DottedLine_1
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 185
+        width: 67
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 915270c8c8bee3dd0800000000000000
+      internalID: -2504305353894189799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DottedLine_2
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 185
+        width: 66
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ed8ed366325422d0800000000000000
+      internalID: -3304425833025860126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DottedLine_3
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 185
+        width: 67
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bfd011d1bdc8bbd80800000000000000
+      internalID: -8233832621003436549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DottedLine_4
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 185
+        width: 69
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1832d094d51c1ec0800000000000000
+      internalID: -3594974399841552358
       vertices: []
       indices: 
       edges: []
@@ -147,7 +247,12 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      DottedLine_0: 1012802245081741917
+      DottedLine_1: -2504305353894189799
+      DottedLine_2: -3304425833025860126
+      DottedLine_3: -8233832621003436549
+      DottedLine_4: -3594974399841552358
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
