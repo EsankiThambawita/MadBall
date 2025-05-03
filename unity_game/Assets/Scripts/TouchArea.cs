@@ -3,18 +3,19 @@ using UnityEngine.EventSystems;
 
 public class TouchArea : MonoBehaviour, IPointerDownHandler, IDragHandler
 {
+    [SerializeField] private string playerTag = "Player";  // Default tag for 1P
     private Transform playerPaddle;
 
     void Start()
     {
-        GameObject paddleObj = GameObject.FindGameObjectWithTag("Player");
+        GameObject paddleObj = GameObject.FindGameObjectWithTag(playerTag);
         if (paddleObj != null)
         {
             playerPaddle = paddleObj.transform;
         }
         else
         {
-            Debug.LogError("Player paddle with tag 'Player' not found.");
+            Debug.LogError("Paddle with tag '" + playerTag + "' not found.");
         }
     }
 

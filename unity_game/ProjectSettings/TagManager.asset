@@ -10,6 +10,10 @@ TagManager:
   - Wall
   - AI
   - Shadow_Bottom
+  - Player1
+  - Player2
+  - TouchAreaTop
+  - 'TouchAreaBottom '
   layers:
   - Default
   - TransparentFX
