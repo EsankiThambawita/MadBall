@@ -30,13 +30,10 @@ public class PlayerMovement : MonoBehaviour
         if (isAI)
         {
             AIControl();
-        }
-        else
-        {
-            HandleTouchInput();
-        }
+        }      
     }
 
+    //To touch the paddle itself to make it move (currently not using)
     private void HandleTouchInput()
     {
         if (Input.GetMouseButtonDown(0)) // Detect initial touch

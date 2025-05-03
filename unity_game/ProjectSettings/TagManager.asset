@@ -9,6 +9,7 @@ TagManager:
   - AIGoal
   - Wall
   - AI
+  - Shadow_Bottom
   layers:
   - Default
   - TransparentFX
