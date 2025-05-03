@@ -6,19 +6,27 @@ public class WindManager : MonoBehaviour
     public ParticleSystem leafParticles; // Assign the LeafParticles in Inspector
     public BallMovement ball; // Reference to BallMovement script
 
-    public float minWindInterval = 5f; // Minimum time between winds
-    public float maxWindInterval = 15f; // Maximum time between winds
-    public float minWindDuration = 3f; // Minimum wind duration
-    public float maxWindDuration = 8f; // Maximum wind duration
+    [SerializeField] private float minWindInterval = 3f;
+    [SerializeField] private float maxWindInterval = 8f;
+    [SerializeField] private float minWindDuration = 5f;
+    [SerializeField] private float maxWindDuration = 7f;
 
-    private bool isWindActive = false;
+    [SerializeField] private float startMinStrength = 1.5f;
+    [SerializeField] private float startMaxStrength = 5f;
+    [SerializeField] private float strengthIncreaseRate = 0.25f;
+    [SerializeField] private float maxCapStrength = 10f;
+
     private Vector2 currentWindDirection;
     private float currentWindStrength;
+    private float currentMinStrength;
+    private float currentMaxStrength;
 
     void Start()
     {
-        // Disable particles initially
         leafParticles.Stop();
+        currentMinStrength = startMinStrength;
+        currentMaxStrength = startMaxStrength;
+
         StartCoroutine(WindEffectLoop());
     }
 
@@ -26,44 +34,40 @@ public class WindManager : MonoBehaviour
     {
         while (true)
         {
-            // Wait for a random interval before starting wind
             float windInterval = Random.Range(minWindInterval, maxWindInterval);
             yield return new WaitForSeconds(windInterval);
 
-            GenerateWind(); // Create procedural wind
+            GenerateWind();
 
             float windDuration = Random.Range(minWindDuration, maxWindDuration);
             yield return new WaitForSeconds(windDuration);
 
             StopWind();
+
+            // Gradually increase wind strength after each cycle
+            currentMinStrength = Mathf.Min(currentMinStrength + strengthIncreaseRate, maxCapStrength);
+            currentMaxStrength = Mathf.Min(currentMaxStrength + strengthIncreaseRate, maxCapStrength);
         }
     }
 
     void GenerateWind()
     {
-        isWindActive = true;
-        
-        // Random wind strength (mild to strong)
-        currentWindStrength = Random.Range(0.5f, 2.5f);
+        currentWindStrength = Random.Range(currentMinStrength, currentMaxStrength);
 
-        // Random wind direction (left/right/up/down)
         float angle = Random.Range(0f, 360f);
         currentWindDirection = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)).normalized;
 
-        // Start the leaf particle system
         var main = leafParticles.main;
-        main.startSpeed = currentWindStrength * 2f; // Scale particle speed with wind strength
-        leafParticles.transform.rotation = Quaternion.Euler(0, 0, angle - 90); // Rotate to match wind direction
+        main.startSpeed = currentWindStrength * 2f;
+        leafParticles.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
         leafParticles.Play();
 
-        // Apply wind effect to ball
         ball.ApplyWind(currentWindDirection, currentWindStrength);
     }
 
     void StopWind()
     {
-        isWindActive = false;
         leafParticles.Stop();
-        ball.ApplyWind(Vector2.zero, 0); // Remove wind effect
+        ball.ApplyWind(Vector2.zero, 0);
     }
 }
