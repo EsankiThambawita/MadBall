@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'mapselection_camp.dart';
 import 'mapselection_twoply.dart';
+import 'settings.dart';
 
 void main() => runApp(const MadBallApp());
 
@@ -28,7 +29,8 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _cloudAnimation;
 
@@ -38,7 +40,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     _controller =
         AnimationController(vsync: this, duration: const Duration(seconds: 6))
           ..repeat(reverse: true);
-    _cloudAnimation = Tween<Offset>(begin: const Offset(-0.2, 0), end: const Offset(0.2, 0))
+    _cloudAnimation = Tween<Offset>(
+            begin: const Offset(-0.2, 0), end: const Offset(0.2, 0))
         .animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
@@ -50,17 +53,23 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   // Method to navigate to a new page (can be modified as needed)
   void navigateToPage(String page) {
-    if (page == "menu") {
-      // Navigate to a menu or some other page (create this screen)
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const MenuPage()), // Replace with your actual menu page
+    if (page == "settings") {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            backgroundColor: Colors.transparent,
+            child: SettingsPopup(),
+          );
+        },
       );
     } else if (page == "achi") {
       // Navigate to the 'Achi' related page
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const AchiPage()), // Replace with your Achi page
+        MaterialPageRoute(
+            builder: (context) =>
+                const AchiPage()), // Replace with your Achi page
       );
     }
   }
@@ -71,13 +80,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => MapSelectionCamp(gameMode: mode),
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              MapSelectionCamp(gameMode: mode),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             const begin = Offset(0.0, 1.0); // Slide from bottom
             const end = Offset.zero;
             const curve = Curves.easeInOut;
 
-            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+            var tween =
+                Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
             var offsetAnimation = animation.drive(tween);
 
             return SlideTransition(position: offsetAnimation, child: child);
@@ -88,13 +99,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => MapSelectionTwoPly(gameMode: mode),
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              MapSelectionTwoPly(gameMode: mode),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             const begin = Offset(0.0, 1.0); // Slide from bottom
             const end = Offset.zero;
             const curve = Curves.easeInOut;
 
-            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+            var tween =
+                Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
             var offsetAnimation = animation.drive(tween);
 
             return SlideTransition(position: offsetAnimation, child: child);
@@ -134,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       InkWell(
-                        onTap: () => navigateToPage("menu"),
+                        onTap: () => navigateToPage("settings"),
                         child: const Icon(Icons.menu, size: 28, color: Colors.white),
                       ),
                       InkWell(
