@@ -29,10 +29,11 @@ flutter:
     - assets/images/grass.png
     - assets/images/dessert.png
     - assets/images/space.jpg
-    - assets/images/snowi.jpg
     - assets/images/easy.png
     - assets/images/medium.png
     - assets/images/hard.png
+    - assets/images/achi.png
+    - assets/images/snowi.jpg
     
     
 

@@ -1,67 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
-class GrassInfoPage extends StatefulWidget {
-  const GrassInfoPage({super.key});
-
-  @override
-  State<GrassInfoPage> createState() => _GrassInfoPage();
-}
-
-class _GrassInfoPage extends State<GrassInfoPage> {
-  double _difficulty = 0;
-  bool isEasyCompleted = false;
-  bool isMediumCompleted = false;
-  String message = "";
-
-  String getFaceImage() {
-    if (_difficulty < 33) {
-      return 'assets/images/easy.png';
-    } else if (_difficulty < 66) {
-      return 'assets/images/medium.png';
-    } else {
-      return 'assets/images/hard.png';
-    }
-  }
-
-  String getDifficultyLabel() {
-    if (_difficulty < 33) {
-      return "EASY";
-    } else if (_difficulty < 66) {
-      return "MEDIUM";
-    } else {
-      return "HARD";
-    }
-  }
-
-  Color getButtonColor() {
-    if (_difficulty < 33) {
-      return const Color(0xFF4BE843); // Green
-    } else if (_difficulty < 66) {
-      return const Color(0xFFFFE600); // Yellow
-    } else {
-      return const Color(0xFFE84141); // Red
-    }
-  }
-
-  void handleSliderChange(double value) {
-    if (value >= 33 && !isEasyCompleted) {
-      setState(() {
-        _difficulty = 0;
-        message = "Complete Easy to proceed to Medium";
-      });
-    } else if (value >= 66 && !isMediumCompleted) {
-      setState(() {
-        _difficulty = 33;
-        message = "Complete Medium to proceed to Hard";
-      });
-    } else {
-      setState(() {
-        _difficulty = value;
-        message = "";
-      });
-    }
-  }
+class GrassInfoPage2 extends StatelessWidget {
+  const GrassInfoPage2({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -73,15 +14,6 @@ class _GrassInfoPage extends State<GrassInfoPage> {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
-        actions: [
-          // Updated the IconButton to navigate to mapselection_champ page
-         IconButton(
-  icon: const Icon(Icons.cancel, color: Colors.black),
-  onPressed: () {
-    Navigator.pop(context); // This will pop the current page from the stack
-  },
-),
-        ],
         centerTitle: true,
         title: const Text(
           'Map Info',
@@ -102,7 +34,7 @@ class _GrassInfoPage extends State<GrassInfoPage> {
                   image: const DecorationImage(
                     image: AssetImage("assets/images/grass.png"),
                     fit: BoxFit.cover,
-                    opacity: 0.8,
+                    opacity: 0.5,
                   ),
                 ),
                 child: BackdropFilter(
@@ -113,31 +45,13 @@ class _GrassInfoPage extends State<GrassInfoPage> {
                 ),
               ),
             ),
+
             // Content on top of the background
             Column(
               children: [
-                // Display the message at the top if any
-                if (message.isNotEmpty)
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    margin: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: const Color.fromARGB(255, 253, 253, 253)),
-                    ),
-                    child: Text(
-                      message,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontFamily: 'Jaini',
-                      ),
-                    ),
-                  ),
                 // Map Description
                 Container(
-                  height: 180, // You can customize this
+                  height: 200, // You can customize this
                   width: double.infinity, // Takes full width of parent
                   margin: const EdgeInsets.all(16),
                   padding: const EdgeInsets.all(12),
@@ -173,49 +87,40 @@ class _GrassInfoPage extends State<GrassInfoPage> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 16),
-                // Face Image
-                Image.asset(
-                  getFaceImage(),
-                  width: 80,
-                  height: 80,
-                ),
-                const SizedBox(height: 10),
-                // Difficulty Label
-                Text(
-                  getDifficultyLabel(),
-                  style: const TextStyle(
-                    fontFamily: 'Jaini',
-                    fontSize: 24,
-                    color: Colors.black,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                // Slider
+
+                const Spacer(),
+
+                // Cancel Button
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Column(
-                    children: [
-                      Slider(
-                        value: _difficulty,
-                        min: 0,
-                        max: 100,
-                        divisions: 3,
-                        activeColor: getButtonColor(),
-                        onChanged: handleSliderChange,
+                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 180, 244, 161), // Red
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 6,
                       ),
-                      const Text(
-                        "Drag to adjust difficulty",
+                      onPressed: () {
+                        Navigator.pop(context); // Cancel and go back
+                      },
+                      child: const Text(
+                        "CANCEL",
                         style: TextStyle(
                           fontFamily: 'Jaini',
-                          fontSize: 16,
-                          color: Colors.black,
+                          fontSize: 24,
+                          color: Color.fromARGB(255, 19, 18, 18),
                         ),
                       ),
-                    ],
+                    ),
                   ),
                 ),
-                const Spacer(),
+
+                const SizedBox(height: 10),
+
                 // Play Button
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -224,22 +129,13 @@ class _GrassInfoPage extends State<GrassInfoPage> {
                     height: 50,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: getButtonColor(),
+                        backgroundColor: const Color.fromARGB(255, 64, 218, 82), // Peaceful Blue
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                         elevation: 6,
                       ),
                       onPressed: () {
-                        if (_difficulty < 33) {
-                          setState(() {
-                            isEasyCompleted = true;
-                          });
-                        } else if (_difficulty < 66) {
-                          setState(() {
-                            isMediumCompleted = true;
-                          });
-                        }
                         // Start game logic goes here
                       },
                       child: const Text(
@@ -253,6 +149,7 @@ class _GrassInfoPage extends State<GrassInfoPage> {
                     ),
                   ),
                 ),
+
                 const SizedBox(height: 20),
               ],
             ),
