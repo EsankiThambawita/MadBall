@@ -9,6 +9,12 @@ TagManager:
   - AIGoal
   - Wall
   - AI
+  - Shadow_Bottom
+  - Player1
+  - Player2
+  - TouchAreaTop
+  - 'TouchAreaBottom '
+  - Asteroid
   layers:
   - Default
   - TransparentFX
@@ -16,7 +22,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Asteroid
   - 
   - 
   - 

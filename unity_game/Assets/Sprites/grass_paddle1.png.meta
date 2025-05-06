@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 0df698ab6b33d764a8f7d91ee49d64a5
+guid: 1b298cc30b3f4304fab0d5a091345268
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4942142579889907542
-    second: pong_paddle_0
+      213: 7274221802898054403
+    second: grass_paddle1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pong_paddle_0
+      name: grass_paddle1_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 54
-        width: 707
-        height: 245
+        y: 0
+        width: 125
+        height: 11
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 657aba7ed74069440800000000000000
-      internalID: 4942142579889907542
+      spriteID: 30dd323703a33f460800000000000000
+      internalID: 7274221802898054403
       vertices: []
       indices: 
       edges: []
@@ -147,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      pong_paddle_0: 4942142579889907542
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
