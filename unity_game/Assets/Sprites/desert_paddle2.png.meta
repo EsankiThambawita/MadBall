@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      desert_paddle2_0: -7141129465240852283
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
