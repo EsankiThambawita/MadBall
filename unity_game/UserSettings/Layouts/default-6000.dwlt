@@ -21,7 +21,11 @@ MonoBehaviour:
   m_ShowMode: 4
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   m_Title: Simulator
+=======
+  m_Title: Project
+>>>>>>> Stashed changes
 =======
   m_Title: Project
 >>>>>>> Stashed changes
@@ -110,7 +114,11 @@ MonoBehaviour:
   vertical: 0
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   controlID: 107
+=======
+  controlID: 116
+>>>>>>> Stashed changes
 =======
   controlID: 116
 >>>>>>> Stashed changes
@@ -319,7 +327,11 @@ MonoBehaviour:
     x: 0
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     y: 501
+=======
+    y: 558
+>>>>>>> Stashed changes
 =======
     y: 558
 >>>>>>> Stashed changes
@@ -422,7 +434,11 @@ MonoBehaviour:
       m_LastClickedID: 0
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       m_ExpandedIDs: a0faffff
+=======
+      m_ExpandedIDs: 8881feff7088feff2a89feff7a8afeff4c8bfeff368efeffa093feff8e94feff4895feff3a96fefff296feffaa97feff08fbffff1ab300006cb30000d4b30000eeb3000008b4000010b40000241901009a190100a0190100
+>>>>>>> Stashed changes
 =======
       m_ExpandedIDs: 8881feff7088feff2a89feff7a8afeff4c8bfeff368efeffa093feff8e94feff4895feff3a96fefff296feffaa97feff08fbffff1ab300006cb30000d4b30000eeb3000008b4000010b40000241901009a190100a0190100
 >>>>>>> Stashed changes
@@ -551,7 +567,11 @@ MonoBehaviour:
     m_Folders:
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     - Assets/Scenes/Grassland
+=======
+    - Packages/com.unity.render-pipelines.universal/Runtime/Materials
+>>>>>>> Stashed changes
 =======
     - Packages/com.unity.render-pipelines.universal/Runtime/Materials
 >>>>>>> Stashed changes
@@ -621,6 +641,7 @@ MonoBehaviour:
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     m_ExpandedIDs: 0000000052b3000054b3000056b3000058b300005ab300005cb300005eb3000060b3000062b3000064b3000066b30000
 =======
     m_ExpandedIDs: 000000006eb3000070b3000072b3000074b3000076b3000078b300007ab300007cb300007eb3000080b3000082b30000
@@ -630,6 +651,9 @@ MonoBehaviour:
 >>>>>>> Stashed changes
 =======
     m_ExpandedIDs: 000000006eb3000070b3000072b3000074b3000076b3000078b300007ab300007cb300007eb3000080b3000082b30000
+>>>>>>> Stashed changes
+=======
+    m_ExpandedIDs: ffffffff0000000008b600000ab600000cb600000eb6000010b6000012b6000014b6000016b60000b8b600000c1d01000e1d0100
 >>>>>>> Stashed changes
 =======
     m_ExpandedIDs: ffffffff0000000008b600000ab600000cb600000eb6000010b6000012b6000014b6000016b60000b8b600000c1d01000e1d0100
@@ -1263,7 +1287,11 @@ MonoBehaviour:
     speed: 2
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     m_Value: {x: -3.848276, y: -0.16075759, z: 1.120539}
+=======
+    m_Value: {x: -3.5732064, y: -0.10852921, z: 1.1242298}
+>>>>>>> Stashed changes
 =======
     m_Value: {x: -3.5732064, y: -0.10852921, z: 1.1242298}
 >>>>>>> Stashed changes
@@ -1323,7 +1351,11 @@ MonoBehaviour:
     speed: 2
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     m_Value: 8.570865
+=======
+    m_Value: 8.201784
+>>>>>>> Stashed changes
 =======
     m_Value: 8.201784
 >>>>>>> Stashed changes
