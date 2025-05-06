@@ -29,11 +29,17 @@ flutter:
     - assets/images/grass.png
     - assets/images/dessert.png
     - assets/images/space.jpg
-    - assets/images/snowi.jpg
     - assets/images/easy.png
     - assets/images/medium.png
     - assets/images/hard.png
-    
+    - assets/images/achi.png
+    - assets/images/snowi.jpg
+    - assets/images/google_logo.png
+    - assets/images/guideline_step1.png
+    - assets/images/guideline_step2.png
+    - assets/images/guideline_step3.png
+    - assets/images/guidelines_icon.png
+
     
 
   fonts:

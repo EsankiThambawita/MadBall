@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'grass_info.dart';
-import 'desert_info.dart';
-import 'space_info.dart';
+import 'desert_info.dart' as desert;
+import 'grass_info.dart' as grass;
+import 'space_info.dart'; // Correctly import the SpaceInfoPage
 
-class MapSelectionPage extends StatelessWidget {
+class MapSelectionCamp extends StatelessWidget {
   final String gameMode;
 
-  const MapSelectionPage({super.key, required this.gameMode});
+  const MapSelectionCamp({super.key, required this.gameMode});
 
   void _navigateToInfo(BuildContext context, String mapName) {
     Widget page;
     switch (mapName) {
       case 'Grass Plains':
-        page = const GrassInfoPage();
+        page = const grass.GrassInfoPage();
         break;
       case 'Desert':
-        page = const DesertInfoPage();
+        page = const desert.DesertInfoPage();
         break;
       case 'Space':
         page = const SpaceInfoPage();
@@ -29,7 +29,19 @@ class MapSelectionPage extends StatelessWidget {
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => page),
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => page,
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(0.0, 1.0);
+          const end = Offset.zero;
+          const curve = Curves.easeInOut;
+
+          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          var offsetAnimation = animation.drive(tween);
+
+          return SlideTransition(position: offsetAnimation, child: child);
+        },
+      ),
     );
   }
 
@@ -44,7 +56,7 @@ class MapSelectionPage extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      height: 100,
+      height: 140,
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(16),
@@ -81,9 +93,9 @@ class MapSelectionPage extends StatelessWidget {
                     const Text(
                       "20,019",
                       style: TextStyle(color: Colors.white, fontSize: 16),
-                    )
+                    ),
                   ],
-                )
+                ),
               ],
             ),
           ),
@@ -99,12 +111,15 @@ class MapSelectionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            Navigator.pop(context); // Use this to go back to the previous screen
+          },
         ),
         title: Text(
           "Map Selection: ${gameMode[0].toUpperCase()}${gameMode.substring(1)}",
@@ -116,25 +131,23 @@ class MapSelectionPage extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      extendBodyBehindAppBar: true,
       body: Stack(
         children: [
-          /// Background
           Positioned.fill(
-            child: Image.asset(
-              "assets/images/mapbackground.jpg",
-              fit: BoxFit.cover,
+            child: Opacity(
+              opacity: 0.3,
+              child: Image.asset(
+                "assets/images/mapbackground.jpg",
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-
-          /// Foreground content
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
                   const SizedBox(height: 20),
-
                   buildMapCard(
                     context: context,
                     title: "Grass Plains",
@@ -159,10 +172,7 @@ class MapSelectionPage extends StatelessWidget {
                     bgColor: const Color(0xFF1E1E2F),
                     isLocked: false,
                   ),
-
-                  const Spacer(),
-
-                  /// Coming Soon Card
+                  const SizedBox(height: 30),
                   Container(
                     width: double.infinity,
                     height: 100,
@@ -189,7 +199,25 @@ class MapSelectionPage extends StatelessWidget {
                 ],
               ),
             ),
-          )
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  icon: const Icon(Icons.close, color: Colors.black, size: 30),
+                  onPressed: () {
+                    Navigator.pop(context); // Cancel the action and return to previous screen
+                  },
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
