@@ -10,19 +10,21 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 playerMove;
 
     private float minX, maxX;  // To limit paddle movement
+    private float paddleHeight;
     private bool isDragging = false;  // To track when player is holding the paddle
+    private Vector2 screenBounds;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
 
         // Get screen boundaries
-        Vector2 screenBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+        screenBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
 
         // Set limits for paddle movement
-        float paddleWidth = GetComponent<Collider2D>().bounds.extents.x;
-        minX = -screenBounds.x + paddleWidth;
-        maxX = screenBounds.x - paddleWidth;
+        paddleHeight = GetComponent<Collider2D>().bounds.extents.y;
+        minX = -screenBounds.x + paddleHeight;
+        maxX = screenBounds.x - paddleHeight;
     }
 
     void Update()
@@ -31,9 +33,12 @@ public class PlayerMovement : MonoBehaviour
         {
             AIControl();
         }      
+        else
+        {
+            HandleTouchInput();
+        }
     }
 
-    //To touch the paddle itself to make it move (currently not using)
     private void HandleTouchInput()
     {
         if (Input.GetMouseButtonDown(0)) // Detect initial touch
@@ -64,20 +69,25 @@ public class PlayerMovement : MonoBehaviour
     {
         if (ball.transform.position.x > transform.position.x + 0.5f) 
         {
-            playerMove = new Vector2(1, 0);  
+            playerMove = new Vector2(1, 0);  // Move right
         }
         else if (ball.transform.position.x < transform.position.x - 0.5f)  
         {
-            playerMove = new Vector2(-1, 0);  
+            playerMove = new Vector2(-1, 0);  // Move left
         }
         else
         {
-            playerMove = new Vector2(0, 0);  
+            playerMove = new Vector2(0, 0);  // Stop moving
         }
     }
 
     void FixedUpdate()
     {
-        rb.linearVelocity = playerMove * movementSpeed;  
+        // Apply horizontal movement
+        rb.linearVelocity = new Vector2(playerMove.x * movementSpeed, rb.linearVelocity.y);
+
+        // Clamp vertical movement
+        float clampedY = Mathf.Clamp(transform.position.y, -screenBounds.y + paddleHeight, screenBounds.y - paddleHeight);
+        transform.position = new Vector2(transform.position.x, clampedY);
     }
 }
