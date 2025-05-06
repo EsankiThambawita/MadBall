@@ -785,7 +785,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   asteroidPrefab: {fileID: 6423894929234501128, guid: 11f9e8c3599543d479a2888d07302e55, type: 3}
-  spawnInterval: 8
+  spawnInterval: 20
   asteroidSpeed: 1
   asteroidsPerSpawn: 5
 --- !u!1 &1026047396

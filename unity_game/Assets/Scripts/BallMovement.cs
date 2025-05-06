@@ -6,42 +6,38 @@ using UnityEngine.UI;
 public class BallMovement : MonoBehaviour
 {
     [SerializeField] private float initialSpeed = 15f;
-    [SerializeField] private float speedIncrease = 0.75f;
-    [SerializeField] private float wallBounceSpeedIncrease = 0.75f;
-    [SerializeField] private float maxSpeed = 30f;
-    [SerializeField] private float speedIncreaseInterval = 5f; // 🔧 ADDED
+    [SerializeField] private float speedIncrease = 0.3f;
+    [SerializeField] private float wallBounceSpeedIncrease = 0.3f;
+    [SerializeField] private float maxSpeed = 20f;
+    [SerializeField] private float speedIncreaseInterval = 10f;
     [SerializeField] private Text playerScore;
     [SerializeField] private Text AIScore;
 
     private int hitCounter;
     private Rigidbody2D rb;
 
-    // Wind Management Variables
     private Vector2 windForce = Vector2.zero;
     private float windStrength = 0f;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        Invoke("StartBall", 2f); 
-        InvokeRepeating("IncreaseSpeed", speedIncreaseInterval, speedIncreaseInterval);     
+        Invoke("StartBall", 2f);
+        InvokeRepeating("IncreaseSpeed", speedIncreaseInterval, speedIncreaseInterval);
     }
 
     private void FixedUpdate()
     {
-        // Control current max speed
         float currentSpeed = Mathf.Min(initialSpeed + speedIncrease * hitCounter, maxSpeed);
         rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity, currentSpeed);
 
-        // Wind physics
         if (windStrength > 0)
         {
             Vector2 windEffect = windForce * windStrength;
             rb.linearVelocity += windEffect * Time.fixedDeltaTime;
         }
 
-        // Reapply speed control after wind
-        rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity, currentSpeed); 
+        rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity, currentSpeed);
     }
 
     private void StartBall()
@@ -73,8 +69,18 @@ public class BallMovement : MonoBehaviour
         float minXSpeed = 3f;
         float xDirection = rb.linearVelocity.x > 0 ? 1 : -1;
 
-        rb.linearVelocity = new Vector2(xDirection * minXSpeed, yDirection * initialSpeed).normalized * (initialSpeed + speedIncrease * hitCounter);
+        // Prevent ball from going straight up/down
+        if (Mathf.Abs(yDirection) < 0.2f)
+        {
+            yDirection = Random.Range(0.3f, 0.5f) * (Random.value > 0.5f ? 1 : -1);
+        }
+
+        // Add slight randomness to prevent perfect angle traps
+        Vector2 direction = new Vector2(xDirection, yDirection).normalized;
+        float speed = Mathf.Min(initialSpeed + speedIncrease * hitCounter, maxSpeed);
+        rb.linearVelocity = direction * speed;
     }
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -89,33 +95,37 @@ public class BallMovement : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Asteroid"))
         {
-            // Handle asteroid collision
+            // Reflect with small bounce fix
             Vector2 normal = collision.contacts[0].normal;
             Vector2 reflected = Vector2.Reflect(rb.linearVelocity, normal);
 
-            // Apply a small force to the asteroid upon collision
+            // Avoid zero/flat vectors
+            if (Mathf.Abs(reflected.x) < 0.2f)
+                reflected.x = 0.2f * Mathf.Sign(reflected.x == 0 ? Random.Range(-1f, 1f) : reflected.x);
+            if (Mathf.Abs(reflected.y) < 0.2f)
+                reflected.y = 0.2f * Mathf.Sign(reflected.y == 0 ? Random.Range(-1f, 1f) : reflected.y);
+
+            rb.linearVelocity = reflected.normalized * rb.linearVelocity.magnitude;
+
+            // Apply small impulse to asteroid
             Rigidbody2D asteroidRb = collision.gameObject.GetComponent<Rigidbody2D>();
             if (asteroidRb != null)
             {
-                asteroidRb.bodyType = RigidbodyType2D.Dynamic; // Temporarily set asteroid to dynamic
-                Vector2 direction = collision.contacts[0].normal;
-                asteroidRb.AddForce(direction * 0.12f, ForceMode2D.Impulse); // Apply small impulse force
-                asteroidRb.bodyType = RigidbodyType2D.Kinematic; // Set asteroid back to kinematic
+                asteroidRb.bodyType = RigidbodyType2D.Dynamic;
+                asteroidRb.AddForce(normal * 0.12f, ForceMode2D.Impulse);
+                asteroidRb.bodyType = RigidbodyType2D.Kinematic;
             }
-
-            // Reflect the ball's velocity and increase speed
-            rb.linearVelocity = reflected * (1 + speedIncrease); 
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("AIGoal")) 
+        if (collision.CompareTag("AIGoal"))
         {
             ResetBall();
             AIScore.text = (int.Parse(AIScore.text) + 1).ToString();
         }
-        else if (collision.CompareTag("PlayerGoal")) 
+        else if (collision.CompareTag("PlayerGoal"))
         {
             ResetBall();
             playerScore.text = (int.Parse(playerScore.text) + 1).ToString();
@@ -128,7 +138,6 @@ public class BallMovement : MonoBehaviour
         windStrength = strength;
     }
 
-    // Gradual speed increase over time
     private void IncreaseSpeed()
     {
         float currentSpeed = rb.linearVelocity.magnitude;
