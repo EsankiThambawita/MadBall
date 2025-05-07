@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'desert_info.dart' as desert;
 import 'grass_info.dart' as grass;
 import 'space_info.dart';
-import 'guidelines.dart'; // ✅ Add this line
+//import 'guidelines.dart'; // ✅ Add this line
 
 class MapSelectionCamp extends StatelessWidget {
   final String gameMode;
@@ -136,10 +136,10 @@ class MapSelectionCamp extends StatelessWidget {
             padding: const EdgeInsets.only(right: 12),
             child: GestureDetector(
               onTap: () {
-                Navigator.push(
+                /*Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const GuidelinesPopup()),
-                );
+                );*/
               },
               child: Image.asset(
                 'assets/images/guidelines_icon.png',
