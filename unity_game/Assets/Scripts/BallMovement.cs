@@ -58,7 +58,7 @@ public class BallMovement : MonoBehaviour
     {
         rb.linearVelocity = Vector2.zero;
         transform.position = Vector2.zero;
-        Invoke("StartBall",1.5f);
+        Invoke("StartBall", 1.5f);
     }
 
     private void PlayerBounce(Transform paddle)
@@ -87,6 +87,25 @@ public class BallMovement : MonoBehaviour
             Vector2 normal = collision.contacts[0].normal;
             rb.linearVelocity = Vector2.Reflect(rb.linearVelocity, normal) * (1 + wallBounceSpeedIncrease);
         }
+        else if (collision.gameObject.CompareTag("Asteroid"))
+        {
+            // Handle asteroid collision
+            Vector2 normal = collision.contacts[0].normal;
+            Vector2 reflected = Vector2.Reflect(rb.linearVelocity, normal);
+
+            // Apply a small force to the asteroid upon collision
+            Rigidbody2D asteroidRb = collision.gameObject.GetComponent<Rigidbody2D>();
+            if (asteroidRb != null)
+            {
+                asteroidRb.bodyType = RigidbodyType2D.Dynamic; // Temporarily set asteroid to dynamic
+                Vector2 direction = collision.contacts[0].normal;
+                asteroidRb.AddForce(direction * 0.12f, ForceMode2D.Impulse); // Apply small impulse force
+                asteroidRb.bodyType = RigidbodyType2D.Kinematic; // Set asteroid back to kinematic
+            }
+
+            // Reflect the ball's velocity and increase speed
+            rb.linearVelocity = reflected * (1 + speedIncrease); 
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -109,7 +128,7 @@ public class BallMovement : MonoBehaviour
         windStrength = strength;
     }
 
-    // 🔄 Gradual speed increase over time
+    // Gradual speed increase over time
     private void IncreaseSpeed()
     {
         float currentSpeed = rb.linearVelocity.magnitude;

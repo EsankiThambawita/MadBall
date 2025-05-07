@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'grass_info2.dart' as grass;
 import 'desert_info2.dart' as desert;
 import 'space_info2.dart' as space;
+import 'guidelines.dart';
 
 class MapSelectionTwoPly extends StatelessWidget {
   final String gameMode;
@@ -108,10 +109,15 @@ class MapSelectionTwoPly extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.book, color: Colors.black, size: 28),
+                  icon: Image.asset(
+                    'assets/images/guidelines_icon.png',
+                    width: 36,
+                    height: 36,
+                  ),
                   onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Help icon tapped!')),
+                    showDialog(
+                      context: context,
+                      builder: (context) => const GuidelinesPopup(),
                     );
                   },
                 ),
