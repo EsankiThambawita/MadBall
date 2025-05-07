@@ -15,9 +15,9 @@ class _DesertInfoPage extends State<DesertInfoPage> {
   String message = "";
 
   String getFaceImage() {
-    if (_difficulty < 33) {
+    if (_difficulty < 50) {
       return 'assets/images/easy.png';
-    } else if (_difficulty < 66) {
+    } else if (_difficulty < 100) {
       return 'assets/images/medium.png';
     } else {
       return 'assets/images/hard.png';
@@ -25,9 +25,9 @@ class _DesertInfoPage extends State<DesertInfoPage> {
   }
 
   String getDifficultyLabel() {
-    if (_difficulty < 33) {
+    if (_difficulty < 50) {
       return "EASY";
-    } else if (_difficulty < 66) {
+    } else if (_difficulty < 100) {
       return "MEDIUM";
     } else {
       return "HARD";
@@ -35,9 +35,9 @@ class _DesertInfoPage extends State<DesertInfoPage> {
   }
 
   Color getButtonColor() {
-    if (_difficulty < 33) {
+    if (_difficulty < 50) {
       return const Color(0xFF4BE843); // Green
-    } else if (_difficulty < 66) {
+    } else if (_difficulty < 100) {
       return const Color(0xFFFFE600); // Yellow
     } else {
       return const Color(0xFFE84141); // Red
@@ -45,14 +45,14 @@ class _DesertInfoPage extends State<DesertInfoPage> {
   }
 
   void handleSliderChange(double value) {
-    if (value >= 33 && !isEasyCompleted) {
+    if (value >= 50 && !isEasyCompleted) {
       setState(() {
         _difficulty = 0;
         message = "Complete Easy to proceed to Medium";
       });
-    } else if (value >= 66 && !isMediumCompleted) {
+    } else if (value >= 100 && !isMediumCompleted) {
       setState(() {
-        _difficulty = 33;
+        _difficulty = 50;
         message = "Complete Medium to proceed to Hard";
       });
     } else {
@@ -206,7 +206,7 @@ class _DesertInfoPage extends State<DesertInfoPage> {
                         value: _difficulty,
                         min: 0,
                         max: 100,
-                        divisions: 3,
+                        divisions: 2, // 2 divisions for 0-50 and 50-100
                         activeColor: getButtonColor(),
                         onChanged: handleSliderChange,
                       ),
@@ -239,14 +239,20 @@ class _DesertInfoPage extends State<DesertInfoPage> {
                         elevation: 6,
                       ),
                       onPressed: () {
-                        if (_difficulty < 33) {
+                        if (_difficulty < 50) {
                           setState(() {
                             isEasyCompleted = true;
                           });
-                        } else if (_difficulty < 66) {
-                          setState(() {
-                            isMediumCompleted = true;
-                          });
+                        } else if (_difficulty >= 50) {
+                          if (!isEasyCompleted) {
+                            setState(() {
+                              message = "Complete Easy to proceed to Medium";
+                            });
+                          } else {
+                            setState(() {
+                              isMediumCompleted = true;
+                            });
+                          }
                         }
                         // Start the game with selected difficulty
                       },
