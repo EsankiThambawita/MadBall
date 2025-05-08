@@ -168,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       InkWell(
                         onTap: () => navigateToPage("achi"),
                         child: const CircleAvatar(
-                          backgroundImage: AssetImage("assets/images/achi.png"),
+                          backgroundImage: AssetImage("assets/images/achievement_bg.png"),
                           radius: 28,
                         ),
                       ),
@@ -183,7 +183,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: 'Jaini',
-                            fontSize: 80,
+                            fontSize: 100,
                             color: Colors.black,
                           ),
                         ),

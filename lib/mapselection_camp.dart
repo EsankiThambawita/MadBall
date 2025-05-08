@@ -57,7 +57,7 @@ class MapSelectionCamp extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      height: 140,
+      height: 120,
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(16),
@@ -91,17 +91,14 @@ class MapSelectionCamp extends StatelessWidget {
                       style: const TextStyle(color: Colors.white, fontSize: 16),
                     ),
                     const SizedBox(width: 10),
-                    const Text(
-                      "20,019",
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ),
+                    
                   ],
                 ),
               ],
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.play_arrow, color: Colors.white, size: 36),
+            icon: const Icon(Icons.play_arrow, color: Colors.white, size: 75),
             onPressed: isLocked ? null : () => _navigateToInfo(context, title),
           ),
         ],
