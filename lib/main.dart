@@ -3,6 +3,7 @@ import 'mapselection_camp.dart';
 import 'mapselection_twoply.dart';
 import 'settings.dart';
 
+
 void main() => runApp(const MadBallApp());
 
 class MadBallApp extends StatelessWidget {
@@ -29,92 +30,89 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  late AnimationController _cloudController;
+  late AnimationController _bgController;
   late Animation<Offset> _cloudAnimation;
+  late Animation<Offset> _bgAnimation;
 
   @override
   void initState() {
     super.initState();
-    _controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 6))
-          ..repeat(reverse: true);
+
+    _cloudController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 6),
+    )..repeat(reverse: true);
+
     _cloudAnimation = Tween<Offset>(
-            begin: const Offset(-0.2, 0), end: const Offset(0.2, 0))
-        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+      begin: const Offset(-0.2, 0),
+      end: const Offset(0.2, 0),
+    ).animate(CurvedAnimation(
+      parent: _cloudController,
+      curve: Curves.easeInOut,
+    ));
+
+    _bgController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 20),
+    )..repeat(reverse: true);
+
+    // Increased range for visible movement
+    _bgAnimation = Tween<Offset>(
+      begin: const Offset(-0.05, 0),
+      end: const Offset(0.05, 0),
+    ).animate(CurvedAnimation(
+      parent: _bgController,
+      curve: Curves.easeInOut,
+    ));
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _cloudController.dispose();
+    _bgController.dispose();
     super.dispose();
   }
 
-  // Method to navigate to a new page (can be modified as needed)
   void navigateToPage(String page) {
     if (page == "settings") {
       showDialog(
         context: context,
+        barrierColor: Colors.transparent,
         builder: (BuildContext context) {
-          return Dialog(
-            backgroundColor: Colors.transparent,
+          return Material(
+            type: MaterialType.transparency,
             child: SettingsPopup(),
           );
         },
       );
     } else if (page == "achi") {
-      // Navigate to the 'Achi' related page
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                const AchiPage()), // Replace with your Achi page
-      );
+      
     }
   }
 
-  // Method for navigating to map selection
   void navigateToMapSelection(String mode) {
-    if (mode == "one-player") {
-      Navigator.push(
-        context,
-        PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              MapSelectionCamp(gameMode: mode),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            const begin = Offset(0.0, 1.0); // Slide from bottom
-            const end = Offset.zero;
-            const curve = Curves.easeInOut;
+    final Widget targetPage = mode == "one-player"
+        ? MapSelectionCamp(gameMode: mode)
+        : MapSelectionTwoPly(gameMode: mode);
 
-            var tween =
-                Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-            var offsetAnimation = animation.drive(tween);
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => targetPage,
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(0.0, 1.0);
+          const end = Offset.zero;
+          const curve = Curves.easeInOut;
 
-            return SlideTransition(position: offsetAnimation, child: child);
-          },
-        ),
-      );
-    } else if (mode == "Two Player") {
-      Navigator.push(
-        context,
-        PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              MapSelectionTwoPly(gameMode: mode),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            const begin = Offset(0.0, 1.0); // Slide from bottom
-            const end = Offset.zero;
-            const curve = Curves.easeInOut;
+          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          var offsetAnimation = animation.drive(tween);
 
-            var tween =
-                Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-            var offsetAnimation = animation.drive(tween);
-
-            return SlideTransition(position: offsetAnimation, child: child);
-          },
-        ),
-      );
-    }
+          return SlideTransition(position: offsetAnimation, child: child);
+        },
+      ),
+    );
   }
 
   @override
@@ -122,22 +120,39 @@ class _HomeScreenState extends State<HomeScreen>
     return Scaffold(
       body: Stack(
         children: [
-          Positioned.fill(
-            child: Image.asset(
-              "assets/images/background.png",
-              fit: BoxFit.cover,
-            ),
+         AnimatedBuilder(
+          animation: _bgAnimation,
+          builder: (context, child) {
+            final dx = _bgAnimation.value.dx * MediaQuery.of(context).size.width;
+            return Transform.translate(
+              offset: Offset(dx, 0),
+              child: Transform.scale(
+                scale: 1.15,
+                child: child,
+              ),
+            );
+          },
+          child: Image.asset(
+            "assets/images/background.png",
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
           ),
+        ),
+
+          // Cloud Slide
           SlideTransition(
             position: _cloudAnimation,
             child: Align(
               alignment: const Alignment(0, -0.4),
               child: Image.asset(
                 "assets/images/cloud.png",
-                width: 200,
+                width: 220,
               ),
             ),
           ),
+
+          // UI Content
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -148,13 +163,13 @@ class _HomeScreenState extends State<HomeScreen>
                     children: [
                       InkWell(
                         onTap: () => navigateToPage("settings"),
-                        child: const Icon(Icons.menu, size: 28, color: Colors.white),
+                        child: const Icon(Icons.menu, size: 36, color: Colors.white),
                       ),
                       InkWell(
                         onTap: () => navigateToPage("achi"),
                         child: const CircleAvatar(
-                          backgroundImage: AssetImage("assets/images/achi.png"),
-                          radius: 20,
+                          backgroundImage: AssetImage("assets/images/achievement_bg.png"),
+                          radius: 28,
                         ),
                       ),
                     ],
@@ -168,17 +183,17 @@ class _HomeScreenState extends State<HomeScreen>
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: 'Jaini',
-                            fontSize: 70,
+                            fontSize: 100,
                             color: Colors.black,
                           ),
                         ),
-                        const SizedBox(height: 40),
+                        const SizedBox(height: 50),
                         GameButton(
                           text: "One player",
                           color: const Color(0xFFF1FF2D),
                           onTap: () => navigateToMapSelection("one-player"),
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 24),
                         GameButton(
                           text: "Two Player",
                           color: const Color(0xFF4BE843),
@@ -213,50 +228,24 @@ class GameButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      elevation: 4,
-      borderRadius: BorderRadius.circular(12),
+      elevation: 6,
+      borderRadius: BorderRadius.circular(16),
       color: color,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
           child: Text(
             text,
             style: const TextStyle(
               fontFamily: 'Jaini',
-              fontSize: 24,
+              fontSize: 28,
               color: Colors.black,
             ),
           ),
         ),
       ),
-    );
-  }
-}
-
-// Placeholder MenuPage
-class MenuPage extends StatelessWidget {
-  const MenuPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Menu")),
-      body: const Center(child: Text("This is the Menu Page")),
-    );
-  }
-}
-
-// Placeholder AchiPage
-class AchiPage extends StatelessWidget {
-  const AchiPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Achi Page")),
-      body: const Center(child: Text("This is the Achi Page")),
     );
   }
 }

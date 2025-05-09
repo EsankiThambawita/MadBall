@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'desert_info.dart' as desert;
 import 'grass_info.dart' as grass;
-import 'space_info.dart'; // Correctly import the SpaceInfoPage
+import 'space_info.dart';
+//import 'guidelines.dart'; // ✅ Add this line
 
 class MapSelectionCamp extends StatelessWidget {
   final String gameMode;
@@ -56,7 +57,7 @@ class MapSelectionCamp extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      height: 140,
+      height: 120,
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(16),
@@ -90,17 +91,14 @@ class MapSelectionCamp extends StatelessWidget {
                       style: const TextStyle(color: Colors.white, fontSize: 16),
                     ),
                     const SizedBox(width: 10),
-                    const Text(
-                      "20,019",
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ),
+                    
                   ],
                 ),
               ],
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.play_arrow, color: Colors.white, size: 36),
+            icon: const Icon(Icons.play_arrow, color: Colors.white, size: 75),
             onPressed: isLocked ? null : () => _navigateToInfo(context, title),
           ),
         ],
@@ -118,7 +116,7 @@ class MapSelectionCamp extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Navigator.pop(context); // Use this to go back to the previous screen
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -130,6 +128,24 @@ class MapSelectionCamp extends StatelessWidget {
           ),
         ),
         centerTitle: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: GestureDetector(
+              onTap: () {
+                /*Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const GuidelinesPopup()),
+                );*/
+              },
+              child: Image.asset(
+                'assets/images/guidelines_icon.png',
+                height: 30,
+                width: 30,
+              ),
+            ),
+          ),
+        ],
       ),
       body: Stack(
         children: [
@@ -212,7 +228,7 @@ class MapSelectionCamp extends StatelessWidget {
                 child: IconButton(
                   icon: const Icon(Icons.close, color: Colors.black, size: 30),
                   onPressed: () {
-                    Navigator.pop(context); // Cancel the action and return to previous screen
+                    Navigator.pop(context);
                   },
                 ),
               ),

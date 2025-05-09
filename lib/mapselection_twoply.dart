@@ -44,7 +44,7 @@ class MapSelectionTwoPly extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      height: 140,
+      height: 120,
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(16),
@@ -74,7 +74,7 @@ class MapSelectionTwoPly extends StatelessWidget {
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.play_arrow, color: Colors.white, size: 36),
+            icon: const Icon(Icons.play_arrow, color: Colors.white, size: 75),
             onPressed: isLocked ? null : () => _navigateToInfo(context, title),
           ),
         ],

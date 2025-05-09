@@ -9,52 +9,48 @@ class SpaceInfoPage extends StatefulWidget {
 }
 
 class _SpaceInfoPage extends State<SpaceInfoPage> {
-  double _difficulty = 0;  // Difficulty level: 0 (Easy), 50 (Medium), 100 (Hard)
+  double _difficulty = 0;
   bool isEasyCompleted = false;
   bool isMediumCompleted = false;
-  String message = "";  // Message to display based on user progress
+  String message = "";
 
-  // Function to determine the face image based on difficulty
   String getFaceImage() {
-    if (_difficulty == 0) {
+    if (_difficulty < 50) {
       return 'assets/images/easy.png';
-    } else if (_difficulty == 50) {
+    } else if (_difficulty < 100) {
       return 'assets/images/medium.png';
     } else {
       return 'assets/images/hard.png';
     }
   }
 
-  // Function to get the difficulty label based on value
   String getDifficultyLabel() {
-    if (_difficulty == 0) {
+    if (_difficulty < 50) {
       return "EASY";
-    } else if (_difficulty == 50) {
+    } else if (_difficulty < 100) {
       return "MEDIUM";
     } else {
       return "HARD";
     }
   }
 
-  // Function to get button color based on difficulty
   Color getButtonColor() {
-    if (_difficulty == 0) {
+    if (_difficulty < 50) {
       return const Color(0xFF4BE843); // Green
-    } else if (_difficulty == 50) {
+    } else if (_difficulty < 100) {
       return const Color(0xFFFFE600); // Yellow
     } else {
       return const Color(0xFFE84141); // Red
     }
   }
 
-  // Function to handle slider changes
   void handleSliderChange(double value) {
-    if (value == 50 && !isEasyCompleted) {
+    if (value >= 50 && !isEasyCompleted) {
       setState(() {
         _difficulty = 0;
         message = "Complete Easy to proceed to Medium";
       });
-    } else if (value == 100 && !isMediumCompleted) {
+    } else if (value >= 100 && !isMediumCompleted) {
       setState(() {
         _difficulty = 50;
         message = "Complete Medium to proceed to Hard";
@@ -70,49 +66,58 @@ class _SpaceInfoPage extends State<SpaceInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xCC70A4C2),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color.fromARGB(255, 0, 0, 0)),
-          onPressed: () => Navigator.pop(context),
-        ),
-         actions: [
-          // Updated the IconButton to navigate to mapselection_champ page
-         IconButton(
-  icon: const Icon(Icons.cancel, color: Colors.black),
-  onPressed: () {
-    Navigator.pop(context); // This will pop the current page from the stack
-  },
-),
-        ],
-        centerTitle: true,
-        title: const Text(
-          'Map Info',
-          style: TextStyle(
-            fontFamily: 'Jaini',
-            fontSize: 28,
-            color: Color.fromARGB(255, 250, 247, 247),
-          ),
-        ),
-      ),
+      backgroundColor: Colors.transparent,
+      extendBodyBehindAppBar: true,
       body: Stack(
         fit: StackFit.expand,
         children: [
+          // Background Image
           Image.asset(
             "assets/images/space.jpg",
             fit: BoxFit.cover,
           ),
+
+          // Blur effect
           BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 500, sigmaY: 500),
+            filter: ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
             child: Container(
-              color: Colors.black.withOpacity(0.2),
+              color: Colors.black.withOpacity(0.2), // Optional dimming
             ),
           ),
+
+          // Main content
           SafeArea(
             child: Column(
               children: [
+                // AppBar with cancel button in the right corner
+                AppBar(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  leading: IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.black),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                  actions: [
+                    IconButton(
+                      icon: const Icon(Icons.cancel, color: Colors.black),
+                      onPressed: () {
+                        // Handle cancel action here
+                        Navigator.pop(context); // This will pop the current page
+                      },
+                    ),
+                  ],
+                  centerTitle: true,
+                  title: const Text(
+                    'Map Info',
+                    style: TextStyle(
+                      fontFamily: 'Jaini',
+                      fontSize: 28,
+                      color: Color.fromARGB(255, 246, 246, 246),
+                    ),
+                  ),
+                ),
+
+                // Display the message if any
                 if (message.isNotEmpty)
                   Container(
                     padding: const EdgeInsets.all(12),
@@ -120,7 +125,7 @@ class _SpaceInfoPage extends State<SpaceInfoPage> {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: const Color.fromARGB(255, 246, 245, 245)),
+                      border: Border.all(color: const Color.fromARGB(255, 255, 255, 255)),
                     ),
                     child: Text(
                       message,
@@ -131,6 +136,8 @@ class _SpaceInfoPage extends State<SpaceInfoPage> {
                       ),
                     ),
                   ),
+
+                // Map description
                 Container(
                   margin: const EdgeInsets.all(16),
                   padding: const EdgeInsets.all(12),
@@ -149,38 +156,48 @@ class _SpaceInfoPage extends State<SpaceInfoPage> {
                         style: TextStyle(
                           fontFamily: 'Jaini',
                           fontSize: 26,
-                          color: Colors.white,
+                          color: Color.fromARGB(255, 249, 247, 247),
                         ),
                       ),
                       SizedBox(height: 8),
                       Text(
-                        "Explore the vast emptiness of space. Navigate through cosmic obstacles and engage in interstellar challenges!",
+                        "A wide, open field where sudden winds randomly sweep across the map. "
+                        "Control your ball, outmaneuver your opponent, and use the shifting winds to your advantage!",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 20,
                           fontFamily: 'Jaini',
-                          color: Colors.white,
+                          color: Color.fromARGB(255, 236, 234, 234),
                         ),
                       ),
                     ],
                   ),
                 ),
+
                 const SizedBox(height: 16),
+
+                // Face Image based on difficulty
                 Image.asset(
                   getFaceImage(),
                   width: 80,
                   height: 80,
                 ),
+
                 const SizedBox(height: 10),
+
+                // Difficulty Label
                 Text(
                   getDifficultyLabel(),
                   style: const TextStyle(
                     fontFamily: 'Jaini',
                     fontSize: 24,
-                    color: Color.fromARGB(255, 244, 242, 242),
+                    color: Color.fromARGB(255, 243, 241, 241),
                   ),
                 ),
+
                 const SizedBox(height: 16),
+
+                // Difficulty Slider
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
@@ -189,24 +206,25 @@ class _SpaceInfoPage extends State<SpaceInfoPage> {
                         value: _difficulty,
                         min: 0,
                         max: 100,
-                        divisions: 2,
+                        divisions: 2, // 2 divisions for 0-50 and 50-100
                         activeColor: getButtonColor(),
-                        onChanged: (value) {
-                          handleSliderChange(value);
-                        },
+                        onChanged: handleSliderChange,
                       ),
                       const Text(
                         "Drag to adjust difficulty",
                         style: TextStyle(
                           fontFamily: 'Jaini',
                           fontSize: 16,
-                          color: Color.fromARGB(255, 244, 243, 243),
+                          color: Color.fromARGB(255, 247, 246, 246),
                         ),
                       ),
                     ],
                   ),
                 ),
+
                 const Spacer(),
+
+                // Play Button
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 32),
                   child: SizedBox(
@@ -221,16 +239,22 @@ class _SpaceInfoPage extends State<SpaceInfoPage> {
                         elevation: 6,
                       ),
                       onPressed: () {
-                        if (_difficulty == 0) {
+                        if (_difficulty < 50) {
                           setState(() {
                             isEasyCompleted = true;
                           });
-                        } else if (_difficulty == 50) {
-                          setState(() {
-                            isMediumCompleted = true;
-                          });
+                        } else if (_difficulty >= 50) {
+                          if (!isEasyCompleted) {
+                            setState(() {
+                              message = "Complete Easy to proceed to Medium";
+                            });
+                          } else {
+                            setState(() {
+                              isMediumCompleted = true;
+                            });
+                          }
                         }
-                        // TODO: Start game logic here
+                        // Start the game with selected difficulty
                       },
                       child: const Text(
                         "PLAY",
@@ -243,6 +267,7 @@ class _SpaceInfoPage extends State<SpaceInfoPage> {
                     ),
                   ),
                 ),
+
                 const SizedBox(height: 20),
               ],
             ),
