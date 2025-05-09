@@ -22,9 +22,9 @@ TagManager:
   - 
   - Water
   - UI
-  - Asteroid
-  - 
-  - 
+  - Paddle
+  - tumbleweed
+  - asteroid
   - 
   - 
   - 
@@ -57,6 +57,9 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 4045838889
+    locked: 0
+  - name: Top
+    uniqueID: 58656149
     locked: 0
   m_RenderingLayers:
   - Default
