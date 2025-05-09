@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 986
   m_ShowMode: 4
-  m_Title: Project
+  m_Title: Simulator
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 100}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 116
+  controlID: 52
   draggingID: 0
 --- !u!114 &5
 MonoBehaviour:
@@ -220,8 +220,8 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 930
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 76}
+  m_MaxSize: {x: 4001, y: 4026}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
@@ -301,7 +301,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 558
+    y: 501
     width: 906
     height: 427
   m_SerializedDataModeController:
@@ -331,7 +331,7 @@ MonoBehaviour:
   m_UseMipMap: 0
   m_SimulatorState:
     controlPanelVisible: 0
-    controlPanelWidth: 0
+    controlPanelWidth: NaN
     controlPanelFoldoutKeys:
     - UnityEditor.AdaptivePerformance.Editor.AdaptivePerformanceUIExtension
     - UnityEditor.AdaptivePerformance.Google.Android.Editor.AdaptivePerformanceGoogleUIExtension
@@ -347,7 +347,7 @@ MonoBehaviour:
     - '{"m_SerializationStates":{"androidSystemFoldout":false}}'
     - '{}'
     - '{}'
-    scale: 13
+    scale: 10
     fitToScreenEnabled: 1
     rotationDegree: 0
     highlightSafeAreaEnabled: 0
@@ -376,8 +376,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Hierarchy\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 907
-    y: 82
+    x: 908
+    y: 24
     width: 306
     height: 904
   m_SerializedDataModeController:
@@ -396,7 +396,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 8881feff7088feff2a89feff7a8afeff4c8bfeff368efeffa093feff8e94feff4895feff3a96fefff296feffaa97feff08fbffff1ab300006cb30000d4b30000eeb3000008b4000010b40000241901009a190100a0190100
+      m_ExpandedIDs: bceeffff24f0ffff5af4ffff08fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -442,8 +442,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1490
-    y: 82
+    x: 1491
+    y: 24
     width: 429
     height: 904
   m_SerializedDataModeController:
@@ -491,8 +491,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Project\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1215
-    y: 82
+    x: 1216
+    y: 24
     width: 273
     height: 904
   m_SerializedDataModeController:
@@ -517,7 +517,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Packages/com.unity.render-pipelines.universal/Runtime/Materials
+    - Assets/Scenes/Space
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -535,19 +535,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: b0230000
     m_LastClickedID: 9136
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    m_ExpandedIDs: 0000000052b3000054b3000056b3000058b300005ab300005cb300005eb3000060b3000062b3000064b3000066b30000
-=======
-    m_ExpandedIDs: 000000006eb3000070b3000072b3000074b3000076b3000078b300007ab300007cb300007eb3000080b3000082b30000
->>>>>>> Stashed changes
-=======
-    m_ExpandedIDs: 000000006eb3000070b3000072b3000074b3000076b3000078b300007ab300007cb300007eb3000080b3000082b30000
->>>>>>> Stashed changes
-=======
-    m_ExpandedIDs: 000000006eb3000070b3000072b3000074b3000076b3000078b300007ab300007cb300007eb3000080b3000082b30000
->>>>>>> Stashed changes
+    m_ExpandedIDs: 000000001ab600001cb600001eb6000020b6000022b6000024b6000026b6000028b600002ab600002cb600002eb60000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -576,21 +564,21 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: ffffffff0000000008b600000ab600000cb600000eb6000010b6000012b6000014b6000016b60000b8b600000c1d01000e1d0100
+    m_ExpandedIDs: 000000001ab600001cb600001eb6000020b6000022b6000024b6000026b6000028b600002ab600002cb600002eb60000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: Desert_1P
-      m_OriginalName: Desert_1P
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 71858
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_TrimLeadingAndTrailingWhitespace: 0
       m_ClientGUIView: {fileID: 8}
@@ -656,7 +644,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 82
+    y: 24
     width: 906
     height: 451
   m_SerializedDataModeController:
@@ -1201,7 +1189,7 @@ MonoBehaviour:
   m_Position:
     m_Target: {x: -3.848276, y: -0.16075759, z: 1.120539}
     speed: 2
-    m_Value: {x: -3.5732064, y: -0.10852921, z: 1.1242298}
+    m_Value: {x: -3.848276, y: -0.16075759, z: 1.120539}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1253,7 +1241,7 @@ MonoBehaviour:
   m_Size:
     m_Target: 8.570865
     speed: 2
-    m_Value: 8.201784
+    m_Value: 8.570865
   m_Ortho:
     m_Target: 1
     speed: 2
