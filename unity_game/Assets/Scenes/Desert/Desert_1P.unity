@@ -358,7 +358,8 @@ MonoBehaviour:
   tumbleweedPrefab: {fileID: 2191944247570043315, guid: a534db165022f75428383ac17a689860, type: 3}
   spawnInterval: 3
   tumbleweedSpeed: 2
-  spawnYRange: {x: -5, y: 3}
+  tumbleweedCount: 3
+  spawnYRange: {x: -5, y: 4}
   spawnX: {x: -20, y: -9}
 --- !u!4 &183425490
 Transform:
