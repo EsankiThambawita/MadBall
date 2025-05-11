@@ -396,7 +396,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 2643ffff9a64ffff5265ffff7688ffffd68dffff8eb0ffff26caffffc2ceffff3aefffffcaefffff76f4ffff76f5ffff54f8ffff08fbffff46ba00004cc200008ac2000002c30000
+      m_ExpandedIDs: e0a8ffffe4a8ffffe8a8ffff9aaafffff4aaffffe2acffff18b0ffff4eb0ffff8ebafffff0c0ffffa4c1ffff04c9ffffbcc9ffffa6caffff76cbffff9eccffffa4cdffff60cfffff04d6ffff98d8ffff08fbffff12c2000096c20000cad1000028d20000a4d20000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -516,8 +516,7 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SkipHidden: 0
     m_SearchArea: 1
-    m_Folders:
-    - Assets/Prefab
+    m_Folders: []
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -535,7 +534,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: b0230000
     m_LastClickedID: 9136
-    m_ExpandedIDs: 0000000026b6000028b600002ab600002cb600002eb6000030b6000032b6000034b6000036b6000038b600003ab600003cb600003eb6000040b6000042b6000044b6000046b6000048b600004ab600004cb60000
+    m_ExpandedIDs: 00000000e4b60000e6b60000e8b60000eab60000ecb60000eeb60000f0b60000f2b60000f4b60000f6b60000f8b60000fab60000fcb60000feb6000000b7000002b7000004b7000006b7000008b70000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -564,7 +563,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000026b6000028b600002ab600002cb600002eb6000030b6000032b6000034b6000036b6000038b600003ab600003cb600003eb6000040b6000042b6000044b6000046b6000048b600004ab600004cb60000
+    m_ExpandedIDs: 00000000e4b60000e6b60000e8b60000eab60000ecb60000eeb60000f0b60000f2b60000f4b60000f6b60000f8b60000fab60000fcb60000feb6000000b7000002b7000004b7000006b7000008b70000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1187,9 +1186,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: -6.7910953, y: -0.646958, z: -18.043324}
+    m_Target: {x: -22.020092, y: 1465.1465, z: -7.286125}
     speed: 2
-    m_Value: {x: -6.7910953, y: -0.646958, z: -18.043324}
+    m_Value: {x: -22.020092, y: 1465.1465, z: -7.286125}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1239,9 +1238,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 5.167649
+    m_Target: 859.2493
     speed: 2
-    m_Value: 5.167649
+    m_Value: 859.2493
   m_Ortho:
     m_Target: 1
     speed: 2
