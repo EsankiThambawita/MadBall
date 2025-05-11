@@ -123,13 +123,14 @@ public class BallMovement : MonoBehaviour
         if (collision.CompareTag("AIGoal"))
         {
             ResetBall();
-            AIScore.text = (int.Parse(AIScore.text) + 1).ToString();
+            GameManager.Instance.IncreaseAIScore();
         }
         else if (collision.CompareTag("PlayerGoal"))
         {
             ResetBall();
-            playerScore.text = (int.Parse(playerScore.text) + 1).ToString();
+            GameManager.Instance.IncreasePlayerScore();
         }
+
     }
 
     public void ApplyWind(Vector2 direction, float strength)

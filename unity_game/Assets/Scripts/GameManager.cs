@@ -1,42 +1,53 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
+
+    [Header("HUD Score Texts")]
+    public Text playerScoreText;
+    public Text aiScoreText;
+
+    [Header("Game Over UI")]
+    public GameOverUIController gameOverUIController;
+
     private int playerScore = 0;
     private int aiScore = 0;
-    public int maxScore = 10;
+    private int winningScore = 5;
 
-    public GameOverUIController gameOverUI;
-
-    private bool gameOver = false;
-
-    public void AddPlayerScore()
+    void Awake()
     {
-        if (gameOver) return;
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
 
+    public void IncreasePlayerScore()
+    {
         playerScore++;
+        playerScoreText.text = playerScore.ToString();
         CheckGameOver();
     }
 
-    public void AddAIScore()
+    public void IncreaseAIScore()
     {
-        if (gameOver) return;
-
         aiScore++;
+        aiScoreText.text = aiScore.ToString();
         CheckGameOver();
     }
 
-    void CheckGameOver()
+    public void CheckGameOver()
     {
-        if (playerScore >= maxScore)
+        if (playerScore >= winningScore || aiScore >= winningScore)
         {
-            gameOver = true;
-            gameOverUI.ShowWinCard(playerScore, aiScore);
-        }
-        else if (aiScore >= maxScore)
-        {
-            gameOver = true;
-            gameOverUI.ShowLoseCard(playerScore, aiScore);
+            if (playerScore > aiScore)
+                gameOverUIController.ShowWinPanel(playerScore, aiScore);
+            else
+                gameOverUIController.ShowLosePanel(playerScore, aiScore);
+
+            Time.timeScale = 0f;
         }
     }
 }

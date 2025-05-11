@@ -1,42 +1,54 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro; 
+using UnityEngine.SceneManagement;
 
 public class GameOverUIController : MonoBehaviour
 {
-    public GameObject winCard;
-    public GameObject loseCard;
+    public GameObject winBackground;
+    public GameObject loseBackground;
 
-    [Header("Win Card Texts")]
-    public Text winPlayerScoreText;
-    public Text winAIScoreText;
+    public TextMeshProUGUI winPlayerScoreText;
+    public TextMeshProUGUI winBotScoreText;
 
-    [Header("Lose Card Texts")]
-    public Text losePlayerScoreText;
-    public Text loseAIScoreText;
+    public TextMeshProUGUI losePlayerScoreText;
+    public TextMeshProUGUI loseBotScoreText;
 
-    void Start()
+    public void ShowWinPanel(int playerScore, int botScore)
     {
-        winCard.SetActive(false);
-        loseCard.SetActive(false);
+        winBackground.SetActive(true);
+        loseBackground.SetActive(false);
+
+        winPlayerScoreText.text = $"Player : {playerScore}";
+        winBotScoreText.text = $"Bot : {botScore}";
     }
 
-    public void ShowWinCard(int playerScore, int aiScore)
+    public void ShowLosePanel(int playerScore, int botScore)
     {
-        Debug.Log("Game Over: Player Wins");
-        winCard.SetActive(true);
-        loseCard.SetActive(false);
+        loseBackground.SetActive(true);
+        winBackground.SetActive(false);
 
-        winPlayerScoreText.text = "Player: " + playerScore;
-        winAIScoreText.text = "AI: " + aiScore;
+        loseBotScoreText.text = $"Bot : {botScore}";
+        losePlayerScoreText.text = $"Player : {playerScore}";
     }
 
-    public void ShowLoseCard(int playerScore, int aiScore)
+    // Called by Retry button
+    public void OnRetryButton()
     {
-        Debug.Log("Game Over: AI Wins");
-        loseCard.SetActive(true);
-        winCard.SetActive(false);
+        Time.timeScale = 1f; // Resume game time before restarting
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload current scene
+    }
 
-        losePlayerScoreText.text = "Player: " + playerScore;
-        loseAIScoreText.text = "AI: " + aiScore;
+    // Called by Maps button (Flutter integration later)
+    public void OnMapsButton()
+    {
+        // TODO: Call Flutter method to load map selection screen
+        // Example: UnityMessageManager.Instance.SendMessageToFlutter("goToMapSelection");
+    }
+
+    // Called by Next button (difficulty progression)
+    public void OnNextButton()
+    {
+        // TODO: Implement difficulty level switch and scene loading
+        // Example: LoadNextDifficultyLevel();
     }
 }
