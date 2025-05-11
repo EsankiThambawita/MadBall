@@ -32,6 +32,23 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+.packages
+pubspec.lock
+
+# Android specific
+/android/.gradle/
+/android/build/
+/android/local.properties
+/android/app/build/
+
+# iOS specific (optional, in case of iOS support)
+/ios/Flutter/flutter_export_environment.sh
+/ios/.symlinks/
+/ios/Pods/
+/ios/Runner.xcworkspace/
+
+# Firebase related
+.firebase/
 
 # Symbolication related
 app.*.symbols
@@ -44,6 +61,7 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+# VSCode and Unity-related
 Library/
 Temp/
 Logs/
@@ -56,4 +74,3 @@ Obj/
 Build/
 Builds/
 MemoryCaptures/
-
