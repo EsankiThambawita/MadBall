@@ -1279,8 +1279,13 @@ Transform:
   m_GameObject: {fileID: 402802249}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+<<<<<<< Updated upstream
   m_LocalPosition: {x: -0.0049, y: -0.0023, z: 0}
   m_LocalScale: {x: 1.1523303, y: 1.1108075, z: 1}
+=======
+  m_LocalPosition: {x: 0.4, y: -0.29, z: 0}
+  m_LocalScale: {x: 2.7183602, y: 1.5980077, z: 1}
+>>>>>>> Stashed changes
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -9059,7 +9064,11 @@ GameObject:
   - component: {fileID: 1494852202}
   - component: {fileID: 1494852201}
   - component: {fileID: 1494852203}
+<<<<<<< Updated upstream
   m_Layer: 5
+=======
+  m_Layer: 0
+>>>>>>> Stashed changes
   m_Name: TouchAreaBottom
   m_TagString: 'TouchAreaBottom '
   m_Icon: {fileID: 0}
@@ -9080,10 +9089,17 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1091058786}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 89}
   m_SizeDelta: {x: 1500, y: 300}
+=======
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 70}
+  m_SizeDelta: {x: 0, y: 300}
+>>>>>>> Stashed changes
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1494852201
 MonoBehaviour:
@@ -9419,7 +9435,11 @@ GameObject:
   - component: {fileID: 1623821413}
   - component: {fileID: 1623821415}
   - component: {fileID: 1623821414}
+<<<<<<< Updated upstream
   m_Layer: 5
+=======
+  m_Layer: 0
+>>>>>>> Stashed changes
   m_Name: 'TouchAreaTop '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9440,10 +9460,17 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1091058786}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -89}
   m_SizeDelta: {x: 1500, y: 300}
+=======
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -70}
+  m_SizeDelta: {x: 0, y: 300}
+>>>>>>> Stashed changes
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1623821414
 MonoBehaviour:
@@ -9574,7 +9601,11 @@ GameObject:
   - component: {fileID: 1639569161}
   - component: {fileID: 1639569160}
   - component: {fileID: 1639569159}
+<<<<<<< Updated upstream
   m_Layer: 0
+=======
+  m_Layer: 5
+>>>>>>> Stashed changes
   m_Name: AI
   m_TagString: AI
   m_Icon: {fileID: 0}
@@ -9710,8 +9741,13 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+<<<<<<< Updated upstream
   m_SortingLayerID: 0
   m_SortingLayer: 0
+=======
+  m_SortingLayerID: -249128407
+  m_SortingLayer: 1
+>>>>>>> Stashed changes
   m_SortingOrder: 2
   m_Sprite: {fileID: 7274221802898054403, guid: 1b298cc30b3f4304fab0d5a091345268, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
