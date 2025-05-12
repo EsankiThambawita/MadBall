@@ -1,4 +1,4 @@
-package com.example.my_madball_part
+package com.example.madball
 
 import io.flutter.embedding.android.FlutterActivity
 

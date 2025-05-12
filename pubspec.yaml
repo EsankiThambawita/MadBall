@@ -1,4 +1,4 @@
-name: my_madball_part
+name: madball
 description: "A new Flutter project."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
@@ -11,6 +11,10 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
+  firebase_core: ^3.13.0
+  firebase_auth: ^5.5.3
+  google_sign_in: ^6.3.0
+  cloud_firestore: ^5.6.7
 
 dev_dependencies:
   flutter_test:

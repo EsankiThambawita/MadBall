@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "462360213931",
+    "project_id": "madball-edad0",
+    "storage_bucket": "madball-edad0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:462360213931:android:17839056f1d7815b803aee",
+        "android_client_info": {
+          "package_name": "com.example.madball"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "462360213931-a0vdfnudsss82b8g46pe5eumt1dvpu97.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.madball",
+            "certificate_hash": "a27f97b7c2138648cb4f24186c9a9ab4e10a0817"
+          }
+        },
+        {
+          "client_id": "462360213931-j9flabulpa09876ob044f5j9ji9t99q4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCt14EERDD-qI_sHdIyF3roQqgjadlcJSI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "462360213931-j9flabulpa09876ob044f5j9ji9t99q4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
