@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8347cc896e999b541a254b0cfbf93c08
+guid: 9fabe1f1e224e4a489e50de9abc9bd49
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8632493212028218868
-    second: space_paddle2_0
+      213: 603645287242772497
+    second: desert_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: space_paddle2_0
+      name: desert_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 125
-        height: 11
+        width: 412
+        height: 915
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c02561b1929333880800000000000000
-      internalID: -8632493212028218868
+      spriteID: 110b174c034906800800000000000000
+      internalID: 603645287242772497
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      space_paddle2_0: -8632493212028218868
+      desert_0: 603645287242772497
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

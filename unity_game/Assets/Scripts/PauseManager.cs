@@ -22,6 +22,12 @@ public class PauseManager : MonoBehaviour
         Time.timeScale = 1f;
     }
 
+    public void RetryGame()
+    {
+        Time.timeScale = 1f; // Resume game time before restarting
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload current scene
+    }
+
     public void QuitGame()
     {
         // On mobile, this might not quit but you can implement main menu

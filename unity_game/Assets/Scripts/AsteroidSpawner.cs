@@ -3,7 +3,7 @@ using UnityEngine;
 public class AsteroidRainManager : MonoBehaviour
 {
     public GameObject asteroidPrefab;
-    public float spawnInterval = 2f;
+    public float spawnInterval = 20f;
     public float asteroidSpeed = 1f;
     public int asteroidsPerSpawn = 5;
 
