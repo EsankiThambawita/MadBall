@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'mapselection_camp.dart';
 import 'mapselection_twoply.dart';
 import 'settings.dart';
 
 
-void main() => runApp(const MadBallApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Ensures that the Flutter bindings are initialized before running the app
+  await Firebase.initializeApp(); // Initializes Firebase
+  runApp(const MadBallApp());
+}
 
 class MadBallApp extends StatelessWidget {
   const MadBallApp({super.key});

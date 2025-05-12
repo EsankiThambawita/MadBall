@@ -1,0 +1,2 @@
+D:/NSBM/MadBall/android/app/.cxx/Debug/1o1t5y30/armeabi-v7a/CMakeFiles/edit_cache.dir
+D:/NSBM/MadBall/android/app/.cxx/Debug/1o1t5y30/armeabi-v7a/CMakeFiles/rebuild_cache.dir
