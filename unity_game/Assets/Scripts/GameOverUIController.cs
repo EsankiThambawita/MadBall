@@ -13,8 +13,11 @@ public class GameOverUIController : MonoBehaviour
     public TextMeshProUGUI losePlayerScoreText;
     public TextMeshProUGUI loseBotScoreText;
 
+    public GameObject backgroundFade;
+
     public void ShowWinPanel(int playerScore, int botScore)
     {
+        backgroundFade.SetActive(true);
         winBackground.SetActive(true);
         loseBackground.SetActive(false);
 
@@ -24,6 +27,7 @@ public class GameOverUIController : MonoBehaviour
 
     public void ShowLosePanel(int playerScore, int botScore)
     {
+        backgroundFade.SetActive(true);
         loseBackground.SetActive(true);
         winBackground.SetActive(false);
 
