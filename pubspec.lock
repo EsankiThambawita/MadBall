@@ -150,11 +150,28 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.0.0"
+  flutter_plugin_android_lifecycle:
+    dependency: transitive
+    description:
+      name: flutter_plugin_android_lifecycle
+      sha256: f948e346c12f8d5480d2825e03de228d0eb8c3a737e4cdaa122267b89c022b5e
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.28"
   flutter_test:
     dependency: "direct dev"
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_unity_widget:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: "experimental/unity_6000"
+      resolved-ref: "1bbf24c977f8dcd2495999ff00b8a79d5d93b0d3"
+      url: "https://github.com/juicycleff/flutter-unity-view-widget.git"
+    source: git
+    version: "6000.0.0-alpha"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -325,6 +342,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  stream_transform:
+    dependency: transitive
+    description:
+      name: stream_transform
+      sha256: ad47125e588cfd37a9a7f86c7d6356dde8dfe89d071d293f80ca9e9273a33871
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.1"
   string_scanner:
     dependency: transitive
     description:
@@ -381,6 +406,46 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
+  webview_flutter:
+    dependency: transitive
+    description:
+      name: webview_flutter
+      sha256: caf0f5a1012aa3c2d33c4215adc72dc1194bb59a2d3ed901f457965626805e66
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.11.0"
+  webview_flutter_android:
+    dependency: transitive
+    description:
+      name: webview_flutter_android
+      sha256: be6fa6acf69db65a9feedd9f16ead99668e9d5ea1f9b8d85286cba8da8d12e29
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.5.0"
+  webview_flutter_platform_interface:
+    dependency: transitive
+    description:
+      name: webview_flutter_platform_interface
+      sha256: e54a2a435144af4e008bea140c06913eeb3f25db421c2ceaa932f314a45d79b9
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.12.0"
+  webview_flutter_web:
+    dependency: transitive
+    description:
+      name: webview_flutter_web
+      sha256: "18a7ccc1c31dd9a5c759a1b7217a2a1e04bd8f65712714a4070bfac19a23ca9e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.3+4"
+  webview_flutter_wkwebview:
+    dependency: transitive
+    description:
+      name: webview_flutter_wkwebview
+      sha256: "6af7d1908c9c89311c2dffcc2c9b51b88a6f055ba16fa0aa8a04cbb1c3afc9ce"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.21.0"
 sdks:
   dart: ">=3.7.0-0 <4.0.0"
   flutter: ">=3.27.0"
