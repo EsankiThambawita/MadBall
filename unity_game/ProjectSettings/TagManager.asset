@@ -17,6 +17,7 @@ TagManager:
   - Asteroid
   - AIScore
   - PlayerScore
+  - Paddle
   layers:
   - Default
   - TransparentFX
