@@ -308,15 +308,42 @@ class _GrassInfoPage extends State<GrassInfoPage> {
   }
 }
 
-class UnityGameScreen extends StatelessWidget {
+class UnityGameScreen extends StatefulWidget {
   final Function(UnityWidgetController) onUnityCreated;
 
   const UnityGameScreen({super.key, required this.onUnityCreated});
 
   @override
+  State<UnityGameScreen> createState() => _UnityGameScreenState();
+}
+
+class _UnityGameScreenState extends State<UnityGameScreen> {
+  UnityWidgetController? _controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Delay to allow Unity engine to fully initialize
+    Future.delayed(const Duration(seconds: 2), () {
+      if (_controller != null) {
+        _controller!.postMessage('GameManager', 'LoadScene', 'Grassland_1P');
+      }
+    });
+  }
+
+  void onUnityCreated(UnityWidgetController controller) {
+    _controller = controller;
+    widget.onUnityCreated(controller);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: UnityWidget(onUnityCreated: onUnityCreated),
+      body: UnityWidget(
+        onUnityCreated: onUnityCreated,
+        useAndroidViewSurface: true,
+      ),
     );
   }
 }
