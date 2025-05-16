@@ -1,9 +1,10 @@
 using UnityEngine;
-using TMPro; 
+using TMPro;
 using UnityEngine.SceneManagement;
 
 public class GameOverUIController : MonoBehaviour
 {
+    [Header("UI Elements")]
     public GameObject winBackground;
     public GameObject loseBackground;
 
@@ -15,8 +16,28 @@ public class GameOverUIController : MonoBehaviour
 
     public GameObject backgroundFade;
 
+    [Header("Game Over Sounds")]
+    public AudioClip winSound;
+    public AudioClip loseSound;
+    private AudioSource audioSource;
+
+    [Header("Background Audio Sources")]
+    public AudioSource bgmAudioSource;
+    public AudioSource windAudioSource;
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+
+        // Optional safety check
+        if (bgmAudioSource == null)
+            Debug.LogWarning("BGM AudioSource not assigned in Inspector.");
+    }
+
     public void ShowWinPanel(int playerScore, int botScore)
     {
+        StopBackgroundAudio();
+
         backgroundFade.SetActive(true);
         winBackground.SetActive(true);
         loseBackground.SetActive(false);
@@ -27,32 +48,33 @@ public class GameOverUIController : MonoBehaviour
 
     public void ShowLosePanel(int playerScore, int botScore)
     {
+        StopBackgroundAudio(); // Stops both BGM and Wind
+
         backgroundFade.SetActive(true);
         loseBackground.SetActive(true);
         winBackground.SetActive(false);
 
-        loseBotScoreText.text = $"Bot : {botScore}";
         losePlayerScoreText.text = $"Player : {playerScore}";
+        loseBotScoreText.text = $"Bot : {botScore}";
     }
 
-    // Called by Retry button
+
+    private void StopBackgroundAudio()
+    {
+        if (bgmAudioSource != null && bgmAudioSource.isPlaying)
+            bgmAudioSource.Stop();
+
+        if (windAudioSource != null && windAudioSource.isPlaying)
+            windAudioSource.Stop();
+    }
+
     public void OnRetryButton()
     {
-        Time.timeScale = 1f; // Resume game time before restarting
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload current scene
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    // Called by Maps button (Flutter integration later)
-    public void OnMapsButton()
-    {
-        // TODO: Call Flutter method to load map selection screen
-        // Example: UnityMessageManager.Instance.SendMessageToFlutter("goToMapSelection");
-    }
+    public void OnMapsButton() { }
 
-    // Called by Next button (difficulty progression)
-    public void OnNextButton()
-    {
-        // TODO: Implement difficulty level switch and scene loading
-        // Example: LoadNextDifficultyLevel();
-    }
+    public void OnNextButton() { }
 }

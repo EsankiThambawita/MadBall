@@ -12,12 +12,20 @@ public class BallMovement : MonoBehaviour
     [SerializeField] private float speedIncreaseInterval = 10f;
     [SerializeField] private Text playerScore;
     [SerializeField] private Text AIScore;
+    [SerializeField] private AudioSource paddleHitAudio; 
+    [SerializeField] private AudioSource goalAudioSource;
+    [SerializeField] private AudioClip missSound;
+
+    
 
     private int hitCounter;
     private Rigidbody2D rb;
 
     private Vector2 windForce = Vector2.zero;
     private float windStrength = 0f;
+
+    private float soundCooldown = 0.1f; // 100 ms cooldown to avoid sound spam
+    private float lastSoundTime = -1f;
 
     void Start()
     {
@@ -87,6 +95,15 @@ public class BallMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("AI"))
         {
             PlayerBounce(collision.transform);
+
+            // Play paddle hit sound with cooldown
+            if (Time.time - lastSoundTime > soundCooldown)
+            {
+                if (paddleHitAudio != null)
+                    paddleHitAudio.Play();
+
+                lastSoundTime = Time.time;
+            }
         }
         else if (collision.gameObject.CompareTag("Wall"))
         {
@@ -120,6 +137,9 @@ public class BallMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (goalAudioSource != null && missSound != null)
+            goalAudioSource.PlayOneShot(missSound);
+
         if (collision.CompareTag("AIGoal"))
         {
             ResetBall();
@@ -130,8 +150,8 @@ public class BallMovement : MonoBehaviour
             ResetBall();
             GameManager.Instance.IncreasePlayerScore();
         }
-
     }
+
 
     public void ApplyWind(Vector2 direction, float strength)
     {

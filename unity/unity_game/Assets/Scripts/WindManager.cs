@@ -6,6 +6,9 @@ public class WindManager : MonoBehaviour
     public ParticleSystem leafParticles; // Assign the LeafParticles in Inspector
     public BallMovement ball; // Reference to BallMovement script
 
+    public AudioSource windAudio;
+    public AudioSource bgmAudio;
+
     [SerializeField] private float minWindInterval = 3f;
     [SerializeField] private float maxWindInterval = 8f;
     [SerializeField] private float minWindDuration = 5f;
@@ -15,6 +18,11 @@ public class WindManager : MonoBehaviour
     [SerializeField] private float startMaxStrength = 5f;
     [SerializeField] private float strengthIncreaseRate = 0.25f;
     [SerializeField] private float maxCapStrength = 10f;
+
+    [SerializeField] private float bgmVolumeNormal = 0.4f;    // Normal BG music volume
+    [SerializeField] private float bgmVolumeDucked = 0.01f;    // Lowered volume during wind
+    [SerializeField] private float fadeSpeed = 0.8f;          // How fast volume fades in/out
+    private bool isWindActive = false;
 
     private Vector2 currentWindDirection;
     private float currentWindStrength;
@@ -27,7 +35,28 @@ public class WindManager : MonoBehaviour
         currentMinStrength = startMinStrength;
         currentMaxStrength = startMaxStrength;
 
+        // Set initial BGM volume
+        if (bgmAudio != null)
+            bgmAudio.volume = bgmVolumeNormal;
+
         StartCoroutine(WindEffectLoop());
+    }
+
+    void Update()
+    {
+        if (bgmAudio == null)
+            return;
+
+        if (isWindActive)
+        {
+            // Fade bgm volume down smoothly
+            bgmAudio.volume = Mathf.MoveTowards(bgmAudio.volume, bgmVolumeDucked, fadeSpeed * Time.deltaTime);
+        }
+        else
+        {
+            // Fade bgm volume back up smoothly
+            bgmAudio.volume = Mathf.MoveTowards(bgmAudio.volume, bgmVolumeNormal, fadeSpeed * Time.deltaTime);
+        }
     }
 
     IEnumerator WindEffectLoop()
@@ -63,11 +92,25 @@ public class WindManager : MonoBehaviour
         leafParticles.Play();
 
         ball.ApplyWind(currentWindDirection, currentWindStrength);
+
+        // Wind active now
+        isWindActive = true;
+
+        // Play wind sound if not playing
+        if (windAudio != null && !windAudio.isPlaying)
+            windAudio.Play();
     }
 
     void StopWind()
     {
         leafParticles.Stop();
         ball.ApplyWind(Vector2.zero, 0);
+
+        // Wind no longer active
+        isWindActive = false;
+
+        // Stop wind sound if playing
+        if (windAudio != null && windAudio.isPlaying)
+            windAudio.Stop();
     }
 }
