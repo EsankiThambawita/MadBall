@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_unity_widget/flutter_unity_widget.dart';
+
 
 class GrassInfoPage extends StatefulWidget {
   const GrassInfoPage({super.key});
@@ -13,6 +15,7 @@ class _GrassInfoPage extends State<GrassInfoPage> {
   bool isEasyCompleted = false;
   bool isMediumCompleted = false;
   String message = "";
+  UnityWidgetController? _unityWidgetController;
 
   String getFaceImage() {
     if (_difficulty < 50) {
@@ -63,6 +66,19 @@ class _GrassInfoPage extends State<GrassInfoPage> {
     }
   }
 
+  void onUnityCreated(UnityWidgetController controller) {
+    _unityWidgetController = controller;
+  }
+
+  void loadGrasslandScene() {
+    _unityWidgetController?.postMessage(
+        'GameManager', // GameObject name in Unity
+        'LoadScene', // Method name in Unity
+        'Grassland_1P' // Scene name to load
+        );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,7 +118,8 @@ class _GrassInfoPage extends State<GrassInfoPage> {
                       icon: const Icon(Icons.cancel, color: Colors.black),
                       onPressed: () {
                         // Handle cancel action here
-                        Navigator.pop(context); // This will pop the current page
+                        Navigator.pop(
+                            context); // This will pop the current page
                       },
                     ),
                   ],
@@ -125,7 +142,8 @@ class _GrassInfoPage extends State<GrassInfoPage> {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: const Color.fromARGB(255, 255, 255, 255)),
+                      border: Border.all(
+                          color: const Color.fromARGB(255, 255, 255, 255)),
                     ),
                     child: Text(
                       message,
@@ -248,13 +266,25 @@ class _GrassInfoPage extends State<GrassInfoPage> {
                             setState(() {
                               message = "Complete Easy to proceed to Medium";
                             });
+                            return;
                           } else {
                             setState(() {
                               isMediumCompleted = true;
                             });
                           }
                         }
-                        // Start the game with selected difficulty
+
+                        // 🎮 Load Unity scene
+                        loadGrasslandScene();
+
+                        // Navigate to Unity view (optional, if in a separate page)
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                UnityGameScreen(onUnityCreated: onUnityCreated),
+                          ),
+                        );
                       },
                       child: const Text(
                         "PLAY",
@@ -274,6 +304,19 @@ class _GrassInfoPage extends State<GrassInfoPage> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class UnityGameScreen extends StatelessWidget {
+  final Function(UnityWidgetController) onUnityCreated;
+
+  const UnityGameScreen({super.key, required this.onUnityCreated});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: UnityWidget(onUnityCreated: onUnityCreated),
     );
   }
 }

@@ -4,7 +4,6 @@ import 'mapselection_camp.dart';
 import 'mapselection_twoply.dart';
 import 'settings.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensures that the Flutter bindings are initialized before running the app
   await Firebase.initializeApp(); // Initializes Firebase
