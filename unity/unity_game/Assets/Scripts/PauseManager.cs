@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 public class PauseManager : MonoBehaviour
 {
     public GameObject pauseMenuUI;  // Assign the PauseMenu panel here
+    [SerializeField] private AudioSource audioSource; // Assign an AudioSource component in inspector
+    [SerializeField] private AudioClip pauseSound;    // Assign the pause menu pop sound here
 
     private bool isPaused = false;
 
@@ -11,6 +13,11 @@ public class PauseManager : MonoBehaviour
     {
         isPaused = !isPaused;
         pauseMenuUI.SetActive(isPaused);
+
+        if (isPaused && audioSource != null && pauseSound != null)
+        {
+            audioSource.PlayOneShot(pauseSound);
+        }
 
         Time.timeScale = isPaused ? 0f : 1f;
     }
@@ -30,7 +37,6 @@ public class PauseManager : MonoBehaviour
 
     public void QuitGame()
     {
-        // On mobile, this might not quit but you can implement main menu
         Debug.Log("Quit clicked");
         Application.Quit();
     }
