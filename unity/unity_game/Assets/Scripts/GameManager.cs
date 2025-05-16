@@ -1,9 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-public class UnityGameManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    public static UnityGameManager Instance;
+    public static GameManager Instance;
 
     [Header("HUD Score Texts")]
     public Text playerScoreText;
@@ -49,5 +50,10 @@ public class UnityGameManager : MonoBehaviour
 
             Time.timeScale = 0f;
         }
+    }
+
+    public void LoadScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
     }
 }

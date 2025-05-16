@@ -123,12 +123,12 @@ public class BallMovement : MonoBehaviour
         if (collision.CompareTag("AIGoal"))
         {
             ResetBall();
-            UnityGameManager.Instance.IncreaseAIScore();
+            GameManager.Instance.IncreaseAIScore();
         }
         else if (collision.CompareTag("PlayerGoal"))
         {
             ResetBall();
-            UnityGameManager.Instance.IncreasePlayerScore();
+            GameManager.Instance.IncreasePlayerScore();
         }
 
     }
