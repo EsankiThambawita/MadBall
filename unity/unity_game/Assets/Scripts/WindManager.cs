@@ -3,113 +3,101 @@ using UnityEngine;
 
 public class WindManager : MonoBehaviour
 {
-    public ParticleSystem leafParticles; // Assign the LeafParticles in Inspector
-    public BallMovement ball; // Reference to BallMovement script
+    public ParticleSystem leafParticles;
+    public BallMovement ball;
 
     public AudioSource windAudio;
     public AudioSource bgmAudio;
 
-    [SerializeField] private float minWindInterval = 3f;
-    [SerializeField] private float maxWindInterval = 8f;
-    [SerializeField] private float minWindDuration = 5f;
-    [SerializeField] private float maxWindDuration = 7f;
+    [SerializeField] private float bgmVolumeNormal = 0.4f;
+    [SerializeField] private float bgmVolumeDucked = 0.01f;
+    [SerializeField] private float fadeSpeed = 1f;
 
-    [SerializeField] private float startMinStrength = 1.5f;
-    [SerializeField] private float startMaxStrength = 5f;
-    [SerializeField] private float strengthIncreaseRate = 0.25f;
-    [SerializeField] private float maxCapStrength = 10f;
-
-    [SerializeField] private float bgmVolumeNormal = 0.4f;    // Normal BG music volume
-    [SerializeField] private float bgmVolumeDucked = 0.01f;    // Lowered volume during wind
-    [SerializeField] private float fadeSpeed = 0.8f;          // How fast volume fades in/out
     private bool isWindActive = false;
+    private bool isGameOver = false;
 
-    private Vector2 currentWindDirection;
-    private float currentWindStrength;
-    private float currentMinStrength;
-    private float currentMaxStrength;
-
-    void Start()
+    private void Start()
     {
-        leafParticles.Stop();
-        currentMinStrength = startMinStrength;
-        currentMaxStrength = startMaxStrength;
-
-        // Set initial BGM volume
         if (bgmAudio != null)
             bgmAudio.volume = bgmVolumeNormal;
+        leafParticles.Stop();
 
         StartCoroutine(WindEffectLoop());
     }
 
-    void Update()
+    private void Update()
     {
-        if (bgmAudio == null)
+        if (bgmAudio == null || isGameOver)
             return;
 
-        if (isWindActive)
-        {
-            // Fade bgm volume down smoothly
-            bgmAudio.volume = Mathf.MoveTowards(bgmAudio.volume, bgmVolumeDucked, fadeSpeed * Time.deltaTime);
-        }
-        else
-        {
-            // Fade bgm volume back up smoothly
-            bgmAudio.volume = Mathf.MoveTowards(bgmAudio.volume, bgmVolumeNormal, fadeSpeed * Time.deltaTime);
-        }
+        float targetVol = isWindActive ? bgmVolumeDucked : bgmVolumeNormal;
+        bgmAudio.volume = Mathf.MoveTowards(bgmAudio.volume, targetVol, fadeSpeed * Time.deltaTime);
     }
 
-    IEnumerator WindEffectLoop()
+    private IEnumerator WindEffectLoop()
     {
-        while (true)
+        while (!isGameOver)
         {
-            float windInterval = Random.Range(minWindInterval, maxWindInterval);
-            yield return new WaitForSeconds(windInterval);
+            yield return new WaitForSeconds(Random.Range(4f, 8f));
 
-            GenerateWind();
+            isWindActive = true;
 
-            float windDuration = Random.Range(minWindDuration, maxWindDuration);
-            yield return new WaitForSeconds(windDuration);
+            Vector2 windDirection = new Vector2(Random.Range(-1f, 1f), 0f).normalized;
+            float windStrength = Random.Range(1f, 2f);
+            ball.ApplyWind(windDirection, windStrength);
+
+            if (leafParticles != null)
+                leafParticles.Play();
+
+            if (windAudio != null)
+                windAudio.Play();
+
+            yield return new WaitForSeconds(Random.Range(3f, 5f));
 
             StopWind();
-
-            // Gradually increase wind strength after each cycle
-            currentMinStrength = Mathf.Min(currentMinStrength + strengthIncreaseRate, maxCapStrength);
-            currentMaxStrength = Mathf.Min(currentMaxStrength + strengthIncreaseRate, maxCapStrength);
         }
     }
 
-    void GenerateWind()
-    {
-        currentWindStrength = Random.Range(currentMinStrength, currentMaxStrength);
-
-        float angle = Random.Range(0f, 360f);
-        currentWindDirection = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)).normalized;
-
-        var main = leafParticles.main;
-        main.startSpeed = currentWindStrength * 2f;
-        leafParticles.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
-        leafParticles.Play();
-
-        ball.ApplyWind(currentWindDirection, currentWindStrength);
-
-        // Wind active now
-        isWindActive = true;
-
-        // Play wind sound if not playing
-        if (windAudio != null && !windAudio.isPlaying)
-            windAudio.Play();
-    }
-
-    void StopWind()
+    public void StopWind()
     {
         leafParticles.Stop();
         ball.ApplyWind(Vector2.zero, 0);
-
-        // Wind no longer active
         isWindActive = false;
 
-        // Stop wind sound if playing
+        if (windAudio != null && windAudio.isPlaying)
+            windAudio.Stop();
+    }
+
+    public IEnumerator FadeOutBgmAndWind(float duration, float bgmTargetVolume)
+    {
+        isGameOver = true;
+        StopWind();
+
+        float startBgmVol = bgmAudio != null ? bgmAudio.volume : 0f;
+        float startWindVol = windAudio != null ? windAudio.volume : 0f;
+
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+
+            if (bgmAudio != null)
+                bgmAudio.volume = Mathf.Lerp(startBgmVol, bgmTargetVolume, t);
+
+            if (windAudio != null)
+            {
+                windAudio.volume = Mathf.Lerp(startWindVol, 0f, t);
+                if (t >= 1f)
+                    windAudio.Stop();
+            }
+
+            yield return null;
+        }
+
+        if (bgmAudio != null)
+            bgmAudio.volume = bgmTargetVolume;
+
         if (windAudio != null && windAudio.isPlaying)
             windAudio.Stop();
     }
