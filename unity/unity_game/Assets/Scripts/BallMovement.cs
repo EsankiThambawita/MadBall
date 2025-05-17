@@ -56,6 +56,8 @@ public class BallMovement : MonoBehaviour
         float randomY = Random.Range(0, 2) == 0 ? -1 : 1;
 
         rb.linearVelocity = new Vector2(randomX, randomY).normalized * initialSpeed;
+
+        GameManager.Instance.StartGame(); // ✅ Inform GameManager that the game has started
     }
 
     private void ResetBall()
