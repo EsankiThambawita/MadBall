@@ -140,7 +140,9 @@ class MapSelectionTwoPly extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 90, left: 16, right: 16),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const SizedBox(height: 20),  // <-- added spacing here
                 buildMapCard(
                   context: context,
                   title: "Grass Plains",

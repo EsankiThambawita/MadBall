@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "462360213931-q6po24t1g7jijuq22761udtgukm2vd7v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.madball",
+            "certificate_hash": "d354cf5bb1df215d76e691a9499c53d93b70b830"
+          }
+        },
+        {
           "client_id": "462360213931-j9flabulpa09876ob044f5j9ji9t99q4.apps.googleusercontent.com",
           "client_type": 3
         }
