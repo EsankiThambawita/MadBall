@@ -1,11 +1,11 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 
 class GrassInfoPage extends StatefulWidget {
-  const GrassInfoPage({Key? key}) : super(key: key);
+  const GrassInfoPage({super.key});
 
   @override
   State<GrassInfoPage> createState() => _GrassInfoPageState();
@@ -28,25 +28,22 @@ class _GrassInfoPageState extends State<GrassInfoPage> {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       final email = user.email;
-      final doc = await FirebaseFirestore.instance.collection('users').doc(email).get();
-
+      final doc =
+          await FirebaseFirestore.instance.collection('users').doc(email).get();
       if (doc.exists && doc.data() != null) {
         final progress = doc.data()!['grassland'] ?? '';
-
         double allowed = 0;
         if (progress == "easy") {
           allowed = 50;
         } else if (progress == "medium" || progress == "hard") {
           allowed = 100;
         }
-
         setState(() {
           _maxDifficultyAllowed = allowed;
-          _difficulty = allowed; // pre-fill slider to highest unlocked
+          _difficulty = allowed;
           _isLoading = false;
         });
       } else {
-        // No progress found
         setState(() {
           _maxDifficultyAllowed = 0;
           _difficulty = 0;
@@ -54,7 +51,6 @@ class _GrassInfoPageState extends State<GrassInfoPage> {
         });
       }
     } else {
-      // No user logged in
       setState(() {
         _maxDifficultyAllowed = 0;
         _difficulty = 0;
@@ -95,7 +91,6 @@ class _GrassInfoPageState extends State<GrassInfoPage> {
       });
       return;
     }
-
     setState(() {
       _difficulty = value;
       message = "";
@@ -108,32 +103,24 @@ class _GrassInfoPageState extends State<GrassInfoPage> {
 
   void loadGrasslandScene() {
     _unityWidgetController?.postMessage(
-        'GameManager', // GameObject name in Unity
-        'LoadScene', // Method name in Unity
-        'Grassland_1P' // Scene name to load
-        );
+        'GameManager', 'LoadScene', 'Grassland_1P');
   }
-
 
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     return Scaffold(
       body: Stack(
         children: [
-          // Background image with blur
           Positioned.fill(
-            child: Image.asset("assets/images/grass.png", fit: BoxFit.cover),
-          ),
+              child: Image.asset("assets/images/grass.png", fit: BoxFit.cover)),
           Positioned.fill(
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-              child: Container(color: Colors.black.withOpacity(0)),
+              child: Container(color: Colors.black.withOpacity(0.2)),
             ),
           ),
           SafeArea(
@@ -142,7 +129,6 @@ class _GrassInfoPageState extends State<GrassInfoPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Top bar
                   Row(
                     children: [
                       IconButton(
@@ -166,22 +152,19 @@ class _GrassInfoPageState extends State<GrassInfoPage> {
                         onTap: () => Navigator.pop(context),
                         child: Container(
                           decoration: const BoxDecoration(
-                            color: Colors.black,
-                            shape: BoxShape.circle,
-                          ),
+                              color: Colors.black, shape: BoxShape.circle),
                           padding: const EdgeInsets.all(8),
-                          child: const Icon(Icons.close, color: Colors.white, size: 12),
+                          child: const Icon(Icons.close,
+                              color: Colors.white, size: 12),
                         ),
                       ),
                     ],
                   ),
-
                   const SizedBox(height: 20),
-
-                  // Description
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
                       image: const DecorationImage(
@@ -193,124 +176,85 @@ class _GrassInfoPageState extends State<GrassInfoPage> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: const [
-                        Text(
-                          "Grass",
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontFamily: 'Jaini',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
+                        Text("Grass",
+                            style: TextStyle(
+                                fontSize: 22,
+                                fontFamily: 'Jaini',
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white)),
                         SizedBox(height: 10),
                         Text(
                           "A wide, open field where sudden winds randomly sweep across the map. Control your ball, outmaneuver your opponent, and use the shifting winds to your advantage!",
                           style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'Jaini',
-                            color: Colors.white,
-                          ),
+                              fontSize: 16,
+                              fontFamily: 'Jaini',
+                              color: Colors.white),
                           textAlign: TextAlign.center,
                         ),
                       ],
                     ),
                   ),
-
                   const SizedBox(height: 30),
                   Image.asset(getFaceImage(), height: 80),
                   const SizedBox(height: 10),
-                  Text(
-                    getDifficultyLabel(),
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontFamily: 'Jaini',
-                      color: Colors.white,
-                    ),
-                  ),
+                  Text(getDifficultyLabel(),
+                      style: const TextStyle(
+                          fontSize: 20,
+                          fontFamily: 'Jaini',
+                          color: Colors.white)),
                   Slider(
                     value: _difficulty,
                     onChanged: handleSliderChange,
                     min: 0,
                     max: 100,
                     divisions: 2,
-                    activeColor: Colors.white,
+                    activeColor: getButtonColor(),
                     inactiveColor: Colors.white.withOpacity(0.5),
                   ),
-                  const Text(
-                    "Drag to adjust difficulty",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontFamily: 'Jaini',
-                      color: Colors.white,
-                    ),
-                  ),
-
+                  const Text("Drag to adjust difficulty",
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: 'Jaini',
+                          color: Colors.white)),
                   if (message.isNotEmpty)
                     Container(
                       margin: const EdgeInsets.only(top: 10),
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 8),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.9),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        message,
-                        style: const TextStyle(
-                          color: Colors.black87,
-                          fontSize: 14,
-                          fontFamily: 'Jaini',
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
+                          color: Colors.white.withOpacity(0.9),
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Text(message,
+                          style: const TextStyle(
+                              color: Colors.black87,
+                              fontSize: 14,
+                              fontFamily: 'Jaini'),
+                          textAlign: TextAlign.center),
                     ),
-
                   const Spacer(),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: getButtonColor(),
                       minimumSize: const Size(double.infinity, 50),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      onPressed: () {
-                        if (_difficulty < 50) {
-                          setState(() {
-                            isEasyCompleted = true;
-                          });
-                        } else if (_difficulty >= 50) {
-                          if (!isEasyCompleted) {
-                            setState(() {
-                              message = "Complete Easy to proceed to Medium";
-                            });
-                            return;
-                          } else {
-                            setState(() {
-                              isMediumCompleted = true;
-                            });
-                          }
-                        }
-
-                        // 🎮 Load Unity scene
-                        loadGrasslandScene();
-
-                        // Navigate to Unity view (optional, if in a separate page)
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                UnityGameScreen(onUnityCreated: onUnityCreated),
-                          ),
-                        );
-                      },
-                      child: const Text(
-                        "PLAY",
-                        style: TextStyle(
-                          fontFamily: 'Jaini',
-                          fontSize: 24,
-                          color: Colors.white,
-                        ),
-                      ),
+                          borderRadius: BorderRadius.circular(12)),
                     ),
+                    onPressed: () {
+                      loadGrasslandScene();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              UnityGameScreen(onUnityCreated: onUnityCreated),
+                        ),
+                      );
+                    },
+                    child: const Text("PLAY",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Jaini',
+                            color: Colors.white)),
                   ),
                 ],
               ),
@@ -324,7 +268,6 @@ class _GrassInfoPageState extends State<GrassInfoPage> {
 
 class UnityGameScreen extends StatefulWidget {
   final Function(UnityWidgetController) onUnityCreated;
-
   const UnityGameScreen({super.key, required this.onUnityCreated});
 
   @override
@@ -337,12 +280,8 @@ class _UnityGameScreenState extends State<UnityGameScreen> {
   @override
   void initState() {
     super.initState();
-
-    // Delay to allow Unity engine to fully initialize
     Future.delayed(const Duration(seconds: 2), () {
-      if (_controller != null) {
-        _controller!.postMessage('GameManager', 'LoadScene', 'Grassland_1P');
-      }
+      _controller?.postMessage('GameManager', 'LoadScene', 'Grassland_1P');
     });
   }
 
