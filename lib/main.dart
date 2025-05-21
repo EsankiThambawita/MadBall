@@ -5,8 +5,8 @@ import 'mapselection_twoply.dart';
 import 'settings.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Ensures that the Flutter bindings are initialized before running the app
-  await Firebase.initializeApp(); // Initializes Firebase
+  WidgetsFlutterBinding.ensureInitialized(); // Ensures Flutter bindings before Firebase init
+  await Firebase.initializeApp(); // Init Firebase
   runApp(const MadBallApp());
 }
 
@@ -58,11 +58,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     ));
 
     _bgController = AnimationController(
+      duration: const Duration(seconds: 5),
       vsync: this,
-      duration: const Duration(seconds: 20),
     )..repeat(reverse: true);
 
-    // Increased range for visible movement
     _bgAnimation = Tween<Offset>(
       begin: const Offset(-0.05, 0),
       end: const Offset(0.05, 0),
@@ -92,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         },
       );
     } else if (page == "achi") {
-      
+      // Add your achievement page logic here if needed
     }
   }
 
@@ -124,25 +123,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return Scaffold(
       body: Stack(
         children: [
-         AnimatedBuilder(
-          animation: _bgAnimation,
-          builder: (context, child) {
-            final dx = _bgAnimation.value.dx * MediaQuery.of(context).size.width;
-            return Transform.translate(
-              offset: Offset(dx, 0),
-              child: Transform.scale(
-                scale: 1.15,
-                child: child,
-              ),
-            );
-          },
-          child: Image.asset(
-            "assets/images/background.png",
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
+          AnimatedBuilder(
+            animation: _bgAnimation,
+            builder: (context, child) {
+              final dx = _bgAnimation.value.dx * MediaQuery.of(context).size.width;
+              return Transform.translate(
+                offset: Offset(dx, 0),
+                child: Transform.scale(
+                  scale: 1.15,
+                  child: child,
+                ),
+              );
+            },
+            child: Image.asset(
+              "assets/images/background.png",
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+            ),
           ),
-        ),
 
           // Cloud Slide
           SlideTransition(

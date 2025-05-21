@@ -1,0 +1,2 @@
+D:/3 year 1 sem/MAD/MadBall/android/app/.cxx/Debug/2j255q6v/x86/CMakeFiles/edit_cache.dir
+D:/3 year 1 sem/MAD/MadBall/android/app/.cxx/Debug/2j255q6v/x86/CMakeFiles/rebuild_cache.dir

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+// Info page imports
 import 'desert_info.dart' as desert;
 import 'grass_info.dart' as grass;
-import 'space_info.dart';
-//import 'guidelines.dart'; // ✅ Add this line
+import 'space_info.dart' as space;
 
 class MapSelectionCamp extends StatelessWidget {
   final String gameMode;
@@ -19,7 +22,7 @@ class MapSelectionCamp extends StatelessWidget {
         page = const desert.DesertInfoPage();
         break;
       case 'Space':
-        page = const SpaceInfoPage();
+        page = const space.SpaceInfoPage();
         break;
       default:
         page = Scaffold(
@@ -36,24 +39,53 @@ class MapSelectionCamp extends StatelessWidget {
           const begin = Offset(0.0, 1.0);
           const end = Offset.zero;
           const curve = Curves.easeInOut;
-
           var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
           var offsetAnimation = animation.drive(tween);
-
           return SlideTransition(position: offsetAnimation, child: child);
         },
       ),
     );
   }
 
+  int _getStarCount(String difficulty) {
+    switch (difficulty.trim().toLowerCase()) {
+      case 'easy':
+        return 1;
+      case 'medium':
+        return 2;
+      case 'hard':
+        return 3;
+      default:
+        debugPrint('Unknown difficulty level: $difficulty');
+        return 0;
+    }
+  }
+
+  String _getMapKey(String title) {
+    switch (title.toLowerCase()) {
+      case 'grass plains':
+        return 'grassland';
+      case 'desert':
+        return 'desert';
+      case 'space':
+        return 'space';
+      default:
+        return '';
+    }
+  }
+
   Widget buildMapCard({
     required BuildContext context,
     required String title,
-    required String stars,
     required String imagePath,
     required Color bgColor,
     required bool isLocked,
   }) {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    final userEmail = currentUser?.email ?? '';
+    final userDocId = userEmail.toLowerCase(); // Assuming doc ID is email
+    final mapKey = _getMapKey(title);
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -84,15 +116,40 @@ class MapSelectionCamp extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Text(
-                      stars,
-                      style: const TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                    const SizedBox(width: 10),
-                    
-                  ],
+                FutureBuilder<DocumentSnapshot>(
+                  future: FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(userDocId)
+                      .get(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator(color: Colors.white);
+                    }
+
+                    if (snapshot.hasError) {
+                      debugPrint('Error loading difficulty: ${snapshot.error}');
+                      return _buildStaticStars(0);
+                    }
+
+                    if (!snapshot.hasData || !snapshot.data!.exists) {
+                      debugPrint('User document not found: $userDocId');
+                      return _buildStaticStars(0);
+                    }
+
+                    final data = snapshot.data!.data() as Map<String, dynamic>? ?? {};
+                    final difficulty = data[mapKey]?.toString() ?? '';
+                    final starCount = _getStarCount(difficulty);
+
+                    return Row(
+                      children: List.generate(
+                        3,
+                        (index) => Icon(
+                          Icons.star,
+                          color: index < starCount ? Colors.amber : Colors.white,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -106,6 +163,18 @@ class MapSelectionCamp extends StatelessWidget {
     );
   }
 
+  Widget _buildStaticStars(int starCount) {
+    return Row(
+      children: List.generate(
+        3,
+        (index) => Icon(
+          Icons.star,
+          color: index < starCount ? Colors.amber : Colors.white,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,9 +184,7 @@ class MapSelectionCamp extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           "Map Selection: ${gameMode[0].toUpperCase()}${gameMode.substring(1)}",
@@ -133,10 +200,7 @@ class MapSelectionCamp extends StatelessWidget {
             padding: const EdgeInsets.only(right: 12),
             child: GestureDetector(
               onTap: () {
-                /*Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const GuidelinesPopup()),
-                );*/
+                // TODO: Show game guidelines
               },
               child: Image.asset(
                 'assets/images/guidelines_icon.png',
@@ -167,7 +231,6 @@ class MapSelectionCamp extends StatelessWidget {
                   buildMapCard(
                     context: context,
                     title: "Grass Plains",
-                    stars: "★★★",
                     imagePath: "assets/images/grass.png",
                     bgColor: const Color(0xFF68B729),
                     isLocked: false,
@@ -175,7 +238,6 @@ class MapSelectionCamp extends StatelessWidget {
                   buildMapCard(
                     context: context,
                     title: "Desert",
-                    stars: "★☆☆",
                     imagePath: "assets/images/dessert.png",
                     bgColor: const Color(0xFFEED9B6),
                     isLocked: false,
@@ -183,7 +245,6 @@ class MapSelectionCamp extends StatelessWidget {
                   buildMapCard(
                     context: context,
                     title: "Space",
-                    stars: "★★☆",
                     imagePath: "assets/images/space.jpg",
                     bgColor: const Color(0xFF1E1E2F),
                     isLocked: false,
@@ -227,9 +288,7 @@ class MapSelectionCamp extends StatelessWidget {
                 ),
                 child: IconButton(
                   icon: const Icon(Icons.close, color: Colors.black, size: 30),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+                  onPressed: () => Navigator.pop(context),
                 ),
               ),
             ),
