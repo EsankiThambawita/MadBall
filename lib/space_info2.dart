@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'unity_game_screen.dart';
 
 class SpaceInfoPage2 extends StatefulWidget {
   const SpaceInfoPage2({super.key});
@@ -129,7 +130,13 @@ class _SpaceInfoPage2 extends State<SpaceInfoPage2> {
                         elevation: 6,
                       ),
                       onPressed: () {
-                        // Trigger gameplay
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                UnityGameScreen(sceneName: 'Space_2P'),
+                          ),
+                        );
                       },
                       child: const Text(
                         "PLAY",

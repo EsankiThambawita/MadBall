@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'unity_game_screen.dart';
 
 class SpaceInfoPage extends StatefulWidget {
   const SpaceInfoPage({Key? key}) : super(key: key);
@@ -25,7 +26,8 @@ class _SpaceInfoPageState extends State<SpaceInfoPage> {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       final email = user.email;
-      final doc = await FirebaseFirestore.instance.collection('users').doc(email).get();
+      final doc =
+          await FirebaseFirestore.instance.collection('users').doc(email).get();
 
       if (doc.exists && doc.data() != null) {
         final progress = doc.data()!['space'] ?? '';
@@ -88,12 +90,14 @@ class _SpaceInfoPageState extends State<SpaceInfoPage> {
       body: Stack(
         children: [
           Positioned.fill(
-            child: Image.asset("assets/images/space.jpg", fit: BoxFit.cover), // new background
+            child: Image.asset("assets/images/space.jpg", fit: BoxFit.cover),
           ),
           Positioned.fill(
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 70, sigmaY: 80),
-              child: Container(color: const Color.fromARGB(255, 249, 249, 249).withOpacity(0)),
+              child: Container(
+                  color:
+                      const Color.fromARGB(255, 249, 249, 249).withOpacity(0)),
             ),
           ),
           SafeArea(
@@ -105,7 +109,8 @@ class _SpaceInfoPageState extends State<SpaceInfoPage> {
                   Row(
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.arrow_back, color: Color.fromARGB(255, 246, 245, 245)),
+                        icon: const Icon(Icons.arrow_back,
+                            color: Color.fromARGB(255, 246, 245, 245)),
                         onPressed: () => Navigator.pop(context),
                       ),
                       const Expanded(
@@ -129,17 +134,17 @@ class _SpaceInfoPageState extends State<SpaceInfoPage> {
                             shape: BoxShape.circle,
                           ),
                           padding: const EdgeInsets.all(8),
-                          child: const Icon(Icons.close, color: Color.fromARGB(255, 11, 11, 11), size: 12),
+                          child: const Icon(Icons.close,
+                              color: Color.fromARGB(255, 11, 11, 11), size: 12),
                         ),
                       ),
                     ],
                   ),
-
                   const SizedBox(height: 20),
-
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
                       image: const DecorationImage(
@@ -148,9 +153,9 @@ class _SpaceInfoPageState extends State<SpaceInfoPage> {
                       ),
                       color: Colors.white.withOpacity(0.15),
                     ),
-                    child: Column(
+                    child: const Column(
                       mainAxisSize: MainAxisSize.min,
-                      children: const [
+                      children: [
                         Text(
                           "Space",
                           style: TextStyle(
@@ -173,7 +178,6 @@ class _SpaceInfoPageState extends State<SpaceInfoPage> {
                       ],
                     ),
                   ),
-
                   const SizedBox(height: 30),
                   Image.asset(getFaceImage(), height: 80),
                   const SizedBox(height: 10),
@@ -202,11 +206,11 @@ class _SpaceInfoPageState extends State<SpaceInfoPage> {
                       color: Colors.white,
                     ),
                   ),
-
                   if (message.isNotEmpty)
                     Container(
                       margin: const EdgeInsets.only(top: 10),
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 8),
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.9),
                         borderRadius: BorderRadius.circular(8),
@@ -221,7 +225,6 @@ class _SpaceInfoPageState extends State<SpaceInfoPage> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-
                   const Spacer(),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -240,8 +243,13 @@ class _SpaceInfoPageState extends State<SpaceInfoPage> {
                       } else {
                         selectedDifficulty = "hard";
                       }
-
-                      Navigator.pushNamed(context, '/space/$selectedDifficulty');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              UnityGameScreen(sceneName: 'Space_1P'),
+                        ),
+                      );
                     },
                     child: const Text(
                       "PLAY",

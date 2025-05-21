@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'unity_game_screen.dart';
 
 class DesertInfoPage2 extends StatefulWidget {
   const DesertInfoPage2({super.key});
@@ -139,7 +140,13 @@ class _DesertInfoPage2 extends State<DesertInfoPage2> {
                         elevation: 6,
                       ),
                       onPressed: () {
-                        // Start the game logic goes here
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                UnityGameScreen(sceneName: 'Desert_2P'),
+                          ),
+                        );
                       },
                       child: const Text(
                         "PLAY",
