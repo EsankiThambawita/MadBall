@@ -75,3 +75,5 @@ Build/
 Builds/
 MemoryCaptures/
 
+# Native C++ build artifacts (e.g., from Android Studio)
+.cxx/
