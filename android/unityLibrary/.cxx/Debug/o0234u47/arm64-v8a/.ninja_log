@@ -1,0 +1,6 @@
+# ninja log v5
+1	1338	7690465747319196	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	d5832815ac947f5b
+1342	1658	7690465750646281	C:/Users/robin/projects/MadBall/build/unityLibrary/intermediates/cxx/Debug/o0234u47/obj/arm64-v8a/libswappywrapper.so	6816a88f8540a1fd
+7	508	7690477144207419	C:/Users/robin/projects/MadBall/build/unityLibrary/intermediates/cxx/Debug/o0234u47/obj/arm64-v8a/libswappywrapper.so	6816a88f8540a1fd
+109	3204	7690989797349418	C:/Users/robin/projects/MadBall/build/unityLibrary/intermediates/cxx/Debug/o0234u47/obj/arm64-v8a/libswappywrapper.so	6816a88f8540a1fd
+19	603	7691049521622833	C:/Users/robin/projects/MadBall/build/unityLibrary/intermediates/cxx/Debug/o0234u47/obj/arm64-v8a/libswappywrapper.so	6816a88f8540a1fd

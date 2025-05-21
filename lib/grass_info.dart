@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 
 class GrassInfoPage extends StatefulWidget {
   const GrassInfoPage({Key? key}) : super(key: key);
@@ -15,6 +16,7 @@ class _GrassInfoPageState extends State<GrassInfoPage> {
   double _maxDifficultyAllowed = 0;
   String message = "";
   bool _isLoading = true;
+  UnityWidgetController? _unityWidgetController;
 
   @override
   void initState() {
@@ -99,6 +101,19 @@ class _GrassInfoPageState extends State<GrassInfoPage> {
       message = "";
     });
   }
+
+  void onUnityCreated(UnityWidgetController controller) {
+    _unityWidgetController = controller;
+  }
+
+  void loadGrasslandScene() {
+    _unityWidgetController?.postMessage(
+        'GameManager', // GameObject name in Unity
+        'LoadScene', // Method name in Unity
+        'Grassland_1P' // Scene name to load
+        );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -257,26 +272,43 @@ class _GrassInfoPageState extends State<GrassInfoPage> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                    ),
-                    onPressed: () {
-                      String selectedDifficulty;
-                      if (_difficulty < 50) {
-                        selectedDifficulty = "easy";
-                      } else if (_difficulty < 100) {
-                        selectedDifficulty = "medium";
-                      } else {
-                        selectedDifficulty = "hard";
-                      }
+                      onPressed: () {
+                        if (_difficulty < 50) {
+                          setState(() {
+                            isEasyCompleted = true;
+                          });
+                        } else if (_difficulty >= 50) {
+                          if (!isEasyCompleted) {
+                            setState(() {
+                              message = "Complete Easy to proceed to Medium";
+                            });
+                            return;
+                          } else {
+                            setState(() {
+                              isMediumCompleted = true;
+                            });
+                          }
+                        }
 
-                      Navigator.pushNamed(context, '/grassland/$selectedDifficulty');
-                    },
-                    child: const Text(
-                      "PLAY",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Jaini',
-                        color: Colors.white,
+                        // 🎮 Load Unity scene
+                        loadGrasslandScene();
+
+                        // Navigate to Unity view (optional, if in a separate page)
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                UnityGameScreen(onUnityCreated: onUnityCreated),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        "PLAY",
+                        style: TextStyle(
+                          fontFamily: 'Jaini',
+                          fontSize: 24,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
@@ -285,6 +317,46 @@ class _GrassInfoPageState extends State<GrassInfoPage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class UnityGameScreen extends StatefulWidget {
+  final Function(UnityWidgetController) onUnityCreated;
+
+  const UnityGameScreen({super.key, required this.onUnityCreated});
+
+  @override
+  State<UnityGameScreen> createState() => _UnityGameScreenState();
+}
+
+class _UnityGameScreenState extends State<UnityGameScreen> {
+  UnityWidgetController? _controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Delay to allow Unity engine to fully initialize
+    Future.delayed(const Duration(seconds: 2), () {
+      if (_controller != null) {
+        _controller!.postMessage('GameManager', 'LoadScene', 'Grassland_1P');
+      }
+    });
+  }
+
+  void onUnityCreated(UnityWidgetController controller) {
+    _controller = controller;
+    widget.onUnityCreated(controller);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: UnityWidget(
+        onUnityCreated: onUnityCreated,
+        useAndroidViewSurface: true,
       ),
     );
   }

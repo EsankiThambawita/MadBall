@@ -1,0 +1,1 @@
+C:\Users\robin\projects\MadBall\android\unityLibrary\src\main\cpp\FramePacing\UnitySwappyWrapper.h
