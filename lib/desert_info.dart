@@ -2,6 +2,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'unity_game_screen.dart';
+import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 
 class DesertInfoPage extends StatefulWidget {
   const DesertInfoPage({Key? key}) : super(key: key);
@@ -26,7 +28,10 @@ class _DesertInfoPageState extends State<DesertInfoPage> {
     if (user != null) {
       final email = user.email;
       if (email != null) {
-        final doc = await FirebaseFirestore.instance.collection('users').doc(email).get();
+        final doc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(email)
+            .get();
 
         if (doc.exists && doc.data() != null) {
           final progress = doc.data()!['desert'] ?? '';
@@ -40,7 +45,7 @@ class _DesertInfoPageState extends State<DesertInfoPage> {
 
           setState(() {
             _maxDifficultyAllowed = allowed;
-            _difficulty = allowed; // pre-fill slider to highest unlocked
+            _difficulty = allowed;
           });
         }
       }
@@ -69,11 +74,11 @@ class _DesertInfoPageState extends State<DesertInfoPage> {
 
   Color getButtonColor() {
     if (_difficulty < 50) {
-      return const Color(0xFF4BE843); // Green
+      return const Color(0xFF4BE843);
     } else if (_difficulty < 100) {
-      return const Color(0xFFFFE600); // Yellow
+      return const Color(0xFFFFE600);
     } else {
-      return const Color(0xFFE84141); // Red
+      return const Color(0xFFE84141);
     }
   }
 
@@ -104,27 +109,21 @@ class _DesertInfoPageState extends State<DesertInfoPage> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // Background Image
           Image.asset(
-            "assets/images/dessert.png", // Make sure this asset exists
+            "assets/images/dessert.png",
             fit: BoxFit.cover,
           ),
-
-          // Blur effect
           BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
             child: Container(
               color: Colors.black.withOpacity(0.2),
             ),
           ),
-
-          // Main content
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
               child: Column(
                 children: [
-                  // Top bar
                   Row(
                     children: [
                       IconButton(
@@ -151,12 +150,12 @@ class _DesertInfoPageState extends State<DesertInfoPage> {
                             shape: BoxShape.circle,
                           ),
                           padding: const EdgeInsets.all(8),
-                          child: const Icon(Icons.close, color: Colors.white, size: 12),
+                          child: const Icon(Icons.close,
+                              color: Colors.white, size: 12),
                         ),
                       ),
                     ],
                   ),
-
                   if (message.isNotEmpty)
                     Container(
                       padding: const EdgeInsets.all(12),
@@ -175,10 +174,9 @@ class _DesertInfoPageState extends State<DesertInfoPage> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-
-                  // Map description
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
                       image: const DecorationImage(
@@ -213,18 +211,12 @@ class _DesertInfoPageState extends State<DesertInfoPage> {
                       ],
                     ),
                   ),
-
                   const SizedBox(height: 30),
-
-                  // Face Image based on difficulty
                   Image.asset(
                     getFaceImage(),
                     height: 80,
                   ),
-
                   const SizedBox(height: 10),
-
-                  // Difficulty Label
                   Text(
                     getDifficultyLabel(),
                     style: const TextStyle(
@@ -233,8 +225,6 @@ class _DesertInfoPageState extends State<DesertInfoPage> {
                       color: Colors.white,
                     ),
                   ),
-
-                  // Slider
                   Slider(
                     value: _difficulty,
                     onChanged: handleSliderChange,
@@ -244,7 +234,6 @@ class _DesertInfoPageState extends State<DesertInfoPage> {
                     activeColor: Colors.white,
                     inactiveColor: Colors.white.withOpacity(0.5),
                   ),
-
                   const Text(
                     "Drag to adjust difficulty",
                     style: TextStyle(
@@ -253,9 +242,7 @@ class _DesertInfoPageState extends State<DesertInfoPage> {
                       color: Colors.white,
                     ),
                   ),
-
                   const Spacer(),
-
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: getButtonColor(),
@@ -273,7 +260,13 @@ class _DesertInfoPageState extends State<DesertInfoPage> {
                       } else {
                         selectedDifficulty = "hard";
                       }
-                      Navigator.pushNamed(context, '/desert/$selectedDifficulty');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              UnityGameScreen(sceneName: 'Desert_1P'),
+                        ),
+                      );
                     },
                     child: const Text(
                       "PLAY",

@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/MadSceneLoader.unity
+    guid: 06b1db2cb89cd6740bc63c055acef4df
+  - enabled: 1
     path: Assets/Scenes/Grassland/Grassland_1P.unity
     guid: 8f59bda6bc36c3f4598c5b7d9ed97e41
   - enabled: 1
