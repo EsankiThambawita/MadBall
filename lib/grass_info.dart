@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'unity_game_screen.dart';
 
 class GrassInfoPage extends StatefulWidget {
   const GrassInfoPage({super.key});
@@ -16,7 +17,6 @@ class _GrassInfoPageState extends State<GrassInfoPage> {
   double _maxDifficultyAllowed = 0;
   String message = "";
   bool _isLoading = true;
-  UnityWidgetController? _unityWidgetController;
 
   @override
   void initState() {
@@ -97,15 +97,6 @@ class _GrassInfoPageState extends State<GrassInfoPage> {
     });
   }
 
-  void onUnityCreated(UnityWidgetController controller) {
-    _unityWidgetController = controller;
-  }
-
-  void loadGrasslandScene() {
-    _unityWidgetController?.postMessage(
-        'GameManager', 'LoadScene', 'Grassland_1P');
-  }
-
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
@@ -116,7 +107,8 @@ class _GrassInfoPageState extends State<GrassInfoPage> {
       body: Stack(
         children: [
           Positioned.fill(
-              child: Image.asset("assets/images/grass.png", fit: BoxFit.cover)),
+            child: Image.asset("assets/images/grass.png", fit: BoxFit.cover),
+          ),
           Positioned.fill(
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
@@ -152,7 +144,9 @@ class _GrassInfoPageState extends State<GrassInfoPage> {
                         onTap: () => Navigator.pop(context),
                         child: Container(
                           decoration: const BoxDecoration(
-                              color: Colors.black, shape: BoxShape.circle),
+                            color: Colors.black,
+                            shape: BoxShape.circle,
+                          ),
                           padding: const EdgeInsets.all(8),
                           child: const Icon(Icons.close,
                               color: Colors.white, size: 12),
@@ -176,19 +170,23 @@ class _GrassInfoPageState extends State<GrassInfoPage> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: const [
-                        Text("Grass",
-                            style: TextStyle(
-                                fontSize: 22,
-                                fontFamily: 'Jaini',
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white)),
+                        Text(
+                          "Grass",
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontFamily: 'Jaini',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
                         SizedBox(height: 10),
                         Text(
                           "A wide, open field where sudden winds randomly sweep across the map. Control your ball, outmaneuver your opponent, and use the shifting winds to your advantage!",
                           style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'Jaini',
-                              color: Colors.white),
+                            fontSize: 16,
+                            fontFamily: 'Jaini',
+                            color: Colors.white,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -197,11 +195,14 @@ class _GrassInfoPageState extends State<GrassInfoPage> {
                   const SizedBox(height: 30),
                   Image.asset(getFaceImage(), height: 80),
                   const SizedBox(height: 10),
-                  Text(getDifficultyLabel(),
-                      style: const TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'Jaini',
-                          color: Colors.white)),
+                  Text(
+                    getDifficultyLabel(),
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'Jaini',
+                      color: Colors.white,
+                    ),
+                  ),
                   Slider(
                     value: _difficulty,
                     onChanged: handleSliderChange,
@@ -211,25 +212,32 @@ class _GrassInfoPageState extends State<GrassInfoPage> {
                     activeColor: getButtonColor(),
                     inactiveColor: Colors.white.withOpacity(0.5),
                   ),
-                  const Text("Drag to adjust difficulty",
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontFamily: 'Jaini',
-                          color: Colors.white)),
+                  const Text(
+                    "Drag to adjust difficulty",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontFamily: 'Jaini',
+                      color: Colors.white,
+                    ),
+                  ),
                   if (message.isNotEmpty)
                     Container(
                       margin: const EdgeInsets.only(top: 10),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 8),
                       decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.9),
-                          borderRadius: BorderRadius.circular(8)),
-                      child: Text(message,
-                          style: const TextStyle(
-                              color: Colors.black87,
-                              fontSize: 14,
-                              fontFamily: 'Jaini'),
-                          textAlign: TextAlign.center),
+                        color: Colors.white.withOpacity(0.9),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        message,
+                        style: const TextStyle(
+                          color: Colors.black87,
+                          fontSize: 14,
+                          fontFamily: 'Jaini',
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   const Spacer(),
                   ElevatedButton(
@@ -237,65 +245,33 @@ class _GrassInfoPageState extends State<GrassInfoPage> {
                       backgroundColor: getButtonColor(),
                       minimumSize: const Size(double.infinity, 50),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
                     onPressed: () {
-                      loadGrasslandScene();
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              UnityGameScreen(onUnityCreated: onUnityCreated),
+                              UnityGameScreen(sceneName: 'Grassland_1P'),
                         ),
                       );
                     },
-                    child: const Text("PLAY",
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Jaini',
-                            color: Colors.white)),
+                    child: const Text(
+                      "PLAY",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Jaini',
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class UnityGameScreen extends StatefulWidget {
-  final Function(UnityWidgetController) onUnityCreated;
-  const UnityGameScreen({super.key, required this.onUnityCreated});
-
-  @override
-  State<UnityGameScreen> createState() => _UnityGameScreenState();
-}
-
-class _UnityGameScreenState extends State<UnityGameScreen> {
-  UnityWidgetController? _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(const Duration(seconds: 2), () {
-      _controller?.postMessage('GameManager', 'LoadScene', 'Grassland_1P');
-    });
-  }
-
-  void onUnityCreated(UnityWidgetController controller) {
-    _controller = controller;
-    widget.onUnityCreated(controller);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: UnityWidget(
-        onUnityCreated: onUnityCreated,
-        useAndroidViewSurface: true,
       ),
     );
   }

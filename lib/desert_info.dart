@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'unity_game_screen.dart';
+import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 
 class DesertInfoPage extends StatefulWidget {
   const DesertInfoPage({Key? key}) : super(key: key);
@@ -27,7 +28,10 @@ class _DesertInfoPageState extends State<DesertInfoPage> {
     if (user != null) {
       final email = user.email;
       if (email != null) {
-        final doc = await FirebaseFirestore.instance.collection('users').doc(email).get();
+        final doc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(email)
+            .get();
 
         if (doc.exists && doc.data() != null) {
           final progress = doc.data()!['desert'] ?? '';
@@ -146,7 +150,8 @@ class _DesertInfoPageState extends State<DesertInfoPage> {
                             shape: BoxShape.circle,
                           ),
                           padding: const EdgeInsets.all(8),
-                          child: const Icon(Icons.close, color: Colors.white, size: 12),
+                          child: const Icon(Icons.close,
+                              color: Colors.white, size: 12),
                         ),
                       ),
                     ],
@@ -170,7 +175,8 @@ class _DesertInfoPageState extends State<DesertInfoPage> {
                       ),
                     ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
                       image: const DecorationImage(
@@ -257,7 +263,8 @@ class _DesertInfoPageState extends State<DesertInfoPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => UnityGameScreen(sceneName: 'Desert_1P'),
+                          builder: (context) =>
+                              UnityGameScreen(sceneName: 'Desert_1P'),
                         ),
                       );
                     },
