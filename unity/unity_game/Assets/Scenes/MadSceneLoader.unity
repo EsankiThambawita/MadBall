@@ -128,7 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 320295260}
-  - component: {fileID: 320295259}
+  - component: {fileID: 320295261}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -136,21 +136,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &320295259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 320295258}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b75b15e58422114eb0e6a7bb3757c95, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerScoreText: {fileID: 0}
-  aiScoreText: {fileID: 0}
-  gameOverUIController: {fileID: 0}
 --- !u!4 &320295260
 Transform:
   m_ObjectHideFlags: 0
@@ -166,6 +151,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &320295261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 320295258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e1e5d8e9dffdfd4997cb5eb8cdf6444, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneLoader: {fileID: 0}
 --- !u!1 &1935591489
 GameObject:
   m_ObjectHideFlags: 0
