@@ -22,7 +22,7 @@ android {
     defaultConfig {
         consumerProguardFiles "proguard-unity.txt"
         versionName "1.0.2"
-        minSdk 24
+        minSdkVersion 24
         targetSdk 35
         versionCode 1
 

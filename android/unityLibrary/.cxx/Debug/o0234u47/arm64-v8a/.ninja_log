@@ -1,8 +1,3 @@
 # ninja log v5
-1	2304	7696908778492537	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	d5832815ac947f5b
-2307	2499	7696908780699594	C:/Users/robin/projects/MadBall/build/unityLibrary/intermediates/cxx/Debug/o0234u47/obj/arm64-v8a/libswappywrapper.so	6816a88f8540a1fd
-27	506	7696936064233992	C:/Users/robin/projects/MadBall/build/unityLibrary/intermediates/cxx/Debug/o0234u47/obj/arm64-v8a/libswappywrapper.so	6816a88f8540a1fd
-13	391	7696943316120951	C:/Users/robin/projects/MadBall/build/unityLibrary/intermediates/cxx/Debug/o0234u47/obj/arm64-v8a/libswappywrapper.so	6816a88f8540a1fd
-59	681	7696950364793061	C:/Users/robin/projects/MadBall/build/unityLibrary/intermediates/cxx/Debug/o0234u47/obj/arm64-v8a/libswappywrapper.so	6816a88f8540a1fd
-22	466	7696955588608088	C:/Users/robin/projects/MadBall/build/unityLibrary/intermediates/cxx/Debug/o0234u47/obj/arm64-v8a/libswappywrapper.so	6816a88f8540a1fd
-15	601	7696977292004339	C:/Users/robin/projects/MadBall/build/unityLibrary/intermediates/cxx/Debug/o0234u47/obj/arm64-v8a/libswappywrapper.so	6816a88f8540a1fd
+1	1170	7699473442919630	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	d5832815ac947f5b
+1174	1354	7699473444705637	C:/Users/robin/projects/MadBall/build/unityLibrary/intermediates/cxx/Debug/o0234u47/obj/arm64-v8a/libswappywrapper.so	6816a88f8540a1fd

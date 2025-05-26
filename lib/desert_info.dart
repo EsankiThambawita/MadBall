@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'unity_game_screen.dart';
-import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 
 class DesertInfoPage extends StatefulWidget {
   const DesertInfoPage({Key? key}) : super(key: key);

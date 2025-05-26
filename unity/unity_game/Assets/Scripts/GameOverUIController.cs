@@ -1,6 +1,8 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using FlutterUnityIntegration;
+
 
 public class GameOverUIController : MonoBehaviour
 {
@@ -58,7 +60,10 @@ public class GameOverUIController : MonoBehaviour
 
     public void OnMapsButton()
     {
-        // Placeholder for Flutter
+        Debug.Log("Maps clicked");
+
+        // Send message to Flutter instead of quitting
+        UnityMessageManager.Instance.SendMessageToFlutter("maps");
     }
 
     public void OnNextButton()

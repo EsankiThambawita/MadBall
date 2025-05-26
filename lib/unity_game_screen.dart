@@ -28,6 +28,15 @@ class _UnityGameScreenState extends State<UnityGameScreen> {
     return Scaffold(
       body: UnityWidget(
         onUnityCreated: onUnityCreated,
+        onUnityMessage: (dynamic message) {
+          if (message == 'quit') {
+            Navigator.of(context).pop();
+          }
+          if (message == 'maps') {
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
+          }
+        },
         useAndroidViewSurface: true,
       ),
     );
