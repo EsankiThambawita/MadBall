@@ -29,7 +29,6 @@ extern void GameManager_StartGame_m2CAC97E2C33DD5FF5CF10FAF17313080A85464B7 (voi
 extern void GameManager_IncreasePlayerScore_m621EDE2DB9D9B882660F1CC60D83535045A2BD1E (void);
 extern void GameManager_IncreaseAIScore_m1B01506A5D477B5BEA83FC077B383F8C45C0B244 (void);
 extern void GameManager_CheckGameOver_m6A873C4CCFD6696F3418F15FDC82DE9150B6C5A6 (void);
-extern void GameManager_LoadScene_m5651D8688022846BC368B04AA953B245CFBA1F2A (void);
 extern void GameManager__ctor_mF453CED520617BFB65C52405A964E06CF17DB368 (void);
 extern void GameOverUIController_ShowWinPanel_mE75E3C54293D8933091B3A15C0B46B8407E833E3 (void);
 extern void GameOverUIController_ShowLosePanel_mD654433052748F775534E1938495DE5200A53568 (void);
@@ -52,6 +51,9 @@ extern void SandStormController_Update_m333C35498A2F02AAA3831B0C6F47A2D81A6586CB
 extern void SandStormController_StartSandstormWave_m3CBD5C43062580B15300F5422A8514770421E985 (void);
 extern void SandStormController_SpawnTumbleweed_mAE24A39892BB1BC2DEC801520ED766F1E1124589 (void);
 extern void SandStormController__ctor_m5FCD191FFDAE1C26D24D51449321CD52BC3E9F0D (void);
+extern void SceneLoader_Start_mB9AA9E8ADCE59F893E3EF8E891ED5E1F3AB80DA0 (void);
+extern void SceneLoader_LoadScene_mFE87E2AA20B80CBECD7C02C3A6EF68661736A3F1 (void);
+extern void SceneLoader__ctor_m2248766DF38AF07562AD31501C7275B8DF1B7D29 (void);
 extern void TouchArea_Start_m1F0B0A3B64974E540159A67104D3D0988FC658AD (void);
 extern void TouchArea_OnPointerDown_mB6D5A9F9DF3DCF61FF6AAE044AE8385E9318F709 (void);
 extern void TouchArea_OnDrag_mFED0704755DB37D19C950A6157B70F9FBE96E723 (void);
@@ -116,7 +118,7 @@ extern void PerlinNoiseMesh_Start_mA49970C3B376C85801262285F4897EA2B146FEAE (voi
 extern void PerlinNoiseMesh_Update_m10E8A6901D8C931F34B5E55941FAAD4BDBA51150 (void);
 extern void PerlinNoiseMesh_CreateHeightMesh_m5AB8BE7CF0E86A90BFFEDF198899D8DA991A2D30 (void);
 extern void PerlinNoiseMesh__ctor_m65E206E4D362B2C6B21A68E6CC4AACCAD4D2F8CC (void);
-static Il2CppMethodPointer s_methodPointers[122] = 
+static Il2CppMethodPointer s_methodPointers[124] = 
 {
 	NULL,
 	NULL,
@@ -148,7 +150,6 @@ static Il2CppMethodPointer s_methodPointers[122] =
 	GameManager_IncreasePlayerScore_m621EDE2DB9D9B882660F1CC60D83535045A2BD1E,
 	GameManager_IncreaseAIScore_m1B01506A5D477B5BEA83FC077B383F8C45C0B244,
 	GameManager_CheckGameOver_m6A873C4CCFD6696F3418F15FDC82DE9150B6C5A6,
-	GameManager_LoadScene_m5651D8688022846BC368B04AA953B245CFBA1F2A,
 	GameManager__ctor_mF453CED520617BFB65C52405A964E06CF17DB368,
 	GameOverUIController_ShowWinPanel_mE75E3C54293D8933091B3A15C0B46B8407E833E3,
 	GameOverUIController_ShowLosePanel_mD654433052748F775534E1938495DE5200A53568,
@@ -171,6 +172,9 @@ static Il2CppMethodPointer s_methodPointers[122] =
 	SandStormController_StartSandstormWave_m3CBD5C43062580B15300F5422A8514770421E985,
 	SandStormController_SpawnTumbleweed_mAE24A39892BB1BC2DEC801520ED766F1E1124589,
 	SandStormController__ctor_m5FCD191FFDAE1C26D24D51449321CD52BC3E9F0D,
+	SceneLoader_Start_mB9AA9E8ADCE59F893E3EF8E891ED5E1F3AB80DA0,
+	SceneLoader_LoadScene_mFE87E2AA20B80CBECD7C02C3A6EF68661736A3F1,
+	SceneLoader__ctor_m2248766DF38AF07562AD31501C7275B8DF1B7D29,
 	TouchArea_Start_m1F0B0A3B64974E540159A67104D3D0988FC658AD,
 	TouchArea_OnPointerDown_mB6D5A9F9DF3DCF61FF6AAE044AE8385E9318F709,
 	TouchArea_OnDrag_mFED0704755DB37D19C950A6157B70F9FBE96E723,
@@ -241,7 +245,7 @@ static Il2CppMethodPointer s_methodPointers[122] =
 	PerlinNoiseMesh_CreateHeightMesh_m5AB8BE7CF0E86A90BFFEDF198899D8DA991A2D30,
 	PerlinNoiseMesh__ctor_m65E206E4D362B2C6B21A68E6CC4AACCAD4D2F8CC,
 };
-static const int32_t s_InvokerIndices[122] = 
+static const int32_t s_InvokerIndices[124] = 
 {
 	-1,
 	-1,
@@ -273,7 +277,6 @@ static const int32_t s_InvokerIndices[122] =
 	4503,
 	4503,
 	4503,
-	3840,
 	4503,
 	2469,
 	2469,
@@ -295,6 +298,9 @@ static const int32_t s_InvokerIndices[122] =
 	4503,
 	4503,
 	3881,
+	4503,
+	4503,
+	3840,
 	4503,
 	4503,
 	3840,
@@ -369,8 +375,8 @@ static const int32_t s_InvokerIndices[122] =
 static const Il2CppTokenRangePair s_rgctxIndices[3] = 
 {
 	{ 0x02000002, { 0, 34 } },
-	{ 0x02000014, { 34, 11 } },
-	{ 0x0600005C, { 45, 3 } },
+	{ 0x02000015, { 34, 11 } },
+	{ 0x0600005E, { 45, 3 } },
 };
 extern const uint32_t g_rgctx_U3CU3Ef__AnonymousType0_4_t93FD0713D40011506D6B5581D9D5064D1A1A31B8;
 extern const uint32_t g_rgctx_U3CidU3Ej__TPar_tB4283D6614B0A1B9713411CF590AE6445EC76C76;
@@ -476,7 +482,7 @@ IL2CPP_EXTERN_C const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule;
 const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule = 
 {
 	"Assembly-CSharp.dll",
-	122,
+	124,
 	s_methodPointers,
 	0,
 	NULL,
