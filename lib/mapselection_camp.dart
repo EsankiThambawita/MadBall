@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'guidelines.dart';
 
 // Info page imports
 import 'desert_info.dart' as desert;
@@ -39,7 +40,8 @@ class MapSelectionCamp extends StatelessWidget {
           const begin = Offset(0.0, 1.0);
           const end = Offset.zero;
           const curve = Curves.easeInOut;
-          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          var tween =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
           var offsetAnimation = animation.drive(tween);
           return SlideTransition(position: offsetAnimation, child: child);
         },
@@ -82,8 +84,6 @@ class MapSelectionCamp extends StatelessWidget {
     required bool isLocked,
   }) {
     final currentUser = FirebaseAuth.instance.currentUser;
-    final userEmail = currentUser?.email ?? '';
-    final userDocId = userEmail.toLowerCase(); // Assuming doc ID is email
     final mapKey = _getMapKey(title);
 
     return Container(
@@ -116,41 +116,45 @@ class MapSelectionCamp extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
-                FutureBuilder<DocumentSnapshot>(
-                  future: FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(userDocId)
-                      .get(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator(color: Colors.white);
-                    }
+                currentUser == null
+                    ? _buildStaticStars(0)
+                    : FutureBuilder<DocumentSnapshot>(
+                        future: FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(currentUser.email!.toLowerCase())
+                            .get(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const CircularProgressIndicator(
+                                color: Colors.white);
+                          }
 
-                    if (snapshot.hasError) {
-                      debugPrint('Error loading difficulty: ${snapshot.error}');
-                      return _buildStaticStars(0);
-                    }
+                          if (snapshot.hasError ||
+                              !snapshot.hasData ||
+                              !snapshot.data!.exists) {
+                            return _buildStaticStars(0);
+                          }
 
-                    if (!snapshot.hasData || !snapshot.data!.exists) {
-                      debugPrint('User document not found: $userDocId');
-                      return _buildStaticStars(0);
-                    }
+                          final docData = snapshot.data?.data();
+                          final data =
+                              docData is Map<String, dynamic> ? docData : {};
+                          final difficulty = data[mapKey]?.toString() ?? '';
+                          final starCount = _getStarCount(difficulty);
 
-                    final data = snapshot.data!.data() as Map<String, dynamic>? ?? {};
-                    final difficulty = data[mapKey]?.toString() ?? '';
-                    final starCount = _getStarCount(difficulty);
-
-                    return Row(
-                      children: List.generate(
-                        3,
-                        (index) => Icon(
-                          Icons.star,
-                          color: index < starCount ? Colors.amber : Colors.white,
-                        ),
+                          return Row(
+                            children: List.generate(
+                              3,
+                              (index) => Icon(
+                                Icons.star,
+                                color: index < starCount
+                                    ? Colors.amber
+                                    : Colors.white,
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
-                ),
               ],
             ),
           ),
@@ -177,6 +181,8 @@ class MapSelectionCamp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentUser = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -187,7 +193,9 @@ class MapSelectionCamp extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          "Map Selection: ${gameMode[0].toUpperCase()}${gameMode.substring(1)}",
+          currentUser == null
+              ? "Maps: One Player (Offline)"
+              : "Maps: One Player",
           style: const TextStyle(
             fontFamily: 'Jaini',
             fontSize: 24,
@@ -200,12 +208,15 @@ class MapSelectionCamp extends StatelessWidget {
             padding: const EdgeInsets.only(right: 12),
             child: GestureDetector(
               onTap: () {
-                // TODO: Show game guidelines
+                showDialog(
+                  context: context,
+                  builder: (context) => const GuidelinesPopup(),
+                );
               },
               child: Image.asset(
                 'assets/images/guidelines_icon.png',
-                height: 30,
-                width: 30,
+                height: 36,
+                width: 36,
               ),
             ),
           ),

@@ -91,16 +91,19 @@ class MapSelectionTwoPly extends StatelessWidget {
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            child: Row(
+            child: Stack(
+              alignment: Alignment.center,
               children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.black),
-                  onPressed: () => Navigator.pop(context),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.black),
+                    onPressed: () => Navigator.pop(context),
+                  ),
                 ),
-                const SizedBox(width: 10),
-                Expanded(
+                Center(
                   child: Text(
-                    "Map: ${gameMode[0].toUpperCase()}${gameMode.substring(1)}",
+                    "Maps: ${gameMode[0].toUpperCase()}${gameMode.substring(1)}",
                     style: const TextStyle(
                       fontFamily: 'Jaini',
                       fontSize: 24,
@@ -108,18 +111,21 @@ class MapSelectionTwoPly extends StatelessWidget {
                     ),
                   ),
                 ),
-                IconButton(
-                  icon: Image.asset(
-                    'assets/images/guidelines_icon.png',
-                    width: 36,
-                    height: 36,
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
+                    icon: Image.asset(
+                      'assets/images/guidelines_icon.png',
+                      width: 36,
+                      height: 36,
+                    ),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => const GuidelinesPopup(),
+                      );
+                    },
                   ),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => const GuidelinesPopup(),
-                    );
-                  },
                 ),
               ],
             ),
@@ -142,7 +148,7 @@ class MapSelectionTwoPly extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 20),  // <-- added spacing here
+                const SizedBox(height: 20), // <-- added spacing here
                 buildMapCard(
                   context: context,
                   title: "Grass Plains",

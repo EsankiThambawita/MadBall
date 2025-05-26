@@ -23,26 +23,34 @@ class _SettingsPopupState extends State<SettingsPopup> {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) return; // Canceled
 
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
 
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      final UserCredential userCredential = await _auth.signInWithCredential(credential);
+      final UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
 
       final user = userCredential.user;
       print("Signed in user: ${user?.email}");
 
-      if (user != null) {
-        final userProgress = UserProgress(
-          email: user.email ?? '',
-          grassland: '',
-          space: '',
-          desert: '',
-        );
-        await _firebaseService.saveUserProgress(userProgress);
+      if (user != null && user.email != null && user.email!.isNotEmpty) {
+        final existingProgress =
+            await _firebaseService.getUserProgress(user.email!);
+        if (existingProgress == null) {
+          final newProgress = UserProgress(
+            email: user.email!,
+            grassland: '',
+            space: '',
+            desert: '',
+          );
+          await _firebaseService.saveUserProgress(newProgress);
+        } else {
+          debugPrint("✅ Existing user data found, skipping overwrite.");
+        }
       }
     } catch (e) {
       print('Google Sign-In error: $e');
@@ -100,11 +108,13 @@ class _SettingsPopupState extends State<SettingsPopup> {
                   ),
                 ),
                 const SizedBox(height: 22),
-                _buildSliderRow(Icons.volume_up, 'Game Volume', gameVolume, (val) {
+                _buildSliderRow(Icons.volume_up, 'Game Volume', gameVolume,
+                    (val) {
                   setState(() => gameVolume = val);
                 }),
                 const SizedBox(height: 16),
-                _buildSliderRow(Icons.music_note, 'Music Volume', musicVolume, (val) {
+                _buildSliderRow(Icons.music_note, 'Music Volume', musicVolume,
+                    (val) {
                   setState(() => musicVolume = val);
                 }),
                 const SizedBox(height: 24),
@@ -123,105 +133,106 @@ class _SettingsPopupState extends State<SettingsPopup> {
                   ],
                 ),
                 const SizedBox(height: 14),
+                StreamBuilder<User?>(
+                  stream: _auth.authStateChanges(),
+                  builder: (context, snapshot) {
+                    print(
+                        "🔥 authStateChanges: ${snapshot.connectionState}, user: ${snapshot.data}");
 
-              StreamBuilder<User?>(
-  stream: _auth.authStateChanges(),
-  builder: (context, snapshot) {
-    print("🔥 authStateChanges: ${snapshot.connectionState}, user: ${snapshot.data}");
-    
-    if (snapshot.connectionState == ConnectionState.waiting) {
-      return CircularProgressIndicator();
-    }
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    }
 
-    final user = snapshot.data;
+                    final user = snapshot.data;
 
-    if (user == null) {
-      return GestureDetector(
-        onTap: _signInWithGoogle,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-          decoration: BoxDecoration(
-            color: Colors.green.shade400,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Row(
-            children: [
-              Image.asset(
-                'assets/images/google_logo.png',
-                width: 24,
-                height: 24,
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Text(
-                  'Sign in with Google',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Jaini',
-                    fontSize: 22,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    } else {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-            decoration: BoxDecoration(
-              color: Colors.green.shade400,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              children: [
-                Image.asset(
-                  'assets/images/google_logo.png',
-                  width: 24,
-                  height: 24,
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Text(
-                    'Logged in as ${user.displayName ?? user.email ?? "User"}',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Jaini',
-                      fontSize: 22,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
-          GestureDetector(
-            onTap: _signOut,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Icon(Icons.logout, color: Colors.red, size: 24),
-                const SizedBox(width: 8),
-                Text(
-                  'Logout',
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 26,
-                    fontFamily: 'Jaini',
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      );
-    }
-  },
-)
-
+                    if (user == null) {
+                      return GestureDetector(
+                        onTap: _signInWithGoogle,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 14, vertical: 14),
+                          decoration: BoxDecoration(
+                            color: Colors.green.shade400,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                'assets/images/google_logo.png',
+                                width: 24,
+                                height: 24,
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: Text(
+                                  'Sign in with Google',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Jaini',
+                                    fontSize: 22,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    } else {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 14, vertical: 14),
+                            decoration: BoxDecoration(
+                              color: Colors.green.shade400,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'assets/images/google_logo.png',
+                                  width: 24,
+                                  height: 24,
+                                ),
+                                const SizedBox(width: 16),
+                                Expanded(
+                                  child: Text(
+                                    'Logged in as ${user.displayName ?? user.email ?? "User"}',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'Jaini',
+                                      fontSize: 22,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          GestureDetector(
+                            onTap: _signOut,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Icon(Icons.logout, color: Colors.red, size: 24),
+                                const SizedBox(width: 8),
+                                Text(
+                                  'Logout',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 26,
+                                    fontFamily: 'Jaini',
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                  },
+                )
               ],
             ),
           ),
@@ -230,7 +241,8 @@ class _SettingsPopupState extends State<SettingsPopup> {
     );
   }
 
-  Widget _buildSliderRow(IconData icon, String label, double value, ValueChanged<double> onChanged) {
+  Widget _buildSliderRow(IconData icon, String label, double value,
+      ValueChanged<double> onChanged) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
