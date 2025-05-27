@@ -35,18 +35,23 @@ class _SettingsPopupState extends State<SettingsPopup> {
           await _auth.signInWithCredential(credential);
 
       final user = userCredential.user;
-      if (user != null) {
-        // Save user email to Firestore with default values
-        final userProgress = UserProgress(
-          email: user.email ?? '',
-          grassland: '',
-          space: '',
-          desert: '',
-        );
-        await _firebaseService.saveUserProgress(userProgress);
-      }
+      print("Signed in user: ${user?.email}");
 
-      setState(() {});
+      if (user != null && user.email != null && user.email!.isNotEmpty) {
+        final existingProgress =
+            await _firebaseService.getUserProgress(user.email!);
+        if (existingProgress == null) {
+          final newProgress = UserProgress(
+            email: user.email!,
+            grassland: '',
+            space: '',
+            desert: '',
+          );
+          await _firebaseService.saveUserProgress(newProgress);
+        } else {
+          debugPrint("✅ Existing user data found, skipping overwrite.");
+        }
+      }
     } catch (e) {
       print('Google Sign-In error: $e');
     }
@@ -55,13 +60,10 @@ class _SettingsPopupState extends State<SettingsPopup> {
   Future<void> _signOut() async {
     await _googleSignIn.signOut();
     await _auth.signOut();
-    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    final User? user = FirebaseAuth.instance.currentUser;
-
     return Center(
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
@@ -131,10 +133,20 @@ class _SettingsPopupState extends State<SettingsPopup> {
                   ],
                 ),
                 const SizedBox(height: 14),
+                StreamBuilder<User?>(
+                  stream: _auth.authStateChanges(),
+                  builder: (context, snapshot) {
+                    print(
+                        "🔥 authStateChanges: ${snapshot.connectionState}, user: ${snapshot.data}");
 
-                /// Sign-in / Account Info section
-                user == null
-                    ? GestureDetector(
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    }
+
+                    final user = snapshot.data;
+
+                    if (user == null) {
+                      return GestureDetector(
                         onTap: _signInWithGoogle,
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -164,8 +176,9 @@ class _SettingsPopupState extends State<SettingsPopup> {
                             ],
                           ),
                         ),
-                      )
-                    : Column(
+                      );
+                    } else {
+                      return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
@@ -185,7 +198,7 @@ class _SettingsPopupState extends State<SettingsPopup> {
                                 const SizedBox(width: 16),
                                 Expanded(
                                   child: Text(
-                                    'Logged in as ${user.displayName ?? "User"}',
+                                    'Logged in as ${user.displayName ?? user.email ?? "User"}',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: 'Jaini',
@@ -216,7 +229,10 @@ class _SettingsPopupState extends State<SettingsPopup> {
                             ),
                           ),
                         ],
-                      ),
+                      );
+                    }
+                  },
+                )
               ],
             ),
           ),

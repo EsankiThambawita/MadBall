@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'unity_game_screen.dart';
 
 class GrassInfoPage2 extends StatelessWidget {
   const GrassInfoPage2({super.key});
@@ -40,19 +41,19 @@ class GrassInfoPage2 extends StatelessWidget {
                 child: BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 500, sigmaY: 500),
                   child: Container(
-                    color: Colors.black.withOpacity(0), // Transparent overlay
+                    color: Colors.black.withOpacity(0),
                   ),
                 ),
               ),
             ),
 
-            // Content on top of the background
+            // Foreground content
             Column(
               children: [
                 // Map Description
                 Container(
-                  height: 200, // You can customize this
-                  width: double.infinity, // Takes full width of parent
+                  height: 200,
+                  width: double.infinity,
                   margin: const EdgeInsets.all(16),
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
@@ -98,14 +99,15 @@ class GrassInfoPage2 extends StatelessWidget {
                     height: 50,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 180, 244, 161), // Red
+                        backgroundColor:
+                            const Color.fromARGB(255, 180, 244, 161),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                         elevation: 6,
                       ),
                       onPressed: () {
-                        Navigator.pop(context); // Cancel and go back
+                        Navigator.pop(context);
                       },
                       child: const Text(
                         "CANCEL",
@@ -129,14 +131,21 @@ class GrassInfoPage2 extends StatelessWidget {
                     height: 50,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 64, 218, 82), // Peaceful Blue
+                        backgroundColor: const Color.fromARGB(255, 64, 218, 82),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                         elevation: 6,
                       ),
                       onPressed: () {
-                        // Start game logic goes here
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const UnityGameScreen(
+                              sceneName: 'Grassland_2P',
+                            ),
+                          ),
+                        );
                       },
                       child: const Text(
                         "PLAY",
@@ -159,3 +168,4 @@ class GrassInfoPage2 extends StatelessWidget {
     );
   }
 }
+

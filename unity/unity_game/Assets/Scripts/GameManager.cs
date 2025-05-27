@@ -32,8 +32,12 @@ public class GameManager : MonoBehaviour
     {
         playerScore = 0;
         aiScore = 0;
-        playerScoreText.text = "0";
-        aiScoreText.text = "0";
+
+        if (playerScoreText != null)
+            playerScoreText.text = "0";
+
+        if (aiScoreText != null)
+            aiScoreText.text = "0";
     }
 
     public void StartGame()
@@ -75,10 +79,5 @@ public class GameManager : MonoBehaviour
 
             Time.timeScale = 0f;
         }
-    }
-
-    public void LoadScene(string sceneName)
-    {
-        SceneManager.LoadScene(sceneName);
     }
 }

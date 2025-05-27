@@ -1,18 +1,55 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'unity_game_screen.dart';
 
 class DesertInfoPage extends StatefulWidget {
-  const DesertInfoPage({super.key});
+  const DesertInfoPage({Key? key}) : super(key: key);
 
   @override
-  State<DesertInfoPage> createState() => _DesertInfoPage();
+  State<DesertInfoPage> createState() => _DesertInfoPageState();
 }
 
-class _DesertInfoPage extends State<DesertInfoPage> {
+class _DesertInfoPageState extends State<DesertInfoPage> {
   double _difficulty = 0;
-  bool isEasyCompleted = false;
-  bool isMediumCompleted = false;
+  double _maxDifficultyAllowed = 0;
   String message = "";
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDesertProgress();
+  }
+
+  Future<void> fetchDesertProgress() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final email = user.email;
+      if (email != null) {
+        final doc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(email)
+            .get();
+
+        if (doc.exists && doc.data() != null) {
+          final progress = doc.data()!['desert'] ?? '';
+
+          double allowed = 0;
+          if (progress == "easy") {
+            allowed = 50;
+          } else if (progress == "medium" || progress == "hard") {
+            allowed = 100;
+          }
+
+          setState(() {
+            _maxDifficultyAllowed = allowed;
+            _difficulty = allowed;
+          });
+        }
+      }
+    }
+  }
 
   String getFaceImage() {
     if (_difficulty < 50) {
@@ -36,31 +73,31 @@ class _DesertInfoPage extends State<DesertInfoPage> {
 
   Color getButtonColor() {
     if (_difficulty < 50) {
-      return const Color(0xFF4BE843); // Green
+      return const Color(0xFF4BE843);
     } else if (_difficulty < 100) {
-      return const Color(0xFFFFE600); // Yellow
+      return const Color(0xFFFFE600);
     } else {
-      return const Color(0xFFE84141); // Red
+      return const Color(0xFFE84141);
     }
   }
 
   void handleSliderChange(double value) {
-    if (value >= 50 && !isEasyCompleted) {
+    if (value > _maxDifficultyAllowed) {
       setState(() {
-        _difficulty = 0;
-        message = "Complete Easy to proceed to Medium";
+        _difficulty = _maxDifficultyAllowed;
+        if (_difficulty == 0) {
+          message = "Complete Easy to unlock Medium";
+        } else if (_difficulty == 50) {
+          message = "Complete Medium to unlock Hard";
+        }
       });
-    } else if (value >= 100 && !isMediumCompleted) {
-      setState(() {
-        _difficulty = 50;
-        message = "Complete Medium to proceed to Hard";
-      });
-    } else {
-      setState(() {
-        _difficulty = value;
-        message = "";
-      });
+      return;
     }
+
+    setState(() {
+      _difficulty = value;
+      message = "";
+    });
   }
 
   @override
@@ -71,205 +108,177 @@ class _DesertInfoPage extends State<DesertInfoPage> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // Background Image
           Image.asset(
             "assets/images/dessert.png",
             fit: BoxFit.cover,
           ),
-
-          // Blur effect
           BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
             child: Container(
-              color: Colors.black.withOpacity(0.2), // Optional dimming
+              color: Colors.black.withOpacity(0.2),
             ),
           ),
-
-          // Main content
           SafeArea(
-            child: Column(
-              children: [
-                // AppBar with cancel button in the right corner
-                AppBar(
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  leading: IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.black),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                  actions: [
-                    IconButton(
-                      icon: const Icon(Icons.cancel, color: Colors.black),
-                      onPressed: () {
-                        // Handle cancel action here
-                        Navigator.pop(context); // This will pop the current page
-                      },
-                    ),
-                  ],
-                  centerTitle: true,
-                  title: const Text(
-                    'Map Info',
-                    style: TextStyle(
-                      fontFamily: 'Jaini',
-                      fontSize: 28,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-
-                // Display the message if any
-                if (message.isNotEmpty)
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    margin: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: const Color.fromARGB(255, 255, 255, 255)),
-                    ),
-                    child: Text(
-                      message,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontFamily: 'Jaini',
-                      ),
-                    ),
-                  ),
-
-                // Map description
-                Container(
-                  margin: const EdgeInsets.all(16),
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    image: const DecorationImage(
-                      image: AssetImage("assets/images/dessert.png"),
-                      fit: BoxFit.cover,
-                      opacity: 0.8,
-                    ),
-                  ),
-                  child: const Column(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+              child: Column(
+                children: [
+                  Row(
                     children: [
-                      Text(
-                        'Desert',
-                        style: TextStyle(
-                          fontFamily: 'Jaini',
-                          fontSize: 26,
-                          color: Color.fromARGB(255, 8, 8, 8),
+                      IconButton(
+                        icon: const Icon(Icons.arrow_back, color: Colors.black),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                      const Expanded(
+                        child: Center(
+                          child: Text(
+                            "Map Info",
+                            style: TextStyle(
+                              fontFamily: 'Jaini',
+                              fontSize: 28,
+                              color: Colors.black,
+                            ),
+                          ),
                         ),
                       ),
-                      SizedBox(height: 8),
-                      Text(
-                        "A wide, open field where sudden winds randomly sweep across the map. "
-                        "Control your ball, outmaneuver your opponent, and use the shifting winds to your advantage!",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'Jaini',
-                          color: Color.fromARGB(255, 2, 2, 2),
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Colors.black,
+                            shape: BoxShape.circle,
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          child: const Icon(Icons.close,
+                              color: Colors.white, size: 12),
                         ),
                       ),
                     ],
                   ),
-                ),
-
-                const SizedBox(height: 16),
-
-                // Face Image based on difficulty
-                Image.asset(
-                  getFaceImage(),
-                  width: 80,
-                  height: 80,
-                ),
-
-                const SizedBox(height: 10),
-
-                // Difficulty Label
-                Text(
-                  getDifficultyLabel(),
-                  style: const TextStyle(
-                    fontFamily: 'Jaini',
-                    fontSize: 24,
-                    color: Colors.black,
-                  ),
-                ),
-
-                const SizedBox(height: 16),
-
-                // Difficulty Slider
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Column(
-                    children: [
-                      Slider(
-                        value: _difficulty,
-                        min: 0,
-                        max: 100,
-                        divisions: 2, // 2 divisions for 0-50 and 50-100
-                        activeColor: getButtonColor(),
-                        onChanged: handleSliderChange,
+                  if (message.isNotEmpty)
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      margin: const EdgeInsets.only(top: 10, bottom: 16),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.9),
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      const Text(
-                        "Drag to adjust difficulty",
-                        style: TextStyle(
-                          fontFamily: 'Jaini',
+                      child: Text(
+                        message,
+                        style: const TextStyle(
                           fontSize: 16,
                           color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                const Spacer(),
-
-                // Play Button
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 32),
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: getButtonColor(),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        elevation: 6,
-                      ),
-                      onPressed: () {
-                        if (_difficulty < 50) {
-                          setState(() {
-                            isEasyCompleted = true;
-                          });
-                        } else if (_difficulty >= 50) {
-                          if (!isEasyCompleted) {
-                            setState(() {
-                              message = "Complete Easy to proceed to Medium";
-                            });
-                          } else {
-                            setState(() {
-                              isMediumCompleted = true;
-                            });
-                          }
-                        }
-                        // Start the game with selected difficulty
-                      },
-                      child: const Text(
-                        "PLAY",
-                        style: TextStyle(
                           fontFamily: 'Jaini',
-                          fontSize: 24,
-                          color: Colors.white,
                         ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      image: const DecorationImage(
+                        image: AssetImage("assets/images/dessert.png"),
+                        fit: BoxFit.cover,
+                        opacity: 0.8,
+                      ),
+                      color: Colors.white.withOpacity(0.15),
+                    ),
+                    child: const Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Desert',
+                          style: TextStyle(
+                            fontFamily: 'Jaini',
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          "A wide, open field where sudden winds randomly sweep across the map. Control your ball, outmaneuver your opponent, and use the shifting winds to your advantage!",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'Jaini',
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  Image.asset(
+                    getFaceImage(),
+                    height: 80,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    getDifficultyLabel(),
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'Jaini',
+                      color: Colors.white,
+                    ),
+                  ),
+                  Slider(
+                    value: _difficulty,
+                    onChanged: handleSliderChange,
+                    min: 0,
+                    max: 100,
+                    divisions: 2,
+                    activeColor: Colors.white,
+                    inactiveColor: Colors.white.withOpacity(0.5),
+                  ),
+                  const Text(
+                    "Drag to adjust difficulty",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontFamily: 'Jaini',
+                      color: Colors.white,
+                    ),
+                  ),
+                  const Spacer(),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: getButtonColor(),
+                      minimumSize: const Size(double.infinity, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: () {
+                      String selectedDifficulty;
+                      if (_difficulty < 50) {
+                        selectedDifficulty = "easy";
+                      } else if (_difficulty < 100) {
+                        selectedDifficulty = "medium";
+                      } else {
+                        selectedDifficulty = "hard";
+                      }
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              UnityGameScreen(sceneName: 'Desert_1P'),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      "PLAY",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Jaini',
+                        color: Colors.white,
                       ),
                     ),
                   ),
-                ),
-
-                const SizedBox(height: 20),
-              ],
+                ],
+              ),
             ),
           ),
         ],

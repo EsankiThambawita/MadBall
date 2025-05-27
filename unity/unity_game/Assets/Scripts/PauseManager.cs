@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using FlutterUnityIntegration;
 
 public class PauseManager : MonoBehaviour
 {
@@ -38,6 +39,8 @@ public class PauseManager : MonoBehaviour
     public void QuitGame()
     {
         Debug.Log("Quit clicked");
-        Application.Quit();
+
+        // Send message to Flutter instead of quitting
+        UnityMessageManager.Instance.SendMessageToFlutter("quit");
     }
 }

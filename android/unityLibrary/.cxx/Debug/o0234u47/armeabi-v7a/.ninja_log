@@ -1,4 +1,6 @@
 # ninja log v5
-0	193	7690465784569369	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	75e5fc7152131ceb
-196	365	7690465786231684	C:/Users/robin/projects/MadBall/build/unityLibrary/intermediates/cxx/Debug/o0234u47/obj/armeabi-v7a/libswappywrapper.so	9ce6d5044709dda
-5	333	7690477149188327	C:/Users/robin/projects/MadBall/build/unityLibrary/intermediates/cxx/Debug/o0234u47/obj/armeabi-v7a/libswappywrapper.so	9ce6d5044709dda
+1	237	7699473508716979	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	75e5fc7152131ceb
+239	432	7699473510668345	C:/Users/robin/projects/MadBall/build/unityLibrary/intermediates/cxx/Debug/o0234u47/obj/armeabi-v7a/libswappywrapper.so	9ce6d5044709dda
+5	1694	7699664063958100	C:/Users/robin/projects/MadBall/build/unityLibrary/intermediates/cxx/Debug/o0234u47/obj/armeabi-v7a/libswappywrapper.so	9ce6d5044709dda
+5	1480	7699677926443454	C:/Users/robin/projects/MadBall/build/unityLibrary/intermediates/cxx/Debug/o0234u47/obj/armeabi-v7a/libswappywrapper.so	9ce6d5044709dda
+10	433	7699699571085134	C:/Users/robin/projects/MadBall/build/unityLibrary/intermediates/cxx/Debug/o0234u47/obj/armeabi-v7a/libswappywrapper.so	9ce6d5044709dda
