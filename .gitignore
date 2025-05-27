@@ -84,7 +84,14 @@ MemoryCaptures/
 *.bin
 
 # Android NDK / CMake build cache and generated files
-android/app/.cxx/
-android/unityLibrary/.cxx/
-**/.cmake/
-**/build/
+/android/.gradle
+/android/app/.cxx
+/android/app/build
+/android/unityLibrary/build
+/android/unityLibrary/src/main/Il2CppOutputProject
+/android/unityLibrary/.cxx
+*.iml
+*.ninja
+*.json
+*.cmake
+
