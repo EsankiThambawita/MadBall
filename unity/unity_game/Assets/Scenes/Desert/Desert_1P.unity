@@ -1821,7 +1821,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &607866012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2265,6 +2265,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 607866011}
+  audioSource: {fileID: 0}
+  pauseSound: {fileID: 0}
 --- !u!4 &930286794
 Transform:
   m_ObjectHideFlags: 0
@@ -3492,6 +3494,9 @@ MonoBehaviour:
   speedIncreaseInterval: 5
   playerScore: {fileID: 898287087}
   AIScore: {fileID: 1026047398}
+  paddleHitAudio: {fileID: 0}
+  goalAudioSource: {fileID: 0}
+  missSound: {fileID: 0}
 --- !u!1 &1266991199
 GameObject:
   m_ObjectHideFlags: 0
@@ -8960,6 +8965,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 607866011}
+  audioSource: {fileID: 0}
+  pauseSound: {fileID: 0}
 --- !u!4 &1396744359
 Transform:
   m_ObjectHideFlags: 0
@@ -9549,6 +9556,9 @@ MonoBehaviour:
   losePlayerScoreText: {fileID: 989229640}
   loseBotScoreText: {fileID: 882955651}
   backgroundFade: {fileID: 2072587841}
+  winAudio: {fileID: 0}
+  loseAudio: {fileID: 0}
+  windManager: {fileID: 0}
 --- !u!4 &1535681831
 Transform:
   m_ObjectHideFlags: 0
@@ -9942,7 +9952,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 6
@@ -10659,6 +10669,9 @@ MonoBehaviour:
   losePlayerScoreText: {fileID: 989229640}
   loseBotScoreText: {fileID: 882955651}
   backgroundFade: {fileID: 2072587841}
+  winAudio: {fileID: 0}
+  loseAudio: {fileID: 0}
+  windManager: {fileID: 0}
 --- !u!114 &1861339456
 MonoBehaviour:
   m_ObjectHideFlags: 0
