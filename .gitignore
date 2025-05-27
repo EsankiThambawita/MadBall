@@ -91,6 +91,14 @@ MemoryCaptures/
 /android/unityLibrary/src/main/Il2CppOutputProject
 /android/unityLibrary/.cxx
 *.iml
+
+/build/
+/.dart_tool/
+/.packages
+/.flutter-plugins
+/.flutter-plugins-dependencies
+/.metadata
+
 *.ninja
 *.json
 *.cmake
