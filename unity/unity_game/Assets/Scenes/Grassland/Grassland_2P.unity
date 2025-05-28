@@ -1530,6 +1530,7 @@ GameObject:
   - component: {fileID: 617982392}
   - component: {fileID: 617982391}
   - component: {fileID: 617982396}
+  - component: {fileID: 617982397}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Player1
@@ -1544,7 +1545,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 617982390}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 073201b4b6cd2fe4295ea859aa9b98a6, type: 3}
   m_Name: 
@@ -1792,6 +1793,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &617982397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 617982390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 679ba01ac1286984194f04cc446f3f18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 15
+  playerNumber: 1
 --- !u!1 &635038126
 GameObject:
   m_ObjectHideFlags: 0
@@ -3411,6 +3426,7 @@ GameObject:
   - component: {fileID: 1055161690}
   - component: {fileID: 1055161689}
   - component: {fileID: 1055161694}
+  - component: {fileID: 1055161695}
   m_Layer: 0
   m_Name: Player2
   m_TagString: Player2
@@ -3425,7 +3441,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1055161688}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 073201b4b6cd2fe4295ea859aa9b98a6, type: 3}
   m_Name: 
@@ -3673,6 +3689,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1055161695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055161688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 679ba01ac1286984194f04cc446f3f18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 15
+  playerNumber: 2
 --- !u!1 &1070302424
 GameObject:
   m_ObjectHideFlags: 0
