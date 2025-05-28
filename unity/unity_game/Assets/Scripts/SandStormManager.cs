@@ -11,6 +11,9 @@ public class SandStormController : MonoBehaviour
     public Vector2 spawnYRange = new Vector2(-4f, 3f);
     public Vector2 spawnX = new Vector2(-10f, -9f);
 
+    [Header("Audio")]
+    public AudioSource sandstormAudio;
+
     private float timer;
 
     void Update()
@@ -30,6 +33,18 @@ public class SandStormController : MonoBehaviour
         if (dustParticles != null)
         {
             dustParticles.Play();
+        }
+
+        // Spawn multiple tumbleweeds with slight spacing
+        for (int i = 0; i < tumbleweedCount; i++)
+        {
+            SpawnTumbleweed(i * 0.5f); // Delay each one slightly
+        }
+
+        // Play sound
+        if (sandstormAudio != null && !sandstormAudio.isPlaying)
+        {
+            sandstormAudio.Play();
         }
 
         // Spawn multiple tumbleweeds with slight spacing
