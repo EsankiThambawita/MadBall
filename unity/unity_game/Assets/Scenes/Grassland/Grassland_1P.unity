@@ -1027,9 +1027,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameOverUIController, Assembly-CSharp
-        m_MethodName: OnRetryButton
+      - m_Target: {fileID: 1396744358}
+        m_TargetAssemblyTypeName: PauseManager, Assembly-CSharp
+        m_MethodName: RetryGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2006,9 +2006,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameOverUIController, Assembly-CSharp
-        m_MethodName: OnRetryButton
+      - m_Target: {fileID: 1396744358}
+        m_TargetAssemblyTypeName: PauseManager, Assembly-CSharp
+        m_MethodName: RetryGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8848,7 +8848,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerScoreText: {fileID: 898287087}
   aiScoreText: {fileID: 1026047398}
-  gameOverUIController: {fileID: 1895287903}
+  gameOverUIController: {fileID: 1895287906}
 --- !u!1 &1304062038
 GameObject:
   m_ObjectHideFlags: 0
@@ -11023,9 +11023,9 @@ GameObject:
   - component: {fileID: 1895287901}
   - component: {fileID: 1895287900}
   - component: {fileID: 1895287899}
-  - component: {fileID: 1895287903}
   - component: {fileID: 1895287904}
   - component: {fileID: 1895287905}
+  - component: {fileID: 1895287906}
   m_Layer: 5
   m_Name: GameOver
   m_TagString: Untagged
@@ -11118,28 +11118,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1895287903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1895287898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4086c072961f8f14ebe120075c53cc80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  winBackground: {fileID: 195850070}
-  loseBackground: {fileID: 362928141}
-  winPlayerScoreText: {fileID: 179639200}
-  winBotScoreText: {fileID: 1051436839}
-  losePlayerScoreText: {fileID: 1014123709}
-  loseBotScoreText: {fileID: 2041168753}
-  backgroundFade: {fileID: 532900294}
-  winAudio: {fileID: 1895287904}
-  loseAudio: {fileID: 1895287905}
-  windManager: {fileID: 2095407880}
 --- !u!82 &1895287904
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11334,6 +11312,28 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1895287906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1895287898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28f94469b9bb68d4f98d883950d00d3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  winBackground: {fileID: 195850070}
+  loseBackground: {fileID: 362928141}
+  winPlayerScoreText: {fileID: 179639200}
+  winBotScoreText: {fileID: 1051436839}
+  losePlayerScoreText: {fileID: 1014123709}
+  loseBotScoreText: {fileID: 2041168753}
+  backgroundFade: {fileID: 532900294}
+  winAudio: {fileID: 1895287904}
+  loseAudio: {fileID: 1895287905}
+  windManager: {fileID: 2095407880}
 --- !u!1 &1963002658
 GameObject:
   m_ObjectHideFlags: 0
@@ -12266,7 +12266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leafParticles: {fileID: 1130111431}
-  ball: {fileID: 0}
+  ballObject: {fileID: 1264506080}
   windAudio: {fileID: 593752042}
   bgmAudio: {fileID: 168427467}
   bgmVolumeNormal: 0.4

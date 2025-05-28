@@ -11,7 +11,7 @@ public class GameManager1P : MonoBehaviour
     public Text aiScoreText;
 
     [Header("Game Over UI")]
-    public GameOverUIController gameOverUIController;
+    public GameOverUIController1P gameOverUIController;
 
     private int playerScore = 0;
     private int aiScore = 0;
