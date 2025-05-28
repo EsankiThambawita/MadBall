@@ -1,6 +1,6 @@
 name: madball
 description: "A new Flutter project."
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.0+1
 
@@ -26,7 +26,6 @@ dev_dependencies:
   flutter_lints: ^5.0.0
 
 flutter:
-
   uses-material-design: true
 
   assets:
@@ -48,10 +47,12 @@ flutter:
     - assets/images/guideline_step3.png
     - assets/images/guidelines_icon.png
     - assets/images/achievement_bg.png
-
-    
-
-    
+    - assets/images/backsign.png
+    - assets/images/desert.png
+    - assets/images/Grassland.png
+    - assets/images/lock.png
+    - assets/images/mainbg.png
+    - assets/images/target.png
 
   fonts:
     - family: Jaini
