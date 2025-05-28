@@ -1027,9 +1027,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1396744358}
-        m_TargetAssemblyTypeName: PauseManager, Assembly-CSharp
-        m_MethodName: RetryGame
+      - m_Target: {fileID: 1895287906}
+        m_TargetAssemblyTypeName: GameOverUIController1P, Assembly-CSharp
+        m_MethodName: OnRetryButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1809,7 +1809,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 525765627}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1895287906}
+        m_TargetAssemblyTypeName: GameOverUIController1P, Assembly-CSharp
+        m_MethodName: OnMapsButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &525765627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2006,9 +2018,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1396744358}
-        m_TargetAssemblyTypeName: PauseManager, Assembly-CSharp
-        m_MethodName: RetryGame
+      - m_Target: {fileID: 1895287906}
+        m_TargetAssemblyTypeName: GameOverUIController1P, Assembly-CSharp
+        m_MethodName: OnRetryButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2892,7 +2904,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1025585514}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1895287906}
+        m_TargetAssemblyTypeName: GameOverUIController1P, Assembly-CSharp
+        m_MethodName: OnMapsButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1025585514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9282,7 +9306,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1346700873}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1895287906}
+        m_TargetAssemblyTypeName: GameOverUIController1P, Assembly-CSharp
+        m_MethodName: OnNextButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1346700873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10647,7 +10683,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1715412445}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1895287906}
+        m_TargetAssemblyTypeName: GameOverUIController1P, Assembly-CSharp
+        m_MethodName: OnNextButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1715412445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11633,8 +11681,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 2085671425}
-  audioSource: {fileID: 0}
-  pauseSound: {fileID: 0}
+  audioSource: {fileID: 372618763}
+  pauseSound: {fileID: 8300000, guid: f94248961f25b1945abc90895517cf44, type: 3}
 --- !u!4 &2029884404
 Transform:
   m_ObjectHideFlags: 0
