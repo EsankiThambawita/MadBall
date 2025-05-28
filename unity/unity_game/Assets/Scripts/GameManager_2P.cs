@@ -7,14 +7,14 @@ public class GameManager2P : MonoBehaviour
     public static GameManager2P Instance;
 
     [Header("HUD Score Texts")]
-    public Text playerScoreText;
-    public Text aiScoreText;
+    public Text player1ScoreText;
+    public Text player2ScoreText;
 
     [Header("Game Over UI")]
-    public GameOverUIController gameOverUIController;
+    public GameOverUIController2P gameOverUIController;
 
-    private int playerScore = 0;
-    private int aiScore = 0;
+    private int player1Score = 0;
+    private int player2Score = 0;
     private int winningScore = 5;
 
     private bool gameStarted = false;
@@ -30,10 +30,10 @@ public class GameManager2P : MonoBehaviour
 
     void Start()
     {
-        playerScore = 0;
-        aiScore = 0;
-        playerScoreText.text = "0";
-        aiScoreText.text = "0";
+        player1Score = 0;
+        player2Score = 0;
+        player1ScoreText.text = "0";
+        player2ScoreText.text = "0";
     }
 
     public void StartGame()
@@ -42,36 +42,33 @@ public class GameManager2P : MonoBehaviour
         gameEnded = false;
     }
 
-    public void IncreasePlayerScore()
+    public void IncreasePlayer1Score()
     {
         if (!gameStarted || gameEnded) return;
 
-        playerScore++;
-        playerScoreText.text = playerScore.ToString();
+        player1Score++;
+        player1ScoreText.text = player1Score.ToString();
         CheckGameOver();
     }
 
-    public void IncreaseAIScore()
+    public void IncreasePlayer2Score()
     {
         if (!gameStarted || gameEnded) return;
 
-        aiScore++;
-        aiScoreText.text = aiScore.ToString();
+        player2Score++;
+        player2ScoreText.text = player2Score.ToString();
         CheckGameOver();
     }
 
-    public void CheckGameOver()
+    private void CheckGameOver()
     {
         if (gameEnded) return;
 
-        if (playerScore >= winningScore || aiScore >= winningScore)
+        if (player1Score >= winningScore || player2Score >= winningScore)
         {
             gameEnded = true;
 
-            if (playerScore > aiScore)
-                gameOverUIController.ShowWinPanel(playerScore, aiScore);
-            else
-                gameOverUIController.ShowLosePanel(playerScore, aiScore);
+            gameOverUIController.ShowGameOverPanel(player1Score, player2Score);
 
             Time.timeScale = 0f;
         }

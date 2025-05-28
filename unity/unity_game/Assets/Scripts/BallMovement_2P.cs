@@ -49,7 +49,7 @@ public class BallMovement2P : MonoBehaviour
         float randomY = Random.Range(0, 2) == 0 ? -1 : 1;
         rb.linearVelocity = new Vector2(randomX, randomY).normalized * initialSpeed;
 
-        GameManager.Instance.StartGame();
+        GameManager2P.Instance.StartGame();
     }
 
     private void ResetBall()
@@ -80,7 +80,7 @@ public class BallMovement2P : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("AI"))
+        if (collision.gameObject.CompareTag("Player2") || collision.gameObject.CompareTag("Player1"))
         {
             PlayerBounce(collision.transform);
             if (Time.time - lastSoundTime > soundCooldown && paddleHitAudio != null)
@@ -101,15 +101,15 @@ public class BallMovement2P : MonoBehaviour
         if (goalAudioSource != null && missSound != null)
             goalAudioSource.PlayOneShot(missSound);
 
-        if (collision.CompareTag("AIGoal"))
+        if (collision.CompareTag("Player2Goal"))
         {
             ResetBall();
-            GameManager.Instance.IncreaseAIScore();
+            GameManager2P.Instance.IncreasePlayer2Score();
         }
-        else if (collision.CompareTag("PlayerGoal"))
+        else if (collision.CompareTag("Player1Goal"))
         {
             ResetBall();
-            GameManager.Instance.IncreasePlayerScore();
+            GameManager2P.Instance.IncreasePlayer1Score();
         }
     }
 

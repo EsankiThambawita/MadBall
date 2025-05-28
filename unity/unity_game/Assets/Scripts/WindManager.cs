@@ -4,7 +4,9 @@ using UnityEngine;
 public class WindManager : MonoBehaviour
 {
     public ParticleSystem leafParticles;
-    public BallMovement ball;
+
+    // Drag the Ball GameObject here (with either BallMovement_1p or BallMovement_2p attached)
+    [SerializeField] private GameObject ballObject;
 
     public AudioSource windAudio;
     public AudioSource bgmAudio;
@@ -16,11 +18,27 @@ public class WindManager : MonoBehaviour
     private bool isWindActive = false;
     private bool isGameOver = false;
 
+    private System.Action<Vector2, float> applyWind;
+
     private void Start()
     {
+        if (ballObject != null)
+        {
+            // Try to get either BallMovement_1p or BallMovement_2p from the object
+            var bm1p = ballObject.GetComponent<BallMovement1P>();
+            var bm2p = ballObject.GetComponent<BallMovement2P>();
+
+            if (bm1p != null)
+                applyWind = bm1p.ApplyWind;
+            else if (bm2p != null)
+                applyWind = bm2p.ApplyWind;
+        }
+
         if (bgmAudio != null)
             bgmAudio.volume = bgmVolumeNormal;
-        leafParticles.Stop();
+
+        if (leafParticles != null)
+            leafParticles.Stop();
 
         StartCoroutine(WindEffectLoop());
     }
@@ -44,7 +62,7 @@ public class WindManager : MonoBehaviour
 
             Vector2 windDirection = new Vector2(Random.Range(-1f, 1f), 0f).normalized;
             float windStrength = Random.Range(1f, 2f);
-            ball.ApplyWind(windDirection, windStrength);
+            applyWind?.Invoke(windDirection, windStrength);
 
             if (leafParticles != null)
                 leafParticles.Play();
@@ -60,8 +78,10 @@ public class WindManager : MonoBehaviour
 
     public void StopWind()
     {
-        leafParticles.Stop();
-        ball.ApplyWind(Vector2.zero, 0);
+        if (leafParticles != null)
+            leafParticles.Stop();
+
+        applyWind?.Invoke(Vector2.zero, 0);
         isWindActive = false;
 
         if (windAudio != null && windAudio.isPlaying)
