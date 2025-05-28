@@ -642,9 +642,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1843244345}
-        m_TargetAssemblyTypeName: PauseManager, Assembly-CSharp
-        m_MethodName: RetryGame
+      - m_Target: {fileID: 1743743493}
+        m_TargetAssemblyTypeName: GameOverUIController2P, Assembly-CSharp
+        m_MethodName: OnRetryButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -722,8 +722,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 794985807}
-  audioSource: {fileID: 0}
-  pauseSound: {fileID: 0}
+  audioSource: {fileID: 613349972}
+  pauseSound: {fileID: 8300000, guid: f94248961f25b1945abc90895517cf44, type: 3}
 --- !u!4 &378179910
 Transform:
   m_ObjectHideFlags: 0
@@ -3408,7 +3408,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1106343986}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1743743493}
+        m_TargetAssemblyTypeName: GameOverUIController2P, Assembly-CSharp
+        m_MethodName: OnNextButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1106343986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8750,7 +8762,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1434211973}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1743743493}
+        m_TargetAssemblyTypeName: GameOverUIController2P, Assembly-CSharp
+        m_MethodName: OnMapsButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1434211973
 MonoBehaviour:
   m_ObjectHideFlags: 0
