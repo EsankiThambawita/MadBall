@@ -1,14 +1,96 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase
+      .initializeApp(); // Firebase must be initialized before using it
   runApp(MaterialApp(
     home: AchievementsPage(),
   ));
 }
 
-class AchievementsPage extends StatelessWidget {
+class AchievementsPage extends StatefulWidget {
+  @override
+  _AchievementsPageState createState() => _AchievementsPageState();
+}
+
+class _AchievementsPageState extends State<AchievementsPage> {
+  Map<String, bool> _achievementStatus = {};
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    loadAchievements();
+  }
+
+  Future<void> loadAchievements() async {
+    final status = await fetchAchievementsStatus();
+    setState(() {
+      _achievementStatus = status;
+      _isLoading = false;
+    });
+  }
+
+  Future<Map<String, bool>> fetchAchievementsStatus() async {
+    final user = FirebaseAuth.instance.currentUser;
+    Map<String, bool> status = {
+      'grassland_easy': false,
+      'grassland_medium': false,
+      'grassland_hard': false,
+      'desert_easy': false,
+      'desert_medium': false,
+      'desert_hard': false,
+      'space_easy': false,
+      'space_medium': false,
+      'space_hard': false,
+    };
+
+    if (user != null) {
+      final email = user.email;
+      final doc =
+          await FirebaseFirestore.instance.collection('users').doc(email).get();
+
+      if (doc.exists && doc.data() != null) {
+        final data = doc.data()!;
+        for (var map in ['grassland', 'desert', 'space']) {
+          if (data[map] != null) {
+            final levels = data[map] as Map<String, dynamic>;
+            levels.forEach((level, completed) {
+              status['${map}_${level}'] = completed == true;
+            });
+          }
+        }
+      }
+    }
+
+    return status;
+  }
+
+  String formatTitle(String key) {
+    // grassland_easy => Grassland Easy
+    return key
+        .replaceAll('_', ' ')
+        .split(' ')
+        .map((e) => e[0].toUpperCase() + e.substring(1))
+        .join(' ');
+  }
+
+  String formatDescription(String key) {
+    return 'Defeat ${formatTitle(key)} opponent';
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Color(0xFFEAF2EC),
       appBar: AppBar(
@@ -26,41 +108,31 @@ class AchievementsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SectionTitle('Unlocked'),
-            AchievementCard(
-              title: 'Beginner Apprentice',
-              description: 'Defeat Easy Grassland opponent',
-              backgroundColor: Colors.green[700],
-              imageAsset: 'assets/images/target.png',
-              isLocked: false,
-            ),
-            AchievementCard(
-              title: 'Intermediate Apprentice',
-              description: 'Defeat Normal Grassland opponent',
-              backgroundColor: Colors.green[700],
-              imageAsset: 'assets/images/target.png',
-              isLocked: false,
-            ),
-            AchievementCard(
-              title: 'Beginner Wanderer',
-              description: 'Defeat Easy Desert opponent',
-              backgroundColor: Colors.brown[300],
-              imageAsset: 'assets/images/target.png',
-              isLocked: false,
-            ),
+            ..._achievementStatus.entries
+                .where((entry) => entry.value == true)
+                .map((entry) => AchievementCard(
+                      title: formatTitle(entry.key),
+                      description: formatDescription(entry.key),
+                      backgroundColor: Colors.green[700],
+                      imageAsset: 'assets/images/target.png',
+                      isLocked: false,
+                    )),
             SizedBox(height: 16),
             SectionTitle('Locked'),
             Expanded(
-              child: ListView.builder(
-                itemCount: 5,
-                itemBuilder: (context, index) => AchievementCard(
-                  title: 'Advanced Apprentice',
-                  description: 'Defeat Easy Grassland opponent',
-                  backgroundColor: Colors.green[200],
-                  imageAsset: 'assets/images/target.png',
-                  isLocked: true,
-                ),
+              child: ListView(
+                children: _achievementStatus.entries
+                    .where((entry) => entry.value == false)
+                    .map((entry) => AchievementCard(
+                          title: formatTitle(entry.key),
+                          description: formatDescription(entry.key),
+                          backgroundColor: Colors.grey[500],
+                          imageAsset: 'assets/images/target.png',
+                          isLocked: true,
+                        ))
+                    .toList(),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -111,21 +183,20 @@ class AchievementCard extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               image: DecorationImage(
-                image: AssetImage('assets/images/Grassland.png'), // BG image
+                image: AssetImage('assets/images/Grassland.png'), // Background
                 fit: BoxFit.cover,
               ),
             ),
             child: Opacity(
-              opacity: isLocked ? 0.6 : 0.7, // Faded overlay for locked cards
+              opacity: isLocked ? 0.6 : 0.8,
               child: ListTile(
-                leading: Image.asset(imageAsset, width: 60), // Increased size
+                leading: Image.asset(imageAsset, width: 60),
                 title: Text(
                   title,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: isLocked
-                        ? Colors.white.withOpacity(0.6)
-                        : Colors.white, // Faded white for locked
+                    color:
+                        isLocked ? Colors.white.withOpacity(0.6) : Colors.white,
                   ),
                 ),
                 subtitle: Text(
@@ -133,7 +204,7 @@ class AchievementCard extends StatelessWidget {
                   style: TextStyle(
                     color: isLocked
                         ? Colors.white.withOpacity(0.6)
-                        : Colors.white70, // Faded white for locked
+                        : Colors.white70,
                   ),
                 ),
               ),
