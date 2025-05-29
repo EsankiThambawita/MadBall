@@ -5,8 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase
-      .initializeApp(); // Firebase must be initialized before using it
+  await Firebase.initializeApp();
   runApp(MaterialApp(
     home: AchievementsPage(),
   ));
@@ -46,7 +45,7 @@ class _AchievementsPageState extends State<AchievementsPage> {
       'desert_hard': false,
       'space_easy': false,
       'space_medium': false,
-      'spacehard': false,
+      'space_hard': false,
     };
 
     if (user != null) {
@@ -68,7 +67,7 @@ class _AchievementsPageState extends State<AchievementsPage> {
               final unlockedIndex = levels.indexOf(currentLevel.toLowerCase());
               if (unlockedIndex >= 0) {
                 for (int i = 0; i <= unlockedIndex; i++) {
-                  status['${map}${levels[i]}'] = true;
+                  status['${map}_${levels[i]}'] = true;
                 }
               }
             }
@@ -83,7 +82,6 @@ class _AchievementsPageState extends State<AchievementsPage> {
   }
 
   String formatTitle(String key) {
-    // grassland_easy => Grassland Easy
     return key
         .replaceAll('_', ' ')
         .split(' ')
@@ -93,6 +91,15 @@ class _AchievementsPageState extends State<AchievementsPage> {
 
   String formatDescription(String key) {
     return 'Defeat ${formatTitle(key)} opponent';
+  }
+
+  String getMapImage(String key) {
+    if (key.startsWith('desert')) {
+      return 'assets/images/desert.png';
+    } else if (key.startsWith('space')) {
+      return 'assets/images/space.png';
+    }
+    return 'assets/images/Grassland.png';
   }
 
   @override
@@ -127,6 +134,7 @@ class _AchievementsPageState extends State<AchievementsPage> {
                       description: formatDescription(entry.key),
                       backgroundColor: Colors.green[700],
                       imageAsset: 'assets/images/target.png',
+                      backgroundImage: getMapImage(entry.key),
                       isLocked: false,
                     )),
             SizedBox(height: 16),
@@ -140,6 +148,7 @@ class _AchievementsPageState extends State<AchievementsPage> {
                           description: formatDescription(entry.key),
                           backgroundColor: Colors.grey[500],
                           imageAsset: 'assets/images/target.png',
+                          backgroundImage: getMapImage(entry.key),
                           isLocked: true,
                         ))
                     .toList(),
@@ -173,6 +182,7 @@ class AchievementCard extends StatelessWidget {
   final String description;
   final Color? backgroundColor;
   final String imageAsset;
+  final String backgroundImage;
   final bool isLocked;
 
   const AchievementCard({
@@ -181,6 +191,7 @@ class AchievementCard extends StatelessWidget {
     required this.description,
     required this.backgroundColor,
     required this.imageAsset,
+    required this.backgroundImage,
     required this.isLocked,
   });
 
@@ -195,7 +206,7 @@ class AchievementCard extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               image: DecorationImage(
-                image: AssetImage('assets/images/Grassland.png'), // Background
+                image: AssetImage(backgroundImage),
                 fit: BoxFit.cover,
               ),
             ),
