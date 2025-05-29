@@ -302,6 +302,7 @@ MonoBehaviour:
   playerScoreText: {fileID: 898287087}
   aiScoreText: {fileID: 1026047398}
   gameOverUIController: {fileID: 98504862}
+  CurrentDifficulty: 0
 --- !u!1 &96163645
 GameObject:
   m_ObjectHideFlags: 0
@@ -10858,7 +10859,7 @@ GameObject:
   - component: {fileID: 1639569162}
   - component: {fileID: 1639569161}
   - component: {fileID: 1639569160}
-  - component: {fileID: 1639569159}
+  - component: {fileID: 1639569165}
   - component: {fileID: 1639569164}
   m_Layer: 6
   m_Name: AI
@@ -10867,21 +10868,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1639569159
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1639569158}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073201b4b6cd2fe4295ea859aa9b98a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementSpeed: 7.5
-  isAI: 1
-  ball: {fileID: 1264506080}
 --- !u!61 &1639569160
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11122,6 +11108,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1639569165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1639569158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 960432ce0977952419f785fa04a4c3d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 7.5
+  isAI: 1
+  ball: {fileID: 1264506080}
 --- !u!1 &1652500690
 GameObject:
   m_ObjectHideFlags: 0

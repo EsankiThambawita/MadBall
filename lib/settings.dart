@@ -4,8 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'user_model.dart';
 import 'firebase_service.dart';
+import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 
 class SettingsPopup extends StatefulWidget {
+  final UnityWidgetController? controller;
+  const SettingsPopup({super.key, this.controller});
+
   @override
   _SettingsPopupState createState() => _SettingsPopupState();
 }
@@ -49,7 +53,7 @@ class _SettingsPopupState extends State<SettingsPopup> {
           );
           await _firebaseService.saveUserProgress(newProgress);
         } else {
-          debugPrint("✅ Existing user data found, skipping overwrite.");
+          debugPrint("Existing user data found, skipping overwrite.");
         }
       }
     } catch (e) {
@@ -111,6 +115,11 @@ class _SettingsPopupState extends State<SettingsPopup> {
                 _buildSliderRow(Icons.volume_up, 'Game Volume', gameVolume,
                     (val) {
                   setState(() => gameVolume = val);
+                  widget.controller?.postMessage(
+                    'GameManager',
+                    'SetGameVolume',
+                    val.toStringAsFixed(2), // value as string: 0.00 to 1.00
+                  );
                 }),
                 const SizedBox(height: 16),
                 _buildSliderRow(Icons.music_note, 'Music Volume', musicVolume,

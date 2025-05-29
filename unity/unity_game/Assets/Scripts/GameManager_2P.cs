@@ -30,6 +30,11 @@ public class GameManager2P : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1f;
+
+        gameEnded = false;
+        gameStarted = false;
+
         player1Score = 0;
         player2Score = 0;
         player1ScoreText.text = "0";

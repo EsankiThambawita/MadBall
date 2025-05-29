@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+public enum DifficultyLevel { Easy, Medium, Hard }
 public class GameManager1P : MonoBehaviour
 {
     public static GameManager1P Instance;
@@ -12,6 +13,9 @@ public class GameManager1P : MonoBehaviour
 
     [Header("Game Over UI")]
     public GameOverUIController1P gameOverUIController;
+
+    [Header("Game Difficulty")]
+    public DifficultyLevel CurrentDifficulty = DifficultyLevel.Easy;
 
     private int playerScore = 0;
     private int aiScore = 0;
@@ -30,10 +34,36 @@ public class GameManager1P : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1f;
+
+        gameEnded = false;
+        gameStarted = false;
+
         playerScore = 0;
         aiScore = 0;
         playerScoreText.text = "0";
         aiScoreText.text = "0";
+
+        SetDifficultyFromFlutter(SceneLoader.SelectedDifficulty);
+    }
+
+    public void SetDifficultyFromFlutter(string difficulty)
+    {
+        switch (difficulty.ToLower())
+        {
+            case "easy":
+                CurrentDifficulty = DifficultyLevel.Easy;
+                break;
+            case "medium":
+                CurrentDifficulty = DifficultyLevel.Medium;
+                break;
+            case "hard":
+                CurrentDifficulty = DifficultyLevel.Hard;
+                break;
+            default:
+                CurrentDifficulty = DifficultyLevel.Easy;
+                break;
+        }
     }
 
     public void StartGame()
@@ -77,8 +107,11 @@ public class GameManager1P : MonoBehaviour
         }
     }
 
-    public void LoadScene(string sceneName)
+    public void SetGameVolume(string value)
     {
-        SceneManager.LoadScene(sceneName);
+        if (float.TryParse(value, out float volume))
+        {
+            AudioListener.volume = Mathf.Clamp01(volume);
+        }
     }
 }

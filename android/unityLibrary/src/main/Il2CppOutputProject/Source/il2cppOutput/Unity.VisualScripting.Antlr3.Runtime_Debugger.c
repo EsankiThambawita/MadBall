@@ -903,10 +903,10 @@ Il2CppSequencePoint g_sequencePointsUnity_VisualScripting_Antlr3_Runtime[1] = { 
 #endif
 #if IL2CPP_MONO_DEBUGGER
 static const Il2CppCatchPoint g_catchPoints[] = {
-{ 92356, 21926, 60, 0, -1 },
-{ 92489, 25950, 188, 0, -1 },
-{ 92489, 27164, 208, 0, -1 },
-{ 92737, 23552, 53, 0, -1 },
+{ 92353, 21932, 60, 0, -1 },
+{ 92486, 25964, 188, 0, -1 },
+{ 92486, 27180, 208, 0, -1 },
+{ 92734, 23566, 53, 0, -1 },
 };
 #else
 static const Il2CppCatchPoint g_catchPoints[1] = { { 0, 0, 0, 0, } };

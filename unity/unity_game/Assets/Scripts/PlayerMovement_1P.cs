@@ -13,15 +13,13 @@ public class PlayerMovement1P : MonoBehaviour
     private float paddleHeight;
     private bool isDragging = false;  // To track when player is holding the paddle
     private Vector2 screenBounds;
+    private bool aiSpeedInitialized = false;
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-
-        // Get screen boundaries
         screenBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-
-        // Set limits for paddle movement
         paddleHeight = GetComponent<Collider2D>().bounds.extents.y;
         minX = -screenBounds.x + paddleHeight;
         maxX = screenBounds.x - paddleHeight;
@@ -29,14 +27,27 @@ public class PlayerMovement1P : MonoBehaviour
 
     void Update()
     {
+        if (isAI && !aiSpeedInitialized && GameManager1P.Instance != null)
+        {
+            switch (GameManager1P.Instance.CurrentDifficulty)
+            {
+                case DifficultyLevel.Easy:
+                    movementSpeed = 1.5f;
+                    break;
+                case DifficultyLevel.Medium:
+                    movementSpeed = 2.6f;
+                    break;
+                case DifficultyLevel.Hard:
+                    movementSpeed = 3.7f;
+                    break;
+            }
+            aiSpeedInitialized = true;
+        }
+
         if (isAI)
-        {
             AIControl();
-        }
         else
-        {
             HandleTouchInput();
-        }
     }
 
     private void HandleTouchInput()

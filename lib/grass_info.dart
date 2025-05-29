@@ -251,8 +251,9 @@ class _GrassInfoPageState extends State<GrassInfoPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              UnityGameScreen(sceneName: 'Grassland_1P'),
+                          builder: (context) => UnityGameScreen(
+                              sceneName: 'Grassland_1P',
+                              difficulty: getDifficultyLabel().toLowerCase()),
                         ),
                       );
                     },
