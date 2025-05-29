@@ -46,24 +46,36 @@ class _AchievementsPageState extends State<AchievementsPage> {
       'desert_hard': false,
       'space_easy': false,
       'space_medium': false,
-      'space_hard': false,
+      'spacehard': false,
     };
 
     if (user != null) {
-      final email = user.email;
-      final doc =
-          await FirebaseFirestore.instance.collection('users').doc(email).get();
+      try {
+        final email = user.email;
+        final doc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(email)
+            .get();
 
-      if (doc.exists && doc.data() != null) {
-        final data = doc.data()!;
-        for (var map in ['grassland', 'desert', 'space']) {
-          if (data[map] != null) {
-            final levels = data[map] as Map<String, dynamic>;
-            levels.forEach((level, completed) {
-              status['${map}_${level}'] = completed == true;
-            });
+        if (doc.exists && doc.data() != null) {
+          final data = doc.data()!;
+          const levels = ['easy', 'medium', 'hard'];
+
+          for (var map in ['grassland', 'desert', 'space']) {
+            final currentLevel = data[map];
+
+            if (currentLevel is String) {
+              final unlockedIndex = levels.indexOf(currentLevel.toLowerCase());
+              if (unlockedIndex >= 0) {
+                for (int i = 0; i <= unlockedIndex; i++) {
+                  status['${map}${levels[i]}'] = true;
+                }
+              }
+            }
           }
         }
+      } catch (e) {
+        print('Error loading achievements: $e');
       }
     }
 
