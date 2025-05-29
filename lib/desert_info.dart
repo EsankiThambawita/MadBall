@@ -251,19 +251,12 @@ class _DesertInfoPageState extends State<DesertInfoPage> {
                       ),
                     ),
                     onPressed: () {
-                      String selectedDifficulty;
-                      if (_difficulty < 50) {
-                        selectedDifficulty = "easy";
-                      } else if (_difficulty < 100) {
-                        selectedDifficulty = "medium";
-                      } else {
-                        selectedDifficulty = "hard";
-                      }
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              UnityGameScreen(sceneName: 'Desert_1P'),
+                          builder: (context) => UnityGameScreen(
+                              sceneName: 'Desert_1P',
+                              difficulty: getDifficultyLabel().toLowerCase()),
                         ),
                       );
                     },

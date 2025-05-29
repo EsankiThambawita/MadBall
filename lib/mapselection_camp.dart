@@ -8,12 +8,17 @@ import 'desert_info.dart' as desert;
 import 'grass_info.dart' as grass;
 import 'space_info.dart' as space;
 
-class MapSelectionCamp extends StatelessWidget {
+class MapSelectionCamp extends StatefulWidget {
   final String gameMode;
 
   const MapSelectionCamp({super.key, required this.gameMode});
 
-  void _navigateToInfo(BuildContext context, String mapName) {
+  @override
+  State<MapSelectionCamp> createState() => _MapSelectionCampState();
+}
+
+class _MapSelectionCampState extends State<MapSelectionCamp> {
+  void _navigateToInfo(BuildContext context, String mapName) async {
     Widget page;
     switch (mapName) {
       case 'Grass Plains':
@@ -32,7 +37,7 @@ class MapSelectionCamp extends StatelessWidget {
         );
     }
 
-    Navigator.push(
+    await Navigator.push(
       context,
       PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) => page,
@@ -47,6 +52,8 @@ class MapSelectionCamp extends StatelessWidget {
         },
       ),
     );
+
+    setState(() {}); // Rebuild to refresh stars
   }
 
   int _getStarCount(String difficulty) {

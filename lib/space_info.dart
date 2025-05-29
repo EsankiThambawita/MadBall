@@ -235,19 +235,12 @@ class _SpaceInfoPageState extends State<SpaceInfoPage> {
                       ),
                     ),
                     onPressed: () {
-                      String selectedDifficulty;
-                      if (_difficulty < 50) {
-                        selectedDifficulty = "easy";
-                      } else if (_difficulty < 100) {
-                        selectedDifficulty = "medium";
-                      } else {
-                        selectedDifficulty = "hard";
-                      }
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              UnityGameScreen(sceneName: 'Space_1P'),
+                          builder: (context) => UnityGameScreen(
+                              sceneName: 'Space_1P',
+                              difficulty: getDifficultyLabel().toLowerCase()),
                         ),
                       );
                     },

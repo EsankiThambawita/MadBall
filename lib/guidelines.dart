@@ -26,7 +26,7 @@ class _GuidelinesPopupState extends State<GuidelinesPopup> {
     _GuidelinePage(
       imagePath: 'assets/images/guideline_step3.png',
       description:
-          "Outlast your opponent!\nBe the first to score 3 points to\nwin. Good luck!",
+          "Outlast your opponent!\nBe the first to score 5 points to\nwin. Good luck!",
     ),
   ];
 

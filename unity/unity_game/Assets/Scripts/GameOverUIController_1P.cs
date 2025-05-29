@@ -19,10 +19,14 @@ public class GameOverUIController1P : MonoBehaviour
     public AudioSource winAudio;
     public AudioSource loseAudio;
 
-    public WindManager windManager; 
+    public WindManager windManager;
+
+    private bool didPlayerWin = false;
 
     public void ShowWinPanel(int playerScore, int botScore)
     {
+        didPlayerWin = true;
+
         backgroundFade.SetActive(true);
         winBackground.SetActive(true);
         loseBackground.SetActive(false);
@@ -34,10 +38,19 @@ public class GameOverUIController1P : MonoBehaviour
             winAudio.Play();
 
         StartCoroutine(windManager.FadeOutBgmAndWind(1.5f, 0f));
+
+        // Send win + difficulty to Flutter
+        var difficulty = GameManager1P.Instance.CurrentDifficulty.ToString().ToLower();
+        var sceneName = SceneManager.GetActiveScene().name.ToLower(); // e.g., "space_1p"
+        var map = sceneName.Split('_')[0]; // "space", "desert", etc.
+
+        UnityMessageManager.Instance.SendMessageToFlutter($"win|{map}|{difficulty}");
     }
 
     public void ShowLosePanel(int playerScore, int botScore)
     {
+        didPlayerWin = false;
+        
         backgroundFade.SetActive(true);
         loseBackground.SetActive(true);
         winBackground.SetActive(false);
@@ -66,6 +79,33 @@ public class GameOverUIController1P : MonoBehaviour
 
     public void OnNextButton()
     {
-        // Placeholder for level switch
+        if (!didPlayerWin)
+        {
+            UnityMessageManager.Instance.SendMessageToFlutter("toast|You need to beat this difficulty to continue.");
+            return;
+        }
+
+        var current = GameManager1P.Instance.CurrentDifficulty;
+        DifficultyLevel? next = null;
+
+        switch (current)
+        {
+            case DifficultyLevel.Easy:
+                next = DifficultyLevel.Medium;
+                break;
+            case DifficultyLevel.Medium:
+                next = DifficultyLevel.Hard;
+                break;
+            case DifficultyLevel.Hard:
+                UnityMessageManager.Instance.SendMessageToFlutter("toast|Congratulations! You defeated the hardest difficulty!");
+                return;
+        }
+
+        if (next.HasValue)
+        {
+            var nextDiff = next.Value.ToString().ToLower();
+            var sceneName = SceneManager.GetActiveScene().name.ToLower();
+            UnityMessageManager.Instance.SendMessageToFlutter($"next|{nextDiff}|{sceneName}");
+        }
     }
 }
