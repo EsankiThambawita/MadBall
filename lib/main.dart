@@ -3,9 +3,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'mapselection_camp.dart';
 import 'mapselection_twoply.dart';
 import 'settings.dart';
+import 'achievements.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Ensures Flutter bindings before Firebase init
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Ensures Flutter bindings before Firebase init
   await Firebase.initializeApp(); // Init Firebase
   runApp(const MadBallApp());
 }
@@ -90,8 +92,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           );
         },
       );
-    } else if (page == "achi") {
-      // Add your achievement page logic here if needed
+    } else if (page == "achievements") {
+      Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              const AchievementsPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            const begin = Offset(0.0, 1.0);
+            const end = Offset.zero;
+            const curve = Curves.easeInOut;
+
+            var tween =
+                Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+            var offsetAnimation = animation.drive(tween);
+
+            return SlideTransition(position: offsetAnimation, child: child);
+          },
+        ),
+      );
     }
   }
 
@@ -109,7 +128,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           const end = Offset.zero;
           const curve = Curves.easeInOut;
 
-          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          var tween =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
           var offsetAnimation = animation.drive(tween);
 
           return SlideTransition(position: offsetAnimation, child: child);
@@ -126,7 +146,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           AnimatedBuilder(
             animation: _bgAnimation,
             builder: (context, child) {
-              final dx = _bgAnimation.value.dx * MediaQuery.of(context).size.width;
+              final dx =
+                  _bgAnimation.value.dx * MediaQuery.of(context).size.width;
               return Transform.translate(
                 offset: Offset(dx, 0),
                 child: Transform.scale(
@@ -166,13 +187,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     children: [
                       InkWell(
                         onTap: () => navigateToPage("settings"),
-                        child: const Icon(Icons.menu, size: 36, color: Colors.white),
+                        child: const Icon(Icons.menu,
+                            size: 40, color: Colors.white),
                       ),
                       InkWell(
-                        onTap: () => navigateToPage("achi"),
-                        child: const CircleAvatar(
-                          backgroundImage: AssetImage("assets/images/achievement_bg.png"),
-                          radius: 28,
+                        onTap: () => navigateToPage("achievements"),
+                        child: Image.asset(
+                          "assets/images/achievement_bg.png",
+                          height: 52,
+                          width: 52,
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ],
